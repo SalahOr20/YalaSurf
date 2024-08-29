@@ -6,14 +6,18 @@ const SurferForm = () => {
   const [firstname, setFirstname] = useState('');
   const [lastname, setLastname] = useState('');
   const [birthday, setBirthday] = useState('');
-  const [level, setLevel] = useState('');
+  const [level, setLevel] = useState('beginner'); // Définir la valeur par défaut à "beginner"
   const [adress, setAdress] = useState('');
   const [phone_number, setPhoneNumber] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('surfer');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [photo, setPhoto] = useState(null);
   const navigate = useNavigate();
+
+  const handlePhotoChange = (e) => {
+    setPhoto(e.target.files[0]);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,23 +27,31 @@ const SurferForm = () => {
       return;
     }
 
+    const formData = new FormData();
+    formData.append('firstname', firstname);
+    formData.append('lastname', lastname);
+    formData.append('birthday', birthday);
+    formData.append('level', level);
+    formData.append('address', adress);
+    formData.append('phone_number', phone_number);
+    formData.append('email', email);
+    formData.append('password', password);
+    if (photo) {
+      formData.append('photo', photo);
+    }
+    formData.append('role', "surfer");
+
+
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/user/register/', {
-        firstname,
-        lastname,
-        birthday,
-        level,
-        adress,
-        phone_number,
-        email,
-        role,
-        password
+      const response = await axios.post('http://127.0.0.1:8000/api/user/register/', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       });
       console.log(response.data);
       navigate('/login');
     } catch (error) {
       console.error('Error submitting form', error);
-      // Handle errors (e.g., show error messages)
     }
   };
 
@@ -61,14 +73,14 @@ const SurferForm = () => {
           placeholder="Last Name"
           required
         />
-          <input
+        <input
           type="text"
           value={adress}
           onChange={(e) => setAdress(e.target.value)}
           placeholder="Votre Adresse"
           required
         />
-          <input
+        <input
           type="number"
           value={phone_number}
           onChange={(e) => setPhoneNumber(e.target.value)}
@@ -81,13 +93,15 @@ const SurferForm = () => {
           onChange={(e) => setBirthday(e.target.value)}
           required
         />
-        <input
-          type="text"
+        <select
           value={level}
           onChange={(e) => setLevel(e.target.value)}
-          placeholder="Surf Level"
           required
-        />
+        >
+          <option value="beginner">Beginner</option>
+          <option value="intermediate">Intermediate</option>
+          <option value="advanced">Advanced</option>
+        </select>
         <input
           type="email"
           value={email}
@@ -108,6 +122,12 @@ const SurferForm = () => {
           onChange={(e) => setConfirmPassword(e.target.value)}
           placeholder="Confirm Password"
           required
+        />
+        <input
+          type="file"
+          name="photo"
+          onChange={handlePhotoChange}
+          
         />
         <button type="submit">Register</button>
       </form>

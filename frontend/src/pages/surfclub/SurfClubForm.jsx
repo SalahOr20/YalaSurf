@@ -66,7 +66,7 @@ const SurfClubForm = () => {
     formData.append('password', password);
     formData.append('confirmPassword', confirmPassword);
     formData.append('name', name);
-    formData.append('adress', adress);
+    formData.append('address', adress);
     formData.append('phone_number', phone_number);
     formData.append('surf_spot', surf_spot);
     formData.append('role', "surfclub");

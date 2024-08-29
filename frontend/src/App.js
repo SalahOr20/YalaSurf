@@ -11,9 +11,21 @@ import Previsions from './pages/surfer/Previsions';
 import Spots from './pages/surfer/Spots';
 import Forums from './pages/surfer/Forums.jsx';
 import Dashboard from './pages/surfclub/Dashboard';
+import Monitors from './pages/surfclub/Monitors';
+import Equipments from './pages/surfclub/Equipments';
+import SurfSessions from './pages/surfclub/SurfSessions';
+import LessonSchedules from './pages/surfclub/LessonSchedules';
+import MonitorForm from './pages/surfclub/MonitorForm';
+import SurfLessons from './pages/surfclub/SurfLessons';
+import Orders from './pages/surfclub/Orders';
+import SurfSessionForm from './pages/surfclub/SurfSessionForm';
+import LessonScheduleForm from './pages/surfclub/LessonScheduleForm';
 import Contact from './pages/Contact';
+import OrderDetail from './pages/surfclub/OrderDetail';
 import Accueil from './pages/Accueil';
 import { UserProvider, useUser } from './context/UserContext';
+import EquipmentForm from './pages/surfclub/EquipmentForm';
+import SurfLessonDetail from './pages/surfclub/SurfLessonDetail';
 
 const App = () => {
   const { userRole, setUserRole } = useUser();
@@ -46,10 +58,24 @@ const App = () => {
         )}
 
         {userRole === 'surfclub' && (
-          <>
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/profile" element={<Profile />} />
-          </>
+   <Route path="/dashboard" element={<Dashboard />}>
+   <Route path="monitors" element={<Monitors />} />
+   <Route path="monitor/create" element={<MonitorForm />} />
+   <Route path="monitor/:id/edit" element={<MonitorForm />} />
+   <Route path="equipments" element={<Equipments />} />
+   <Route path="equipment/create" element={<EquipmentForm />} />
+   <Route path="equipment/:id/edit" element={<EquipmentForm />} />
+   <Route path="surf-session" element={<SurfSessions />} />
+    <Route path="/dashboard/surf-session/create" element={<SurfSessionForm />} />
+    <Route path="/dashboard/surf-session/:id/edit" element={<SurfSessionForm />} />
+   <Route path="lesson-schedule" element={<LessonSchedules />} />
+    <Route path="/dashboard/lesson-schedule/create" element={<LessonScheduleForm />} />
+    <Route path="/dashboard/lesson-schedule/:id/edit" element={<LessonScheduleForm />} />
+   <Route path="surf-lesson" element={<SurfLessons />} />
+   <Route path="/dashboard/surf-lesson/:id" element={<SurfLessonDetail />} />
+   <Route path="orders" element={<Orders />} />
+   <Route path="/dashboard/orders/:id" element={<OrderDetail />} />
+ </Route>
         )}
 
         <Route path="*" element={<Navigate to="/" />} />
