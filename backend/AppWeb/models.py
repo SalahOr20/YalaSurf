@@ -49,16 +49,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     def has_module_perms(self, app_label):
         """Does the user have permissions to view the app `app_label`?"""
         return self.is_superuser or self.is_staff
-class UserToken(models.Model):
-    TOKEN_TYPE_CHOICES = (
-        ('password_reset', 'Password Reset'),
-        ('email_verification', 'Email Verification'),
-    )
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='tokens')
-    token = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
-    token_type = models.CharField(max_length=20, choices=TOKEN_TYPE_CHOICES)
-    created_at = models.DateTimeField(auto_now_add=True)
-    expires_at = models.DateTimeField()
 
 
 
@@ -85,11 +75,12 @@ class Surfer(models.Model):
     lastname = models.CharField(max_length=255)
     birthday = models.DateField()
     level = models.CharField(max_length=50, choices=LEVEL_CHOICES, default='beginner')
+    photo=models.ImageField(upload_to='uploads/', null=True)
 
     def __str__(self):
         return f"{self.firstname} {self.lastname}"
 
-class equipmentType(models.Model):
+class EquipmentType(models.Model):
     Type_CHOICES = [
         ('surfboard', 'Surfboard'),
         ('leash', 'Leash'),
@@ -129,6 +120,7 @@ class Monitor(models.Model):
     last_name = models.CharField(max_length=30)
     birthday = models.DateField()
     active = models.BooleanField(default=False)
+    photo=models.ImageField(upload_to='uploads/', null=True)
     surf_club = models.ForeignKey(SurfClub, on_delete=models.CASCADE, related_name='monitors')
 
     def __str__(self):
@@ -180,6 +172,7 @@ class EquipmentSelection(models.Model):
 
 class Order(models.Model):
     surfer = models.ForeignKey('Surfer', on_delete=models.CASCADE, related_name='orders')
+    surf_club = models.ForeignKey(SurfClub, on_delete=models.CASCADE, related_name='surf_club')
     order_date = models.DateField(auto_now_add=True)
     total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
 
@@ -215,7 +208,7 @@ class Message(models.Model):
         return f"Message from {self.sender} on {self.created_at}"
 
 class Photo(models.Model):
-    image = models.ImageField(upload_to='photos/')
+    image = models.ImageField(upload_to='uploads/',null=True)
     surf_spot = models.ForeignKey('SurfSpot', on_delete=models.CASCADE, related_name='photos', null=True, blank=True)
     equipment = models.ForeignKey('Equipment', on_delete=models.CASCADE, related_name='photos', null=True, blank=True)
 

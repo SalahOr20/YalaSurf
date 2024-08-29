@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import CustomUser, Monitor, SurfClub, Surfer, equipmentType, Equipment, SurfSpot, \
+from .models import CustomUser, Monitor, SurfClub, Surfer, EquipmentType, Equipment, SurfSpot, \
     LessonSchedule, SurfLesson, EquipmentSelection, Order, OrderItem, Forum, Message
 
 # Register your models here.
@@ -8,7 +8,7 @@ admin.site.register(CustomUser)
 admin.site.register(Monitor)
 admin.site.register(SurfClub)
 admin.site.register(Surfer)
-admin.site.register(equipmentType)
+admin.site.register(EquipmentType)
 admin.site.register(Equipment)
 admin.site.register(SurfSpot)
 admin.site.register(LessonSchedule)

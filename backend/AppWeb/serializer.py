@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from .models import CustomUser, UserToken, SurfClub, Surfer, equipmentType, Order, OrderItem, EquipmentSelection, \
-    SurfLesson, LessonSchedule, Monitor, SurfSpot, Equipment, SurfSession, Message, Forum
+from .models import CustomUser, SurfClub, Surfer, Order, OrderItem, EquipmentSelection, \
+    SurfLesson, LessonSchedule, Monitor, SurfSpot, Equipment, SurfSession, Message, Forum, EquipmentType
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
@@ -8,12 +8,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
         model = CustomUser
         fields = '__all__'
 
-class UserTokenSerializer(serializers.ModelSerializer):
-    user = CustomUserSerializer()
 
-    class Meta:
-        model = UserToken
-        fields = '__all__'
 class SurfClubSerializer(serializers.ModelSerializer):
     user_id = serializers.PrimaryKeyRelatedField(source='user', queryset=CustomUser.objects.all(), write_only=True)
 
@@ -30,17 +25,12 @@ class SurferSerializer(serializers.ModelSerializer):
 
 class EquipmentTypeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = equipmentType
+        model = EquipmentType
         fields = '__all__'
 
-class SurfSessionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = SurfSession
-        fields = '__all__'
+
 
 class EquipmentSerializer(serializers.ModelSerializer):
-    surf_club = serializers.PrimaryKeyRelatedField(read_only=True)  # Rendre le champ `surf_club` non modifiable
-
     class Meta:
         model = Equipment
         fields = '__all__'
@@ -59,24 +49,50 @@ class LessonScheduleSerializer(serializers.ModelSerializer):
     class Meta:
         model = LessonSchedule
         fields = '__all__'
-class SurfLessonSerializer(serializers.ModelSerializer):
 
+class SurfSessionSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = SurfSession
+        fields = '__all__'
+class SurfLessonSerializer(serializers.ModelSerializer):
     class Meta:
         model = SurfLesson
         fields = '__all__'
+
+
+
 class EquipmentSelectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = EquipmentSelection
         fields = '__all__'
+
+class GetOrderItemSerializer(serializers.ModelSerializer):
+    equipment = EquipmentSerializer()  # Détails de l'équipement
+
+    class Meta:
+        model = OrderItem
+        fields = '__all__'
+
+class GetOrderSerializer(serializers.ModelSerializer):
+    surfer = SurferSerializer()  # Détails du surfeur
+
+    class Meta:
+        model = Order
+        fields = '__all__'
+
 class OrderItemSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = OrderItem
         fields = '__all__'
 
 class OrderSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Order
         fields = '__all__'
+
 
 
 class ForumSerializer(serializers.ModelSerializer):
