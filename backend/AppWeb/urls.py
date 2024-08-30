@@ -9,7 +9,8 @@ from .views import register, login_view, get_surfclub_profile, surfclub_monitors
     get_surfspots, get_surfspot, book_surf_lesson, get_surfclub_lesson, create_order, \
     get_forum_details, create_message, surfclub_SurfSessions, EquipmentUpdateDeleteView, \
     SurfSessionUpdateDeleteView, LessonScheduleUpdateDeleteView, MonitorUpdateDeleteView, surfclub_equipement_types, \
-    create_surf_session, surfclub_SurfSession, surfclub_orders, surfclub_orderItems
+    create_surf_session, surfclub_SurfSession, surfclub_orders, surfclub_orderItems, get_surfclub_equipments_buy, \
+    surf_spot_details
 
 urlpatterns = [
     #####Urls for users#####
@@ -47,10 +48,14 @@ urlpatterns = [
     ##### Get SurfSpot#####
     path('surf-spots/', get_surfspots, name='surfspots'),
     path('surf-spots/<int:pk>/',get_surfspot,name='get_surfspot'),
+    path('surf-spots/prevision/<int:pk>/', surf_spot_details, name='surf_spot_details'),
     ##### Get for Surfers #####
     path('surf-clubs/<int:pk>/lessons/', get_surfclub_lesson, name='get_surfclub_lesson'),
+    path('surf-clubs/<int:pk>/equipments/', get_surfclub_equipments_buy, name='get_surfclub_equipments_buy'),
+
     #####POST for surfers #####
     path('surfers/book_surf_lesson/', book_surf_lesson, name='book_surf_lesson'),
+
     path('surfers/add-order/', create_order, name='create_order'),
     ###### Forums##########
     path('forums/<int:surf_spot_id>/', get_forum_details, name='get_forum_details'),

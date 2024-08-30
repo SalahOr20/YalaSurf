@@ -114,6 +114,8 @@ class SurfSpot(models.Model):
     zip_code = models.CharField(max_length=20)
     address = models.CharField(max_length=255)
     description = models.TextField()
+    latitude = models.FloatField(null=True)
+    longitude = models.FloatField(null=True)
 
 class Monitor(models.Model):
     first_name = models.CharField(max_length=30)
@@ -192,11 +194,12 @@ class OrderItem(models.Model):
         return f"{self.quantity}x {self.equipment.name} in order {self.order.id}"
 
 
-
 class Forum(models.Model):
     surf_spot = models.OneToOneField(SurfSpot, on_delete=models.CASCADE, related_name='forum')
+
     def __str__(self):
         return f"Forum for {self.surf_spot.name}"
+
 
 class Message(models.Model):
     forum = models.ForeignKey(Forum, on_delete=models.CASCADE, related_name='messages')
@@ -205,7 +208,7 @@ class Message(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Message from {self.sender} on {self.created_at}"
+        return f"Message from {self.sender.username} on {self.created_at}"
 
 class Photo(models.Model):
     image = models.ImageField(upload_to='uploads/',null=True)

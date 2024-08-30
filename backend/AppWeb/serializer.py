@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import CustomUser, SurfClub, Surfer, Order, OrderItem, EquipmentSelection, \
-    SurfLesson, LessonSchedule, Monitor, SurfSpot, Equipment, SurfSession, Message, Forum, EquipmentType
+    SurfLesson, LessonSchedule, Monitor, SurfSpot, Equipment, SurfSession, Message, Forum, EquipmentType, Photo
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
@@ -14,7 +14,7 @@ class SurfClubSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SurfClub
-        fields = ['user_id', 'name','logo','surf_spot']
+        fields = ['id','user_id', 'name','logo','surf_spot']
 
 class SurferSerializer(serializers.ModelSerializer):
     user_id = serializers.PrimaryKeyRelatedField(source='user', queryset=CustomUser.objects.all(), write_only=True)
@@ -34,12 +34,7 @@ class EquipmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Equipment
         fields = '__all__'
-class SurfSpotSerializer(serializers.ModelSerializer):
-    surf_clubs = SurfClubSerializer(many=True, read_only=True)  # Inclut les clubs associés
 
-    class Meta:
-        model = SurfSpot
-        fields = '__all__'
 
 class MonitorSerializer(serializers.ModelSerializer):
     class Meta:
@@ -52,6 +47,13 @@ class LessonScheduleSerializer(serializers.ModelSerializer):
 
 class SurfSessionSerializer(serializers.ModelSerializer):
 
+    class Meta:
+        model = SurfSession
+        fields = '__all__'
+
+class GetSurfSessionSerializer(serializers.ModelSerializer):
+    monitor = MonitorSerializer()
+    lesson_schedule=LessonScheduleSerializer()
     class Meta:
         model = SurfSession
         fields = '__all__'
@@ -99,7 +101,20 @@ class ForumSerializer(serializers.ModelSerializer):
     class Meta:
         model = Forum
         fields = '__all__'
+
 class MessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
+        fields = '__all__'
+
+class PhotoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Photo
+        fields = '__all__'
+class SurfSpotSerializer(serializers.ModelSerializer):
+    surf_clubs = SurfClubSerializer(many=True, read_only=True)
+    photos = PhotoSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = SurfSpot
         fields = '__all__'
