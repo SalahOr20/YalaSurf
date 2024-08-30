@@ -46,6 +46,9 @@ INSTALLED_APPS = [
 ]
 
 
+
+STORMGLASS_API_KEY = 'df3016be-551b-11ef-95ed-0242ac130004-df301722-551b-11ef-95ed-0242ac130004'
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
