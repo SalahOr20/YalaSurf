@@ -29,9 +29,9 @@ const Header = ({ userRole, setUserRole }) => {
         {userRole === 'surfer' && (
           <>
             <li><Link to="/surf-clubs">Surf Clubs</Link></li>
-            <li><Link to="/spots">Spots</Link></li>
             <li><Link to="/previsions">Prévisions</Link></li>
             <li><Link to="/forums">Forums</Link></li>
+            <li><Link to="/cart">Panier</Link></li> {/* Ajouter le bouton Panier ici */}
             <li><Link to="/profile">Mon Profil</Link></li>
           </>
         )}
