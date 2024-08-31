@@ -1,16 +1,17 @@
 import React, { useEffect } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Header from './pages/Header';
 import Login from './pages/Auth/Login';
 import Register from './pages/Auth/Register';
 import SurferForm from './pages/surfer/SurferForm';
 import SurfClubForm from './pages/surfclub/SurfClubForm';
-import Profile from './pages/surfer/Profile';
 import SurfClubs from './pages/surfer/SurfClubs';
 import SurfSpotDetails from './pages/surfer/SurfSpotDetails'; // Import de la page SurfSpotDetails
 import Previsions from './pages/surfer/SurfSpotsList.jsx';
 import Forum from './pages/surfer/Forum.jsx';
-import Dashboard from './pages/surfclub/Dashboard';
+import Dashboard from './pages/surfclub/Dashboard.jsx';
 import Monitors from './pages/surfclub/Monitors';
 import Equipments from './pages/surfclub/Equipments';
 import SurfSessions from './pages/surfclub/SurfSessions';
@@ -34,6 +35,11 @@ import Cart from './pages/surfer/Cart';
 import SpotsList from './pages/surfer/SpotsList';
 import Forecast from './pages/surfer/Forecast';
 import SurfSpotsList from './pages/surfer/SurfSpotsList';
+import SurferProfile from './pages/surfer/SurferProfile';
+import EditSurferProfile from './pages/surfer/EditSurferProfile';
+import EditSurfClubProfile from './pages/surfclub/EditSurfClubProfile';
+import SurfClubProfile from './pages/surfclub/SurfCubProfile';
+import SurfClubStatistics from './pages/surfclub/SurfClubStatistics';
 const App = () => {
   const { userRole, setUserRole } = useUser();
 
@@ -60,7 +66,6 @@ const App = () => {
             <Route path="/surf-spots/:id" element={<SurfSpotDetails />} />           
             <Route path="/previsions" element={<Previsions />} />
             <Route path="/forums" element={<SpotsList />} />
-            <Route path="/profile" element={<Profile />} />
             <Route path="/surf-spots/:id" element={<SurfSpotDetails />} /> 
             <Route path="/surf-clubs/:id" element={<SurfClubDetails />} />
             <Route path="/reserve-session/:id" element={<ReserveSession />} />
@@ -70,12 +75,17 @@ const App = () => {
             <Route path="/forum/:surf_spot_id" element={<Forum />} />
             <Route path="/surf-spots" element={<SurfSpotsList />} />
             <Route path="/forecast/:spot_id" element={<Forecast />} />
+            <Route path="/surfer/profile" element={<SurferProfile />} />
+            <Route path="/surfer/edit" element={<EditSurferProfile />} />
 
-          
           </>
         )}
 
         {userRole === 'surfclub' && (
+          <>
+            <Route path="/surfclub/profile" element={<SurfClubProfile />} />
+            <Route path="/surfclub/edit" element={<EditSurfClubProfile />} />
+       
           <Route path="/dashboard" element={<Dashboard />}>
             <Route path="monitors" element={<Monitors />} />
             <Route path="monitor/create" element={<MonitorForm />} />
@@ -92,8 +102,13 @@ const App = () => {
             <Route path="surf-lesson" element={<SurfLessons />} />
             <Route path="/dashboard/surf-lesson/:id" element={<SurfLessonDetail />} />
             <Route path="orders" element={<Orders />} />
+            <Route path="statistics" element={<SurfClubStatistics />} />
+
             <Route path="/dashboard/orders/:id" element={<OrderDetail />} />
+            
           </Route>
+          </>
+          
         )}
 
         <Route path="*" element={<Navigate to="/" />} />
