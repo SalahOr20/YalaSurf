@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import './SurfSessionForm.css'; // Ensure to create and use this CSS file for styling
 
 const SurfSessionForm = () => {
   const [lessonSchedules, setLessonSchedules] = useState([]);
@@ -33,7 +34,11 @@ const SurfSessionForm = () => {
         const token = localStorage.getItem('accessToken');
         const headers = { Authorization: `Bearer ${token}` };
         const response = await axios.get('http://127.0.0.1:8000/api/surf-club/monitors/', { headers });
-        setMonitors(response.data.monitors);
+        
+        // Filter monitors to show only inactive ones
+        const inactiveMonitors = response.data.monitors.filter(monitor => !monitor.active);
+
+        setMonitors(inactiveMonitors);
       } catch (err) {
         setError('Error fetching monitors.');
         console.error('Error fetching monitors:', err);
@@ -85,7 +90,7 @@ const SurfSessionForm = () => {
       const headers = { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' };
       const url = isEdit
         ? `http://127.0.0.1:8000/api/surf-club/surf-session/${id}/`
-        : 'http://127.0.0.1:8000/api/surf-club/surf-sessions/';
+        : 'http://127.0.0.1:8000/api/surf-club/add-surf-session/';
 
       const method = isEdit ? 'PUT' : 'POST';
       await axios({
@@ -95,7 +100,7 @@ const SurfSessionForm = () => {
         data: formData
       });
 
-      navigate('/surf-sessions'); // Redirect to the surf sessions list after successful submission
+      navigate('/surf-session'); // Redirect to the surf sessions list after successful submission
     } catch (err) {
       setError('Error submitting the form.');
       console.error('Error submitting the form:', err);
@@ -106,10 +111,10 @@ const SurfSessionForm = () => {
   if (error) return <div>{error}</div>;
 
   return (
-    <div>
+    <div className="form-container">
       <h1>{isEdit ? 'Edit Surf Session' : 'Create Surf Session'}</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
+      <form onSubmit={handleSubmit} className="form-content">
+        <div className="form-group">
           <label htmlFor="lesson_schedule">Lesson Schedule</label>
           <select
             id="lesson_schedule"
@@ -117,37 +122,36 @@ const SurfSessionForm = () => {
             value={formData.lesson_schedule}
             onChange={handleChange}
             required
+            className="form-control"
           >
             <option value="">Select a lesson schedule</option>
             {lessonSchedules.map(schedule => (
               <option key={schedule.id} value={schedule.id}>
-                {schedule.day_of_week} - {schedule.start_time} to {schedule.end_time}
+                {schedule.day} - {schedule.start_time} to {schedule.end_time}
               </option>
             ))}
           </select>
         </div>
-        {isEdit && (
-          <div>
-            <label htmlFor="monitor">Monitor</label>
-            <select
-              id="monitor"
-              name="monitor"
-              value={formData.monitor}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Select a monitor</option>
-              {monitors
-                .filter(monitor => monitor.active == 0) // Filter out inactive monitors
-                .map(monitor => (
-                  <option key={monitor.id} value={monitor.id}>
-                    {monitor.first_name} {monitor.last_name}
-                  </option>
-                ))}
-            </select>
-          </div>
-        )}
-        <button type="submit">{isEdit ? 'Update' : 'Create'}</button>
+        <div className="form-group">
+          <label htmlFor="monitor">Monitor</label>
+          <select
+            id="monitor"
+            name="monitor"
+            value={formData.monitor}
+            onChange={handleChange}
+            required
+            className="form-control"
+          >
+            <option value="">Select a monitor</option>
+            {monitors.map(monitor => (
+              <option key={monitor.id} value={monitor.id}>
+                {monitor.first_name} {monitor.last_name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <button type="submit" className="submit-button">{isEdit ? 'Update' : 'Create'}</button>
+        {error && <p className="error-message">{error}</p>}
       </form>
     </div>
   );

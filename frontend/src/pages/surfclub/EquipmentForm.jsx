@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import './EquipmentForm.css'; // Import the CSS file for styling
 
 const EquipmentForm = () => {
   const { id } = useParams();
@@ -28,7 +29,6 @@ const EquipmentForm = () => {
     return localStorage.getItem('accessToken');
   };
 
-  // Fonction pour récupérer les types d'équipement
   const fetchEquipmentTypes = async () => {
     try {
       const token = getAuthToken();
@@ -38,7 +38,6 @@ const EquipmentForm = () => {
       };
       const response = await axios.get('http://127.0.0.1:8000/api/surf-club/equipment-types/', { headers });
       setEquipmentTypes(response.data.equipment_types);
-      console.log(response.data.equipment_types);
     } catch (error) {
       console.error('Error fetching equipment types:', error);
       setError('Error fetching equipment types');
@@ -56,13 +55,10 @@ const EquipmentForm = () => {
             "Content-Type": "application/json"
           };
           const response = await axios.get(`http://127.0.0.1:8000/api/surf-club/equipment/${id}/`, { headers });
-          
-          // Toujours vérifier et initialiser photos comme un tableau vide si non fourni
           const equipmentData = {
             ...response.data,
             photos: response.data.photos || []  // S'assurer que photos est un tableau
           };
-
           setEquipment(equipmentData);
           setIsEditing(true);
         } catch (error) {
@@ -70,7 +66,6 @@ const EquipmentForm = () => {
           setError('Error fetching equipment');
         }
       };
-
       fetchEquipment();
     }
   }, [id]);
@@ -110,27 +105,22 @@ const EquipmentForm = () => {
       const headers = {
         "Authorization": `Bearer ${token}`
       };
-
       const formData = new FormData();
       Object.keys(equipment).forEach(key => {
         if (key !== 'photos' && equipment[key] !== null && equipment[key] !== '') {
           formData.append(key, equipment[key]);
         }
       });
-
-      // Toujours vérifier que photos est un tableau avant d'exécuter forEach
       if (Array.isArray(equipment.photos)) {
         equipment.photos.forEach(photo => {
           formData.append('photos', photo);
         });
       }
-
       if (isEditing) {
         await axios.put(`http://127.0.0.1:8000/api/surf-club/equipment/${id}/`, formData, { headers });
       } else {
         await axios.post('http://127.0.0.1:8000/api/surf-club/add-equipment/', formData, { headers });
       }
-
       navigate('/dashboard/equipments');
     } catch (error) {
       console.error('Error submitting equipment:', error);
@@ -139,9 +129,9 @@ const EquipmentForm = () => {
   };
 
   return (
-    <div>
+    <div className="equipment-form-container">
       <h1>{isEditing ? 'Edit Equipment' : 'Add Equipment'}</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="equipment-form">
         <input
           type="text"
           name="name"
@@ -149,6 +139,7 @@ const EquipmentForm = () => {
           onChange={handleChange}
           placeholder="Name"
           required
+          className="form-input"
         />
         <textarea
           name="description"
@@ -156,6 +147,7 @@ const EquipmentForm = () => {
           onChange={handleChange}
           placeholder="Description"
           required
+          className="form-input"
         />
         <input
           type="text"
@@ -164,12 +156,14 @@ const EquipmentForm = () => {
           onChange={handleChange}
           placeholder="Size"
           required
+          className="form-input"
         />
         <select
           name="state"
           value={equipment.state}
           onChange={handleChange}
           required
+          className="form-select"
         >
           <option value="">Select State</option>
           <option value="new">New</option>
@@ -181,6 +175,7 @@ const EquipmentForm = () => {
           value={equipment.material_type}
           onChange={handleMaterialTypeChange}
           required
+          className="form-select"
         >
           <option value="rent">Rent</option>
           <option value="sale">Sale</option>
@@ -192,6 +187,7 @@ const EquipmentForm = () => {
             value={equipment.sale_price || ''}
             onChange={handleChange}
             placeholder="Sale Price"
+            className="form-input"
           />
         )}
         {equipment.material_type === 'rent' && (
@@ -201,6 +197,7 @@ const EquipmentForm = () => {
             value={equipment.rent_price || ''}
             onChange={handleChange}
             placeholder="Rent Price"
+            className="form-input"
           />
         )}
         <select
@@ -208,6 +205,7 @@ const EquipmentForm = () => {
           value={equipment.equipment_type}
           onChange={handleChange}
           required
+          className="form-select"
         >
           <option value="">Select Equipment Type</option>
           {EquipmentTypes.map(type => (
@@ -218,8 +216,11 @@ const EquipmentForm = () => {
           type="file"
           multiple
           onChange={handleFileChange}
+          className="form-input"
         />
-        <button type="submit">{isEditing ? 'Update Equipment' : 'Add Equipment'}</button>
+        <button type="submit" className="submit-button">
+          {isEditing ? 'Update Equipment' : 'Add Equipment'}
+        </button>
         {error && <p className="error">{error}</p>}
       </form>
     </div>

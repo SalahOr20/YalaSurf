@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import './LessonSchedules.css'; // Import the CSS file for styling
 
 const LessonSchedules = () => {
   const [lessonSchedules, setLessonSchedules] = useState([]);
 
-  // Fonction pour récupérer le token d'authentification
+  // Function to retrieve authentication token
   const getAuthToken = () => {
     return localStorage.getItem('accessToken');
   };
@@ -20,7 +21,7 @@ const LessonSchedules = () => {
         };
         const response = await axios.get('http://127.0.0.1:8000/api/surf-club/lesson-schedules/', { headers });
         setLessonSchedules(response.data.LessonSchedules);
-        console.log(lessonSchedules)
+
       } catch (error) {
         console.error('Error fetching lesson schedules:', error);
       }
@@ -47,18 +48,26 @@ const LessonSchedules = () => {
   };
 
   return (
-    <div>
-      <h1>Lesson Schedules</h1>
-      <Link to="/dashboard/lesson-schedule/create" className="add-link">Add New Schedule</Link>
-      <ul>
+    <div className="lesson-schedules-container">
+      <div className="header">
+        <h1>Lesson Schedules</h1>
+        <Link to="/dashboard/lesson-schedule/create" className="add-link">Add New Schedule</Link>
+      </div>
+      <ul className="lesson-schedules-list">
         {lessonSchedules.map(schedule => (
-          <li key={schedule.id}>
-            <p><strong>Day:</strong> {schedule.day_of_week}</p>
-            <p><strong>Start Time:</strong> {schedule.start_time}</p>
-            <p><strong>End Time:</strong> {schedule.end_time}</p>
-            <div>
-              <Link to={`/dashboard/lesson-schedule/${schedule.id}/edit`}>Edit</Link>
-              <button onClick={() => handleDelete(schedule.id)}>Delete</button>
+          <li key={schedule.id} className="lesson-schedule-item">
+            <div className="schedule-info">
+              <p><i className="fas fa-calendar-alt"></i> <strong>Day:</strong> {schedule.day}</p>
+              <p><i className="fas fa-clock"></i> <strong>Start Time:</strong> {schedule.start_time}</p>
+              <p><i className="fas fa-clock"></i> <strong>End Time:</strong> {schedule.end_time}</p>
+            </div>
+            <div className="schedule-actions">
+              <Link to={`/dashboard/lesson-schedule/${schedule.id}/edit`} className="edit-link">
+                <i className="fas fa-edit"></i>
+              </Link>
+              <button onClick={() => handleDelete(schedule.id)} className="delete-button">
+                <i className="fas fa-trash"></i>
+              </button>
             </div>
           </li>
         ))}

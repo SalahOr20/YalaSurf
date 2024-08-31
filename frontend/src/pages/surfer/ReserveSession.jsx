@@ -85,7 +85,7 @@ const ReserveSession = () => {
                     {sessions.map((session) => (
                         <li key={session.id}>
                             <button onClick={() => handleSessionSelect(session)}>
-                                {session.lesson_schedule.day_of_week} - {session.lesson_schedule.start_time} à {session.lesson_schedule.end_time}
+                                {new Date(session.lesson_schedule.day).toLocaleDateString()} - {session.lesson_schedule.start_time} à {session.lesson_schedule.end_time}
                             </button>
                         </li>
                     ))}
@@ -95,7 +95,7 @@ const ReserveSession = () => {
             {selectedSession && (
                 <div className="session-details">
                     <h2>Détails de la session</h2>
-                    <p>Date: {selectedSession.lesson_schedule.day_of_week}</p>
+                    <p>Date: {new Date(selectedSession.lesson_schedule.day).toLocaleDateString()}</p>
                     <p>Horaire: {selectedSession.lesson_schedule.start_time} - {selectedSession.lesson_schedule.end_time}</p>
                     <div className="monitor-info">
                         <h3>Moniteur</h3>
@@ -130,7 +130,7 @@ const ReserveSession = () => {
             {selectedSession && (
                 <div className="reservation-summary">
                     <h2>Résumé de la réservation</h2>
-                    <p>Session: {selectedSession.lesson_schedule.day_of_week} - {selectedSession.lesson_schedule.start_time} à {selectedSession.lesson_schedule.end_time}</p>
+                    <p>Session: {new Date(selectedSession.lesson_schedule.day).toLocaleDateString()} - {selectedSession.lesson_schedule.start_time} à {selectedSession.lesson_schedule.end_time}</p>
                     <p>Matériel choisi:</p>
                     <ul>
                         {selectedEquipment.map((equipment) => (

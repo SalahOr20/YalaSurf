@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import './SurfClubForm.css'; // Assurez-vous d'importer le fichier CSS
+import logoImage from '../../assets/logo_yalasurf.png'; // Assurez-vous que le chemin est correct
 
 const SurfClubForm = () => {
   const [email, setEmail] = useState('');
@@ -89,75 +91,120 @@ const SurfClubForm = () => {
   };
 
   return (
-    <div>
-      <h1>Surf Club Registration</h1>
-      <form onSubmit={handleRegister}>
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={email}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={password}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="password"
-          name="confirmPassword"
-          placeholder="Confirm Password"
-          value={confirmPassword}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="text"
-          name="name"
-          placeholder="Club Name"
-          value={name}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="text"
-          name="adress"
-          placeholder="Address"
-          value={adress}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="number"
-          name="phone_number"
-          placeholder="Phone Number"
-          value={phone_number}
-          onChange={handleChange}
-          required
-        />
-        <select
-          name="surf_spot"
-          value={surf_spot}
-          onChange={handleChange}
-          required
-        >
-          <option value="">Select Surf Spot</option>
-          {surfSpots.map(spot => (
-            <option key={spot.id} value={spot.id}>{spot.name}</option>
-          ))}
-        </select>
-        <input
-          type="file"
-          name="logo"
-          onChange={handleChange}
-        />
-        <button type="submit">Register as Surf Club</button>
-      </form>
+    <div id="register-container">
+      <div id="register-form">
+        <div id="register-logo">
+          <img src={logoImage} alt="Logo" />
+        </div>
+        <h2>Register as Surf Club</h2>
+        <form onSubmit={handleRegister}>
+          <div className="form-row">
+            <div className="form-group">
+              <label htmlFor="name">Club Name</label>
+              <input
+                type="text"
+                name="name"
+                id="name"
+                placeholder="Enter club name"
+                value={name}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="email">Email</label>
+              <input
+                type="email"
+                name="email"
+                id="email"
+                placeholder="Enter email"
+                value={email}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          </div>
+          <div className="form-row">
+            <div className="form-group">
+              <label htmlFor="adress">Address</label>
+              <input
+                type="text"
+                name="adress"
+                id="adress"
+                placeholder="Enter address"
+                value={adress}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="phone_number">Phone Number</label>
+              <input
+                type="number"
+                name="phone_number"
+                id="phone_number"
+                placeholder="Enter phone number"
+                value={phone_number}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          </div>
+          <div className="form-row">
+            <div className="form-group">
+              <label htmlFor="surf_spot">Surf Spot</label>
+              <select
+                name="surf_spot"
+                id="surf_spot"
+                value={surf_spot}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Select Surf Spot</option>
+                {surfSpots.map(spot => (
+                  <option key={spot.id} value={spot.id}>{spot.name}</option>
+                ))}
+              </select>
+            </div>
+            <div className="form-group">
+              <label htmlFor="logo">Club Logo</label>
+              <input
+                type="file"
+                name="logo"
+                id="logo"
+                onChange={handleChange}
+              />
+            </div>
+          </div>
+          <div className="form-row">
+            <div className="form-group">
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                name="password"
+                id="password"
+                placeholder="Enter password"
+                value={password}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="confirmPassword">Confirm Password</label>
+              <input
+                type="password"
+                name="confirmPassword"
+                id="confirmPassword"
+                placeholder="Confirm password"
+                value={confirmPassword}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          </div>
+          <button type="submit" id="register-btn">Register as Surf Club</button>
+        </form>
+      </div>
     </div>
   );
 };

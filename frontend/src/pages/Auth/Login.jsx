@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../../context/UserContext';
+import './Login.css';
+import logo from '../../assets/logo_yalasurf.png'; // Assurez-vous que le chemin est correct
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -39,27 +41,51 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleLogin}>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Email"
-          required
-        />
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
-          required
-        />
-        <button type="submit">Login</button>
-      </form>
-      <p>
-        Don't have an account? <a href="/register">Sign up here</a>
-      </p>
+    <div id="login-container">
+      <div id="login-card">
+        <div id="login-logo">
+          <img src={logo} alt="Logo" />
+        </div>
+        <h2 id="login-title">Sign in</h2>
+        <form onSubmit={handleLogin}>
+          <div className="form-group">
+            <label htmlFor="email">Email</label>
+            <div className="input-group">
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter email"
+                required
+              />
+              <span className="input-group-icon"><i className="fas fa-envelope"></i></span>
+            </div>
+          </div>
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <div className="input-group">
+              <input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter password"
+                required
+              />
+              <span className="input-group-icon"><i className="fas fa-eye"></i></span>
+            </div>
+          </div>
+          <div className="form-group" id="remember-me-group">
+           
+            <a href="#" id="forgot-password">Forgot your password?</a>
+          </div>
+          <button type="submit" id="login-btn">Sign in</button>
+        </form>
+        <div id="register-link">
+          Don't have an account? <a href="/register">Register here</a>
+        </div>
+      </div>
     </div>
   );
 };

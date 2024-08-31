@@ -1,0 +1,83 @@
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar (barre latérale) */
+.sidebar {
+    background-color: #1a202c;
+    width: 250px;
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    color: #ffffff;
+    overflow-y: auto;
+}
+
+/* Navigation dans la sidebar */
+.sidebar-nav ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.sidebar-nav ul li {
+    margin-bottom: 20px; /* Espace entre chaque lien */
+}
+.sidebar-nav ul li:first-child {
+    margin-top: 50px;
+}
+.sidebar-nav ul li a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.sidebar-nav ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Survol */
+}
+
+.sidebar-nav ul li a i {
+    margin-right: 15px; /* Espace entre l'icône et le texte */
+    font-size: 18px;
+}
+
+/* Contenu principal */
+.content {
+    margin-left: 250px; /* Alignement avec la sidebar */
+    padding: 20px;
+    width: calc(100% - 250px); /* Prend en compte la largeur de la sidebar */
+    background-color: #ffffff;
+    overflow-y: auto;
+    min-height: 100vh; /* Assure que le contenu prend tout l'espace disponible */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+
+    .sidebar-nav ul li {
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+    .sidebar-nav ul li a {
+        padding: 8px 10px;
+        font-size: 14px;
+    }
+
+    .content {
+        margin-left: 0;
+        width: 100%;
+    }
+}

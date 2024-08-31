@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import './Orders.css'; // Make sure to create this CSS file
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fonction pour récupérer le token d'authentification
   const getAuthToken = () => {
     return localStorage.getItem('accessToken');
   };
@@ -17,17 +17,19 @@ const Orders = () => {
       try {
         const token = getAuthToken();
         const headers = {
-          "Authorization": `Bearer ${token}`,
-          "Content-Type": "application/json"
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         };
-        const response = await axios.get('http://127.0.0.1:8000/api/surf-club/orders/', { headers });
+        const response = await axios.get(
+          "http://127.0.0.1:8000/api/surf-club/orders/",
+          { headers }
+        );
         setOrders(response.data.orders);
-        console.log(orders)
         setLoading(false);
       } catch (error) {
-        setError('Error fetching orders');
+        setError("Error fetching orders");
         setLoading(false);
-        console.error('Error fetching orders:', error);
+        console.error("Error fetching orders:", error);
       }
     };
 
@@ -41,16 +43,32 @@ const Orders = () => {
     <div className="orders-container">
       <h1>Orders</h1>
       <ul className="orders-list">
-        {orders.map(order => (
+        {orders.map((order) => (
           <li key={order.id} className="order-item">
             <div className="order-info">
-              <p><strong>Order ID:</strong> {order.id}</p>
-              <p><strong>Surfer:</strong> {order.surfer ? `${order.surfer.firstname} ${order.surfer.lastname}` : 'N/A'}</p>
-              <p><strong>Order Date:</strong> {order.order_date}</p>
-              <p><strong>Total Price:</strong> ${order.total_price}</p>
+              <p>
+                <i className="fas fa-receipt"></i> <strong>Order ID:</strong>{" "}
+                {order.id}
+              </p>
+              <p>
+                <i className="fas fa-user"></i> <strong>Surfer:</strong>{" "}
+                {order.surfer
+                  ? `${order.surfer.firstname} ${order.surfer.lastname}`
+                  : "N/A"}
+              </p>
+              <p>
+                <i className="fas fa-calendar-alt"></i> <strong>Order Date:</strong>{" "}
+                {order.order_date}
+              </p>
+              <p>
+                <i className="fas fa-dollar-sign"></i> <strong>Total Price:</strong>{" "}
+                ${order.total_price}
+              </p>
             </div>
             <div className="order-actions">
-              <Link to={`/dashboard/orders/${order.id}`} className="action-link">View Details</Link>
+              <Link to={`/dashboard/orders/${order.id}`} className="action-link">
+                <i className="fas fa-eye"></i> View Details
+              </Link>
             </div>
           </li>
         ))}

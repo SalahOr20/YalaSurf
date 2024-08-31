@@ -1,0 +1,85 @@
+/* src/pages/SurferForm.css */
+#register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+    padding: 20px;
+}
+
+#register-content {
+    display: flex;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    max-width: 1200px; /* Limite la largeur totale du conteneur */
+    width: 100%;
+}
+
+#register-image {
+    flex: 1;
+    background-color: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 50%; /* Limite la largeur de l'image à 50% du conteneur */
+}
+
+#register-image img {
+    max-width: 100%;
+    max-height: 500px; /* Limite la hauteur de l'image */
+    object-fit: cover; /* Assure que l'image reste bien cadrée */
+    border-radius: 8px 0 0 8px;
+}
+
+#register-form {
+    flex: 1;
+    padding: 2rem;
+    width: 100%;
+    max-width: 50%; /* Limite la largeur du formulaire à 50% du conteneur */
+}
+
+#register-form h1 {
+    font-size: 2rem;
+    color: #007bff;
+    margin-bottom: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    color: #333;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    border: 1px solid #ced4da;
+    background-color: #f9f9f9;
+    margin-bottom: 1rem;
+}
+
+#register-btn {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#register-btn:hover {
+    background-color: #0056b3;
+}

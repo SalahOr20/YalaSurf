@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import './Equipments.css'; // Ensure you have the CSS for styling
+import defaultEquipmentImage from '../../assets/equipment.jpg'; // Default image for equipment
 
 const Equipments = () => {
   const [equipments, setEquipments] = useState([]);
+  const navigate = useNavigate();
 
-  // Fonction pour récupérer le token d'authentification
   const getAuthToken = () => {
     return localStorage.getItem('accessToken');
   };
@@ -45,23 +47,38 @@ const Equipments = () => {
     }
   };
 
+  const handleEdit = (id) => {
+    navigate(`/dashboard/equipment/${id}/edit`);
+  };
+
   return (
-    <div>
+    <div className="equipments-container">
       <h1>Equipments</h1>
       <Link to="/dashboard/equipment/create" className="add-link">Add New Equipment</Link>
-      <ul>
+      <ul className="equipments-list">
         {equipments.map(equipment => (
-          <li key={equipment.id}>
-            <p><strong>Name:</strong> {equipment.name}</p>
-            <p><strong>Description:</strong> {equipment.description}</p>
-            <p><strong>Size:</strong> {equipment.size}</p>
-            <p><strong>State:</strong> {equipment.state}</p>
-            <p><strong>Material Type:</strong> {equipment.material_type}</p>
-            <p><strong>Sale Price:</strong> {equipment.sale_price}</p>
-            <p><strong>Rent Price:</strong> {equipment.rent_price}</p>
-            <div>
-              <Link to={`/dashboard/equipment/${equipment.id}/edit`}>Edit</Link>
-              <button onClick={() => handleDelete(equipment.id)}>Delete</button>
+          <li key={equipment.id} className="equipment-item">
+            <div className="equipment-image">
+              <img
+                src={equipment.photos.length > 0 ? `http://127.0.0.1:8000${equipment.photos[0].image}` : defaultEquipmentImage}
+                alt={equipment.name}
+                className="equipment-photo"
+              />
+            </div>
+            <div className="equipment-content">
+              <h3>{equipment.name}</h3>
+              <p><i className="fas fa-ruler"></i> {equipment.size}</p>
+              <p><i className="fas fa-tag"></i> {equipment.state}</p>
+              {equipment.is_rent && <p><i className="fas fa-dollar-sign"></i> Rent Price: {equipment.rent_price}</p>}
+              {equipment.is_sell && <p><i className="fas fa-dollar-sign"></i> Sale Price: {equipment.sale_price}</p>}
+              <div className="equipment-actions">
+                <button onClick={() => handleEdit(equipment.id)} className="action-link">
+                  <i className="fas fa-edit"></i>
+                </button>
+                <button onClick={() => handleDelete(equipment.id)} className="action-link">
+                  <i className="fas fa-trash"></i>
+                </button>
+              </div>
             </div>
           </li>
         ))}

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import './MonitorForm.css';  // Assurez-vous d'importer le fichier CSS
+import monitorFormImage from '../../assets/MonitorForm.jpg';  // Importez l'image
 
 const MonitorForm = () => {
   const { id } = useParams();
@@ -75,57 +77,77 @@ const MonitorForm = () => {
   };
 
   return (
-    <div>
-      <h1>{isEditing ? 'Edit Monitor' : 'Add Monitor'}</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="first_name"
-          value={monitor.first_name}
-          onChange={handleChange}
-          placeholder="First Name"
-          required
-        />
-        <input
-          type="text"
-          name="last_name"
-          value={monitor.last_name}
-          onChange={handleChange}
-          placeholder="Last Name"
-          required
-        />
-        <input
-          type="date"
-          name="birthday"
-          value={monitor.birthday}
-          onChange={handleChange}
-          placeholder="Birthday"
-          required
-        />
-        <label>
-          <input
-            type="checkbox"
-            name="active"
-            checked={monitor.active}
-            onChange={handleChange}
-          />
-          Active
-        </label>
-        {isEditing && monitor.photo && (
-          <div>
-            <img src={`http://127.0.0.1:8000${monitor.photo}`} alt="Monitor" style={{ width: '100px' }} />
-           
-          </div>
-        )}
-        <input
-          type="file"
-          name="photo"
-          onChange={handleChange}
-          placeholder="Upload Photo"
-        />
-        <button type="submit">{isEditing ? 'Update Monitor' : 'Add Monitor'}</button>
-      </form>
+<div className="monitor-form-container">
+    <div className="monitor-form-left">
+        <img src={monitorFormImage} alt="Illustration" />
     </div>
+    <div className="monitor-form-right">
+        <h2>{isEditing ? 'Edit Monitor' : 'Add Monitor'}</h2>
+        <form onSubmit={handleSubmit} className="monitor-form">
+            <div className="form-group">
+                <label htmlFor="first_name">First Name</label>
+                <input
+                    type="text"
+                    id="first_name"
+                    name="first_name"
+                    value={monitor.first_name}
+                    onChange={handleChange}
+                    required
+                />
+            </div>
+            <div className="form-group">
+                <label htmlFor="last_name">Last Name</label>
+                <input
+                    type="text"
+                    id="last_name"
+                    name="last_name"
+                    value={monitor.last_name}
+                    onChange={handleChange}
+                    required
+                />
+            </div>
+            <div className="form-group">
+                <label htmlFor="birthday">Birthday</label>
+                <input
+                    type="date"
+                    id="birthday"
+                    name="birthday"
+                    value={monitor.birthday}
+                    onChange={handleChange}
+                    required
+                />
+            </div>
+            <div className="form-group checkbox-container">
+                <input
+                    type="checkbox"
+                    id="active"
+                    name="active"
+                    checked={monitor.active}
+                    onChange={handleChange}
+                />
+                <label htmlFor="active">Active</label>
+            </div>
+            {isEditing && monitor.photo && (
+                <div className="form-group">
+                    <img src={`http://127.0.0.1:8000${monitor.photo}`} alt="Monitor" className="preview-image" />
+                </div>
+            )}
+            <div className="form-group">
+                <label htmlFor="photo">Upload Photo</label>
+                <input
+                    type="file"
+                    id="photo"
+                    name="photo"
+                    onChange={handleChange}
+                />
+            </div>
+            <button type="submit" className="submit-button">
+                {isEditing ? 'Update Monitor' : 'Add Monitor'}
+            </button>
+        </form>
+    </div>
+</div>
+
   );
 };
 

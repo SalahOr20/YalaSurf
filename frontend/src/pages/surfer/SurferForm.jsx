@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import './SurferForm.css';
+import logo from '../../assets/logo_yalasurf.png'; // Assurez-vous que le chemin est correct
 
 const SurferForm = () => {
   const [firstname, setFirstname] = useState('');
   const [lastname, setLastname] = useState('');
   const [birthday, setBirthday] = useState('');
-  const [level, setLevel] = useState('beginner'); // Définir la valeur par défaut à "beginner"
+  const [level, setLevel] = useState('beginner');
   const [adress, setAdress] = useState('');
   const [phone_number, setPhoneNumber] = useState('');
   const [email, setEmail] = useState('');
@@ -41,7 +43,6 @@ const SurferForm = () => {
     }
     formData.append('role', "surfer");
 
-
     try {
       const response = await axios.post('http://127.0.0.1:8000/api/user/register/', formData, {
         headers: {
@@ -56,81 +57,126 @@ const SurferForm = () => {
   };
 
   return (
-    <div>
-      <h1>Surfer Registration</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={firstname}
-          onChange={(e) => setFirstname(e.target.value)}
-          placeholder="First Name"
-          required
-        />
-        <input
-          type="text"
-          value={lastname}
-          onChange={(e) => setLastname(e.target.value)}
-          placeholder="Last Name"
-          required
-        />
-        <input
-          type="text"
-          value={adress}
-          onChange={(e) => setAdress(e.target.value)}
-          placeholder="Votre Adresse"
-          required
-        />
-        <input
-          type="number"
-          value={phone_number}
-          onChange={(e) => setPhoneNumber(e.target.value)}
-          placeholder="Votre numéro de téléphone"
-          required
-        />
-        <input
-          type="date"
-          value={birthday}
-          onChange={(e) => setBirthday(e.target.value)}
-          required
-        />
-        <select
-          value={level}
-          onChange={(e) => setLevel(e.target.value)}
-          required
-        >
-          <option value="beginner">Beginner</option>
-          <option value="intermediate">Intermediate</option>
-          <option value="advanced">Advanced</option>
-        </select>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Email"
-          required
-        />
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
-          required
-        />
-        <input
-          type="password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          placeholder="Confirm Password"
-          required
-        />
-        <input
-          type="file"
-          name="photo"
-          onChange={handlePhotoChange}
-          
-        />
-        <button type="submit">Register</button>
-      </form>
+    <div id="register-container">
+      <div id="register-form">
+        <div id="register-logo">
+          <img src={logo} alt="Logo" />
+        </div>
+        <h2>Sign up into your account</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="form-row">
+            <div className="form-group">
+              <label htmlFor="firstname">First Name</label>
+              <input
+                type="text"
+                id="firstname"
+                value={firstname}
+                onChange={(e) => setFirstname(e.target.value)}
+                placeholder="Enter name"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="lastname">Last Name</label>
+              <input
+                type="text"
+                id="lastname"
+                value={lastname}
+                onChange={(e) => setLastname(e.target.value)}
+                placeholder="Enter last name"
+                required
+              />
+            </div>
+          </div>
+          <div className="form-row">
+            <div className="form-group">
+              <label htmlFor="birthday">Birthday</label>
+              <input
+                type="date"
+                id="birthday"
+                value={birthday}
+                onChange={(e) => setBirthday(e.target.value)}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="level">Surf Level</label>
+              <select
+                id="level"
+                value={level}
+                onChange={(e) => setLevel(e.target.value)}
+                required
+              >
+                <option value="beginner">Beginner</option>
+                <option value="intermediate">Intermediate</option>
+                <option value="advanced">Advanced</option>
+              </select>
+            </div>
+          </div>
+          <div className="form-row">
+            <div className="form-group">
+              <label htmlFor="adress">Address</label>
+              <input
+                type="text"
+                id="adress"
+                value={adress}
+                onChange={(e) => setAdress(e.target.value)}
+                placeholder="Enter your address"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="phone_number">Mobile No.</label>
+              <input
+                type="number"
+                id="phone_number"
+                value={phone_number}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                placeholder="Enter mobile number"
+                required
+              />
+            </div>
+          </div>
+          <div className="form-row">
+            <div className="form-group">
+              <label htmlFor="email">Email Id</label>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter email"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter password"
+                required
+              />
+            </div>
+          </div>
+          <div className="form-row">
+            <div className="form-group">
+              <label htmlFor="confirmPassword">Confirm Password</label>
+              <input
+                type="password"
+                id="confirmPassword"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder="Enter confirm password"
+                required
+              />
+            </div>
+          </div>
+          <button type="submit" id="register-btn">Sign up</button>
+        </form>
+      </div>
     </div>
   );
 };

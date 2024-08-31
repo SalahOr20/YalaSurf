@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import './Monitors.css'; // Assurez-vous d'importer le fichier CSS
+import defaultMonitorImage from '../../assets/monitor.jpg'; // Importez l'image par défaut
 
 const Monitors = () => {
   const [monitors, setMonitors] = useState([]);
@@ -53,15 +55,36 @@ const Monitors = () => {
       <ul className="monitors-list">
         {monitors.map(monitor => (
           <li key={monitor.id} className="monitor-item">
-            <div className="monitor-info">
-              <p><strong>First name:</strong> {monitor.first_name}</p>
-              <p><strong>Last name:</strong> {monitor.last_name}</p>
-              <p><strong>Birthday:</strong> {monitor.birthday}</p>
-              <p><strong>Status:</strong> {monitor.active ? 'Active' : 'Inactive'}</p>
+            <div className="monitor-image">
+              <img
+                src={monitor.photo ? `http://127.0.0.1:8000${monitor.photo}` : defaultMonitorImage}
+                alt={`${monitor.first_name} ${monitor.last_name}`}
+                className="monitor-photo"
+              />
             </div>
-            <div className="monitor-actions">
-              <Link to={`/dashboard/monitor/${monitor.id}/edit`} className="action-link">Edit</Link>
-              <button onClick={() => handleDelete(monitor.id)} className="action-link">Delete</button>
+            <div className="monitor-content">
+              <div className="monitor-info">
+                <div className="monitor-detail">
+                  <i className="fas fa-user"></i>
+                  <span>{monitor.first_name} {monitor.last_name}</span>
+                </div>
+                <div className="monitor-detail">
+                  <i className="fas fa-birthday-cake"></i>
+                  <span>{monitor.birthday}</span>
+                </div>
+                <div className="monitor-detail">
+                  <i className={`fas ${monitor.active ? 'fa-check-circle' : 'fa-times-circle'}`}></i>
+                  <span>{monitor.active ? 'Active' : 'Inactive'}</span>
+                </div>
+              </div>
+              <div className="monitor-actions">
+                <Link to={`/dashboard/monitor/${monitor.id}/edit`} className="action-link">
+                  <i className="fas fa-edit"></i>
+                </Link>
+                <button onClick={() => handleDelete(monitor.id)} className="action-link">
+                  <i className="fas fa-trash"></i>
+                </button>
+              </div>
             </div>
           </li>
         ))}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import './LessonScheduleForm.css'; // Import the CSS file for styling
 
 const LessonScheduleForm = () => {
   const { id } = useParams();
@@ -9,12 +10,12 @@ const LessonScheduleForm = () => {
     surf_club: '',
     start_time: '',
     end_time: '',
-    day_of_week: 'Monday',
+    day: '',  // Changing 'day_of_week' to 'day' of type Date
   });
   const [isEditing, setIsEditing] = useState(false);
   const [error, setError] = useState('');
 
-  // Fonction pour récupérer le token d'authentification
+  // Function to get the authentication token
   const getAuthToken = () => {
     return localStorage.getItem('accessToken');
   };
@@ -72,48 +73,47 @@ const LessonScheduleForm = () => {
   };
 
   return (
-    <div>
+    <div className="form-container">
       <h1>{isEditing ? 'Edit Lesson Schedule' : 'Add Lesson Schedule'}</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Day of Week:
-          <select
-            name="day_of_week"
-            value={lessonSchedule.day_of_week}
+      <form onSubmit={handleSubmit} className="form-content">
+        <div className="form-group">
+          <label htmlFor="day">Day</label>
+          <input
+            type="date"
+            id="day"
+            name="day"
+            value={lessonSchedule.day}
             onChange={handleChange}
             required
-          >
-            <option value="Monday">Monday</option>
-            <option value="Tuesday">Tuesday</option>
-            <option value="Wednesday">Wednesday</option>
-            <option value="Thursday">Thursday</option>
-            <option value="Friday">Friday</option>
-            <option value="Saturday">Saturday</option>
-            <option value="Sunday">Sunday</option>
-          </select>
-        </label>
-        <label>
-          Start Time:
+            className="form-control"
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="start_time">Start Time</label>
           <input
             type="time"
+            id="start_time"
             name="start_time"
             value={lessonSchedule.start_time}
             onChange={handleChange}
             required
+            className="form-control"
           />
-        </label>
-        <label>
-          End Time:
+        </div>
+        <div className="form-group">
+          <label htmlFor="end_time">End Time</label>
           <input
             type="time"
+            id="end_time"
             name="end_time"
             value={lessonSchedule.end_time}
             onChange={handleChange}
             required
+            className="form-control"
           />
-        </label>
-        <button type="submit">{isEditing ? 'Update Schedule' : 'Add Schedule'}</button>
-        {error && <p className="error">{error}</p>}
+        </div>
+        <button type="submit" className="submit-button">{isEditing ? 'Update Schedule' : 'Add Schedule'}</button>
+        {error && <p className="error-message">{error}</p>}
       </form>
     </div>
   );

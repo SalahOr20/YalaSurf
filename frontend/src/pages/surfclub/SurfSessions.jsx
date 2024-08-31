@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import './SurfSessions.css'; // Import the CSS file for styling
 
 const SurfSessions = () => {
   const [surfSessions, setSurfSessions] = useState([]);
@@ -44,27 +45,41 @@ const SurfSessions = () => {
   if (error) return <div>{error}</div>;
 
   return (
-    <div>
-      <h1>Surf Sessions</h1>
-      <Link to="/dashboard/surf-session/create">Create New Session</Link>
+    <div className="surf-sessions-container">
+      <div className="header">
+        <h1>Surf Sessions</h1>
+        <Link to="/dashboard/surf-session/create" className="add-link">
+          <i className="fas fa-plus"></i> Create New Session
+        </Link>
+      </div>
       {surfSessions.length > 0 ? (
-        <ul>
+        <ul className="surf-sessions-list">
           {surfSessions.map(session => (
-            <li key={session.id}>
-              <h2>Session ID: {session.id}</h2>
-              <div>
-                <h3>Lesson Schedule</h3>
-                <p>Day of Week: {session.lesson_schedule.day_of_week}</p>
-                <p>Start Time: {session.lesson_schedule.start_time}</p>
-                <p>End Time: {session.lesson_schedule.end_time}</p>
+            <li key={session.id} className="surf-session-item">
+              <div className="session-details">
+                <div className="session-info">
+                  <h3>Lesson Schedule</h3>
+                  <p><i className="fas fa-calendar-alt"></i> <strong>Day:</strong> {session.lesson_schedule.day}</p>
+                  <p><i className="fas fa-clock"></i> <strong>Start Time:</strong> {session.lesson_schedule.start_time}</p>
+                  <p><i className="fas fa-clock"></i> <strong>End Time:</strong> {session.lesson_schedule.end_time}</p>
+                </div>
+                <div className="monitor-info">
+                  <img 
+                    src={`http://127.0.0.1:8000${session.monitor.photo}`} 
+                    alt={`${session.monitor.first_name} ${session.monitor.last_name}`} 
+                    className="monitor-photo" 
+                  />
+                  <p><i className="fas fa-user"></i> <strong>Name:</strong> {session.monitor.first_name} {session.monitor.last_name}</p>
+                </div>
               </div>
-              <div>
-                <h3>Monitor</h3>
-                <p>Name: {session.monitor.first_name} {session.monitor.last_name}</p>
-                <img src={session.monitor.photo} alt={`${session.monitor.first_name} ${session.monitor.last_name}`} />
+              <div className="session-actions">
+                <Link to={`/dashboard/surf-session/${session.id}/edit`} className="edit-link">
+                  <i className="fas fa-edit"></i>
+                </Link>
+                <button onClick={() => handleDelete(session.id)} className="delete-button">
+                  <i className="fas fa-trash"></i>
+                </button>
               </div>
-              <Link to={`/dashboard/surf-session/${session.id}/edit`}>Edit</Link>
-              <button onClick={() => handleDelete(session.id)}>Delete</button>
             </li>
           ))}
         </ul>

@@ -7,7 +7,6 @@ const Forum = () => {
     const [forum, setForum] = useState(null);
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
-    const [socket, setSocket] = useState(null);
 
     // Récupérer le token depuis le stockage local
     const token = localStorage.getItem('accessToken');
@@ -29,33 +28,6 @@ const Forum = () => {
         };
 
         fetchForumDetails();
-    }, [surf_spot_id, token]);
-
-    useEffect(() => {
-        if (!surf_spot_id) return;
-
-        // Configurer la connexion WebSocket
-        const ws = new WebSocket(`ws://127.0.0.1:8000/ws/forum/${surf_spot_id}/`);
-
-        ws.onopen = () => {
-            // Envoyer le token après l'ouverture de la connexion WebSocket si le serveur le supporte
-            ws.send(JSON.stringify({ type: 'authenticate', token }));
-        };
-
-        ws.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            setMessages((prevMessages) => [...prevMessages, data]);
-        };
-
-        ws.onclose = () => {
-            console.log('WebSocket closed');
-        };
-
-        setSocket(ws);
-
-        return () => {
-            ws.close();
-        };
     }, [surf_spot_id, token]);
 
     const handleMessageChange = (e) => {
