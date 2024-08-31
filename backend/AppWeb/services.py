@@ -31,10 +31,5 @@ def fetch_forecast(latitude, longitude):
 
     # Do something with response data.
     json_data = response.json()
-    json_object = json.dumps(json_data, indent=4)
-
-    # Writing to sample.json
-    with open("sample.json", "w") as Prevision:
-        Prevision.write(json_object)
     return json_data
 

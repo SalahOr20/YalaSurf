@@ -132,15 +132,8 @@ class LessonSchedule(models.Model):
     surf_club = models.ForeignKey(SurfClub, on_delete=models.CASCADE, related_name='lesson_schedules')
     start_time = models.TimeField()
     end_time = models.TimeField()
-    day_of_week = models.CharField(max_length=9, choices=[
-        ('Monday', 'Monday'),
-        ('Tuesday', 'Tuesday'),
-        ('Wednesday', 'Wednesday'),
-        ('Thursday', 'Thursday'),
-        ('Friday', 'Friday'),
-        ('Saturday', 'Saturday'),
-        ('Sunday', 'Sunday'),
-    ])  # Days of the week
+    day = models.DateField()  # Valeur par défaut ajoutée
+
 
     def __str__(self):
         return f"{self.surf_club.name} - {self.day_of_week} from {self.start_time} to {self.end_time}"

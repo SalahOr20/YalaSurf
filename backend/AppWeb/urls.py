@@ -10,7 +10,7 @@ from .views import register, login_view, get_surfclub_profile, surfclub_monitors
     get_forum_details, create_message, surfclub_SurfSessions, EquipmentUpdateDeleteView, \
     SurfSessionUpdateDeleteView, LessonScheduleUpdateDeleteView, MonitorUpdateDeleteView, surfclub_equipement_types, \
     create_surf_session, surfclub_SurfSession, surfclub_orders, surfclub_orderItems, get_surfclub_equipments_buy, \
-    surf_spot_details
+    surf_spot_details, get_surfer_profile, get_order_details
 
 urlpatterns = [
     #####Urls for users#####
@@ -35,9 +35,12 @@ urlpatterns = [
 
     path('surf-club/surf-lessons/<int:pk>/', surfclub_SurfLesson, name='surfclub_SurfLesson'),
     path('surf-club/statistics/', surfclub_statistics, name='surfclub_statistics'),
+    path('surfer/profile/', get_surfer_profile, name='update_surfer_profile'),
 
     ##### Update Profiles for surfers and surf clubs#####
     path('surf-club/profile/update/',update_surfclub_profile,name='update_surfclub_profile'),
+    path('surfers/order/<int:order_id>/', get_order_details, name='get_order_details'),
+
     path('surfer/profile/update/', update_surfer_profile, name='update_surfer_profile'),
     ##### POST Urls for surf-club#####
     path('surf-club/add-monitor/',add_monitor_to_surfclub,name='add_monitor_to_surfclub'),

@@ -14,14 +14,16 @@ class SurfClubSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SurfClub
-        fields = ['id','user_id', 'name','logo','surf_spot']
+        fields = ['id','user_id','name','logo','surf_spot']
+
+
 
 class SurferSerializer(serializers.ModelSerializer):
     user_id = serializers.PrimaryKeyRelatedField(source='user', queryset=CustomUser.objects.all(), write_only=True)
 
     class Meta:
         model = Surfer
-        fields = ['user_id', 'firstname','lastname','birthday','level']
+        fields = ['user_id', 'firstname','lastname','birthday','level','photo']
 
 class EquipmentTypeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -84,7 +86,6 @@ class GetOrderSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class OrderItemSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = OrderItem
         fields = '__all__'
@@ -117,4 +118,19 @@ class SurfSpotSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SurfSpot
+        fields = '__all__'
+
+class GetSurfSessionProfileSerializer(serializers.ModelSerializer):
+    monitor_first_name = serializers.CharField(source='surf_session.monitor.first_name')
+    monitor_photo = serializers.ImageField(source='surf_session.monitor.photo')
+    monitor_last_name = serializers.CharField(source='surf_session.monitor.last_name')
+    day = serializers.CharField(source='surf_session.lesson_schedule.day')
+
+    class Meta:
+        model = SurfLesson
+        fields = ['id', 'monitor_first_name', 'monitor_last_name', 'day','monitor_photo']
+class GetEquipmentSerializer(serializers.ModelSerializer):
+    photos = PhotoSerializer(many=True, read_only=True)
+    class Meta:
+        model = Equipment
         fields = '__all__'

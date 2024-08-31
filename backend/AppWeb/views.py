@@ -1,4 +1,6 @@
 import random
+from django.utils import timezone
+
 from django.db import transaction
 
 from django.contrib.auth import authenticate
@@ -18,7 +20,8 @@ from .models import SurfClub, CustomUser, Monitor, Equipment, SurfSpot, LessonSc
 from .serializer import CustomUserSerializer, SurferSerializer, SurfClubSerializer, MonitorSerializer, \
     EquipmentSerializer, SurfSpotSerializer, SurfLessonSerializer, LessonScheduleSerializer, OrderSerializer, \
     SurfSessionSerializer, MessageSerializer, ForumSerializer, EquipmentTypeSerializer, \
-    GetOrderSerializer, GetOrderItemSerializer, GetSurfSessionSerializer
+    GetOrderSerializer, GetOrderItemSerializer, GetSurfSessionSerializer, GetSurfSessionProfileSerializer, \
+    GetEquipmentSerializer
 from .services import fetch_forecast
 
 
@@ -222,14 +225,16 @@ def surfclub_monitor(request,pk):
 def surfclub_equipements(request):
     try:
         surf_club = SurfClub.objects.get(user=request.user)
-        equipments=Equipment.objects.filter(surf_club=surf_club)
-        equipments_serializer=EquipmentSerializer(equipments,many=True)
+        equipments = Equipment.objects.filter(surf_club=surf_club)
+        for equipment in equipments:
+            photos = Photo.objects.filter(equipment=equipment)
+            equipment.photos.set(photos)
+        equipments_serializer = GetEquipmentSerializer(equipments, many=True)
         return Response({
-          'equipments': equipments_serializer.data
-          }, status=status.HTTP_200_OK)
+            'equipments': equipments_serializer.data
+        }, status=status.HTTP_200_OK)
     except Equipment.DoesNotExist:
         return Response({"error": "Equipments not found."}, status=status.HTTP_404_NOT_FOUND)
-
 @api_view(['GET'])
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
@@ -429,11 +434,12 @@ def surfclub_statistics(request):
         # Récupérer le surf club de l'utilisateur
         surf_club = SurfClub.objects.get(user=request.user)
 
-        # Compter les moniteurs, les équipements, les commandes et les leçons de surf
+        # Compter les moniteurs, les équipements, les commandes, les leçons de surf et les sessions de surf
         num_monitors = Monitor.objects.filter(surf_club=surf_club).count()
         num_equipment = Equipment.objects.filter(surf_club=surf_club).count()
-        num_orders = Order.objects.filter(surfer__user__is_surfclub=False, surfer__user__surfclub=surf_club).count()
-        num_surf_lessons = SurfLesson.objects.filter(monitor__surf_club=surf_club).count()
+        num_orders = Order.objects.filter(surf_club=surf_club).count()
+        num_surf_lessons = SurfLesson.objects.filter(surf_session__surf_club=surf_club).count()
+        num_surf_sessions = SurfSession.objects.filter(surf_club=surf_club).count()
 
         # Créer la réponse JSON
         data = {
@@ -442,6 +448,7 @@ def surfclub_statistics(request):
             "number_of_equipment": num_equipment,
             "number_of_orders": num_orders,
             "number_of_surf_lessons": num_surf_lessons,
+            "number_of_surf_sessions": num_surf_sessions,
         }
 
         return Response(data, status=status.HTTP_200_OK)
@@ -449,6 +456,8 @@ def surfclub_statistics(request):
     except SurfClub.DoesNotExist:
         return Response({"error": "Surf Club not found."}, status=status.HTTP_404_NOT_FOUND)
 #########Update profiles for surf-club and surfer#########
+
+
 @api_view(['PUT'])
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
@@ -457,11 +466,11 @@ def update_surfclub_profile(request):
         # Récupérer l'utilisateur actuel
         custom_user = CustomUser.objects.get(pk=request.user.id)
         if not custom_user.is_surfclub:
-            return Response({"error": "User is not a surfclub."}, status=status.HTTP_400_BAD_REQUEST)
-
+            return Response({"error": "User is not a surf club."}, status=status.HTTP_400_BAD_REQUEST)
+        print(request.data)
         # Hachage du mot de passe s'il est fourni
         user_data = request.data.get('user')
-        if user_data and 'password' in user_data:
+        if 'password' in user_data and user_data['password']:
             user_data['password'] = make_password(user_data['password'])
 
         # Mise à jour des informations de l'utilisateur
@@ -469,15 +478,30 @@ def update_surfclub_profile(request):
         if user_serializer.is_valid():
             user_serializer.save()
         else:
-            return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response({
+                "error": "User data is invalid.",
+                "details": user_serializer.errors
+            }, status=status.HTTP_400_BAD_REQUEST)
 
         # Mise à jour des informations du profil SurfClub
-        surf_club = SurfClub.objects.get(user=custom_user)
-        surfclub_serializer = SurfClubSerializer(surf_club, data=request.data.get('surf_club'), partial=True)
+        surfclub_data = request.data.get('surf_club')
+        try:
+            surfclub = SurfClub.objects.get(user=custom_user)
+        except SurfClub.DoesNotExist:
+            return Response({"error": "Surf club profile not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        # Gestion du logo
+        if 'logo' not in request.FILES:
+            # Si aucun nouveau fichier n'est fourni, conservez l'ancien fichier
+            surfclub_data['logo'] = surfclub.logo
+        surfclub_serializer = SurfClubSerializer(surfclub, data=surfclub_data, partial=True)
         if surfclub_serializer.is_valid():
             surfclub_serializer.save()
         else:
-            return Response(surfclub_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response({
+                "error": "Surf club data is invalid.",
+                "details": surfclub_serializer.errors
+            }, status=status.HTTP_400_BAD_REQUEST)
 
         return Response({
             'user': user_serializer.data,
@@ -486,10 +510,8 @@ def update_surfclub_profile(request):
 
     except CustomUser.DoesNotExist:
         return Response({"error": "User not found."}, status=status.HTTP_404_NOT_FOUND)
-    except SurfClub.DoesNotExist:
-        return Response({"error": "SurfClub profile not found."}, status=status.HTTP_404_NOT_FOUND)
     except Exception as e:
-        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error": "An unexpected error occurred.", "details": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['PUT'])
@@ -502,7 +524,7 @@ def update_surfer_profile(request):
         if not custom_user.is_surfer:
             return Response({"error": "User is not a surfer."}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Hachage du mot de passe s'il est fourni
+        # Récupérer les données utilisateur
         user_data = request.data.get('user')
         if user_data and 'password' in user_data:
             user_data['password'] = make_password(user_data['password'])
@@ -516,7 +538,15 @@ def update_surfer_profile(request):
 
         # Mise à jour des informations du profil Surfer
         surfer = Surfer.objects.get(user=custom_user)
-        surfer_serializer = SurferSerializer(surfer, data=request.data.get('surfer'), partial=True)
+        surfer_data = request.data.get('surfer', {})
+
+        # Gestion de la photo
+        if 'photo' in request.FILES:
+            surfer_data['photo'] = request.FILES['photo']
+        else:
+            surfer_data['photo'] = surfer.photo  # Conserver l'ancienne photo si pas de nouvelle photo
+
+        surfer_serializer = SurferSerializer(surfer, data=surfer_data, partial=True)
         if surfer_serializer.is_valid():
             surfer_serializer.save()
         else:
@@ -533,7 +563,6 @@ def update_surfer_profile(request):
         return Response({"error": "Surfer profile not found."}, status=status.HTTP_404_NOT_FOUND)
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
-
 ####### Post urls for surf club#######
 @api_view(['POST'])
 @authentication_classes([JWTAuthentication])
@@ -740,6 +769,89 @@ def get_surfclub_lesson(request, pk):
         }, status=status.HTTP_200_OK)
     except SurfClub.DoesNotExist:
         return Response({"error": "Surf club not found."}, status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def get_surfer_profile(request):
+    try:
+        # Récupérer l'utilisateur actuel
+        custom_user = CustomUser.objects.get(pk=request.user.id)
+
+        # Récupérer le profil de surfeur associé
+        surfer = Surfer.objects.get(user=custom_user)
+
+        # Récupérer la date actuelle
+        now = timezone.now().date()
+
+        # Récupérer les sessions de surf associées au surfeur
+        past_sessions = SurfLesson.objects.filter(
+            surfer=surfer,
+            surf_session__lesson_schedule__day__lt=now
+        )
+        upcoming_sessions = SurfLesson.objects.filter(
+            surfer=surfer,
+            surf_session__lesson_schedule__day__gte=now
+        )
+
+        # Récupérer les commandes passées par le surfeur
+        orders = Order.objects.filter(surfer=surfer)
+
+        # Sérialiser les données
+        user_serializer = CustomUserSerializer(custom_user)
+        surfer_serializer = SurferSerializer(surfer)
+        past_sessions_serializer = GetSurfSessionProfileSerializer(past_sessions, many=True)
+        upcoming_sessions_serializer = GetSurfSessionProfileSerializer(upcoming_sessions, many=True)
+
+        # Ajouter une sérialisation personnalisée pour les commandes
+        orders_data = []
+        for order in orders:
+            order_items = OrderItem.objects.filter(order=order)
+            order_data = {
+                'id': order.id,
+                'order_date': order.order_date,
+                'surf_club_name': order.surf_club.name,
+                'total_price': order.total_price,
+                'items_count': order_items.count(),
+                'items': GetOrderItemSerializer(order_items, many=True).data  # Serialize the order items
+            }
+            orders_data.append(order_data)
+
+        # Retourner les données
+        return Response({
+            'user': user_serializer.data,
+            'surfer': surfer_serializer.data,
+            'past_sessions': past_sessions_serializer.data,
+            'upcoming_sessions': upcoming_sessions_serializer.data,
+            'orders': orders_data,
+        }, status=status.HTTP_200_OK)
+
+    except CustomUser.DoesNotExist:
+        return Response({"error": "User not found."}, status=status.HTTP_404_NOT_FOUND)
+    except Surfer.DoesNotExist:
+        return Response({"error": "Surfer profile not found."}, status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def get_order_details(request, order_id):
+    try:
+        order = Order.objects.get(id=order_id)
+        order_items = OrderItem.objects.filter(order=order)
+
+        # Serializer
+        order_serializer = GetOrderSerializer(order)
+        order_items_serializer = GetOrderItemSerializer(order_items, many=True)
+
+        # Return response
+        return Response({
+            'order': order_serializer.data,
+            'items': order_items_serializer.data,
+        }, status=status.HTTP_200_OK)
+
+    except Order.DoesNotExist:
+        return Response({"error": "Order not found."}, status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['GET'])
 @authentication_classes([JWTAuthentication])
