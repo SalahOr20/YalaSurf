@@ -31,22 +31,25 @@ def register(request):
         # Log the request data
         print("Request data:", request.data)
 
-        password = request.data.get('password')
+        # Créer une copie mutable de request.data
+        data = request.data.copy()
+
+        password = data.get('password')
         if not password:
             print("Password not provided")
             return Response({'error': 'Password is required'}, status=status.HTTP_400_BAD_REQUEST)
 
         hashed_password = make_password(password)
-        request.data['password'] = hashed_password
+        data['password'] = hashed_password
 
-        user_serializer = CustomUserSerializer(data=request.data)
-        print("User serializer data:", request.data)
+        user_serializer = CustomUserSerializer(data=data)
+        print("User serializer data:", data)
 
         if user_serializer.is_valid():
             user = user_serializer.save()
             print("User created:", user)
 
-            role = request.data.get('role')
+            role = data.get('role')
             print("Role:", role)
 
             if role == 'surfer':
@@ -57,10 +60,10 @@ def register(request):
 
                 surfer_data = {
                     'user_id': user.id,
-                    'firstname': request.data.get('firstname'),
-                    'lastname': request.data.get('lastname'),
-                    'birthday': request.data.get('birthday'),
-                    'level': request.data.get('level'),
+                    'firstname': data.get('firstname'),
+                    'lastname': data.get('lastname'),
+                    'birthday': data.get('birthday'),
+                    'level': data.get('level'),
                     'photo': request.FILES.get('photo')
                 }
                 print("Surfer data:", surfer_data)
@@ -82,9 +85,9 @@ def register(request):
 
                 surfclub_data = {
                     'user_id': user.id,
-                    'name': request.data.get('name'),
-                    'surf_spot': request.data.get('surf_spot'),
-                    'logo': request.data.get('logo'),
+                    'name': data.get('name'),
+                    'surf_spot': data.get('surf_spot'),
+                    'logo': request.FILES.get('logo'),
                 }
                 print("Surf club data:", surfclub_data)
 
@@ -761,7 +764,7 @@ def get_surfclub_lesson(request, pk):
 
         # Filtrer les équipements qui sont à louer (material_type='rent') et où is_rent est False
         equipments = Equipment.objects.filter(surf_club=surfclub, material_type='rent', is_rent=False)
-        equipments_serializer = EquipmentSerializer(equipments, many=True)
+        equipments_serializer = GetEquipmentSerializer(equipments, many=True)
 
         return Response({
             'SurfSession': surfsessions_serializer.data,
@@ -865,7 +868,7 @@ def get_surfclub_equipments_buy(request, pk):
 
         # Filtrer les équipements qui sont à louer (material_type='rent') et où is_rent est False
         equipments = Equipment.objects.filter(surf_club=surfclub, material_type='sale', is_sell=False)
-        equipments_serializer = EquipmentSerializer(equipments, many=True)
+        equipments_serializer = GetEquipmentSerializer(equipments, many=True)
         return Response({
             'Equipments': equipments_serializer.data
         }, status=status.HTTP_200_OK)

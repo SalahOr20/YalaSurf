@@ -136,7 +136,7 @@ class LessonSchedule(models.Model):
 
 
     def __str__(self):
-        return f"{self.surf_club.name} - {self.day_of_week} from {self.start_time} to {self.end_time}"
+        return f"{self.surf_club.name} - {self.day} from {self.start_time} to {self.end_time}"
 
 class SurfSession(models.Model):
     surf_club = models.ForeignKey(SurfClub, on_delete=models.CASCADE, related_name='surf_sessions')
@@ -153,7 +153,7 @@ class SurfLesson(models.Model):
 
 
     def __str__(self):
-        return f"Lesson on {self.lesson_date} with session {self.surf_session} for {self.surfer}"
+        return f"Lesson on {self.surf_session.lesson_schedule.day} with session {self.surf_session} for {self.surfer}"
 class EquipmentSelection(models.Model):
     surf_lesson = models.ForeignKey('SurfLesson', on_delete=models.CASCADE, related_name='equipment_selections')
     equipment = models.ForeignKey('Equipment', on_delete=models.CASCADE, related_name='equipment_selections')
@@ -163,7 +163,7 @@ class EquipmentSelection(models.Model):
         unique_together = ('surf_lesson', 'equipment')
 
     def __str__(self):
-        return f"Lesson {self.surf_lesson.reservation_id} - Equipment {self.equipment.name} (Qty: {self.quantity})"
+        return f"Lesson {self.surf_lesson.surf_session} - Equipment {self.equipment.name} (Qty: {self.quantity})"
 
 class Order(models.Model):
     surfer = models.ForeignKey('Surfer', on_delete=models.CASCADE, related_name='orders')
@@ -201,7 +201,7 @@ class Message(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Message from {self.sender.username} on {self.created_at}"
+        return f"Message from {self.sender.firstname} on {self.created_at}"
 
 class Photo(models.Model):
     image = models.ImageField(upload_to='uploads/',null=True)
