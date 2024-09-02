@@ -50,8 +50,10 @@ const Monitors = () => {
 
   return (
     <div className="monitors-container">
+       <div className='header'>
       <h1>Monitors</h1>
       <Link to="/dashboard/monitor/create" className="add-link">Add New Monitor</Link>
+      </div>
       <ul className="monitors-list">
         {monitors.map(monitor => (
           <li key={monitor.id} className="monitor-item">

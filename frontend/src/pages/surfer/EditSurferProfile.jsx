@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import './EditSurferProfile.css';
 
 const EditSurferProfile = () => {
     const [formData, setFormData] = useState({
@@ -10,8 +11,8 @@ const EditSurferProfile = () => {
     const [passwordChange, setPasswordChange] = useState(false);
     const [passwordConfirm, setPasswordConfirm] = useState('');
     const [formErrors, setFormErrors] = useState({});
-    const [newPhoto, setNewPhoto] = useState(null); // State pour la nouvelle photo
-    const [photoPreview, setPhotoPreview] = useState(''); // Pour afficher la photo actuelle
+    const [newPhoto, setNewPhoto] = useState(null);
+    const [photoPreview, setPhotoPreview] = useState('');
     const navigate = useNavigate();
     const token = localStorage.getItem('accessToken');
 
@@ -26,7 +27,6 @@ const EditSurferProfile = () => {
                     surfer: response.data.surfer
                 });
 
-                // Afficher la photo actuelle s'il y en a une
                 if (response.data.surfer.photo) {
                     setPhotoPreview(response.data.surfer.photo);
                 }
@@ -51,9 +51,9 @@ const EditSurferProfile = () => {
 
     const handlePhotoChange = (e) => {
         const file = e.target.files[0];
-        setNewPhoto(file); // Met à jour la nouvelle photo
+        setNewPhoto(file);
         if (file) {
-            setPhotoPreview(URL.createObjectURL(file)); // Affiche un aperçu de la nouvelle photo
+            setPhotoPreview(URL.createObjectURL(file));
         }
     };
 
@@ -68,7 +68,6 @@ const EditSurferProfile = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Basic validation
         const errors = {};
         if (passwordChange && formData.user.password !== passwordConfirm) {
             errors.passwordConfirm = 'Passwords do not match';
@@ -76,10 +75,8 @@ const EditSurferProfile = () => {
         setFormErrors(errors);
 
         if (Object.keys(errors).length === 0) {
-            // Prepare data to submit
             const userData = { ...formData.user };
             if (!passwordChange) {
-                // Remove password field if password change is not requested
                 delete userData.password;
             }
 
@@ -88,14 +85,14 @@ const EditSurferProfile = () => {
             dataToSubmit.append('surfer', JSON.stringify(formData.surfer));
 
             if (newPhoto) {
-                dataToSubmit.append('photo', newPhoto); // Ajoute la nouvelle photo si présente
+                dataToSubmit.append('photo', newPhoto);
             }
 
             try {
                 await axios.put('http://127.0.0.1:8000/api/surfer/profile/update/', dataToSubmit, {
                     headers: { 
                         'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'multipart/form-data' // Nécessaire pour envoyer un fichier
+                        'Content-Type': 'multipart/form-data'
                     }
                 });
                 navigate('/surfer/profile');
@@ -106,71 +103,11 @@ const EditSurferProfile = () => {
     };
 
     return (
-        <div className="edit-profile">
-            <h1>Edit Profile</h1>
+        <div className="edit-surfer-profile">
+            <h1 className="edit-title">Edit Surfer Profile</h1>
             <form onSubmit={handleSubmit} encType="multipart/form-data">
-                <div>
-                    <h2>User Information</h2>
-                    <label>
-                        Email:
-                        <input
-                            type="email"
-                            name="user.email"
-                            value={formData.user.email || ''}
-                            onChange={handleChange}
-                        />
-                    </label>
-                    <label>
-                        Change Password:
-                        <input
-                            type="checkbox"
-                            checked={passwordChange}
-                            onChange={handlePasswordChangeToggle}
-                        />
-                    </label>
-                    {passwordChange && (
-                        <>
-                            <label>
-                                New Password:
-                                <input
-                                    type="password"
-                                    name="user.password"
-                                    value={formData.user.password || ''}
-                                    onChange={handleChange}
-                                />
-                            </label>
-                            <label>
-                                Confirm New Password:
-                                <input
-                                    type="password"
-                                    value={passwordConfirm}
-                                    onChange={handlePasswordConfirmChange}
-                                />
-                                {formErrors.passwordConfirm && <p>{formErrors.passwordConfirm}</p>}
-                            </label>
-                        </>
-                    )}
-                    <label>
-                        Address:
-                        <input
-                            type="text"
-                            name="user.address"
-                            value={formData.user.address || ''}
-                            onChange={handleChange}
-                        />
-                    </label>
-                    <label>
-                        Phone Number:
-                        <input
-                            type="text"
-                            name="user.phone_number"
-                            value={formData.user.phone_number || ''}
-                            onChange={handleChange}
-                        />
-                    </label>
-                </div>
-                <div>
-                    <h2>Surfer Details</h2>
+                <div className="form-section">
+                    <h2>Surfer Information</h2>
                     <label>
                         First Name:
                         <input
@@ -220,17 +157,77 @@ const EditSurferProfile = () => {
                             onChange={handlePhotoChange}
                         />
                         {photoPreview && (
-                            <div>
+                            <div className="photo-preview">
                                 <img
                                     src={photoPreview}
                                     alt="Profile Preview"
-                                    style={{ width: '150px', height: 'auto' }}
+                                    className="preview-img"
                                 />
                             </div>
                         )}
                     </label>
                 </div>
-                <button type="submit">Save Changes</button>
+                <div className="form-section">
+                    <h2>User Information</h2>
+                    <label>
+                        Email:
+                        <input
+                            type="email"
+                            name="user.email"
+                            value={formData.user.email || ''}
+                            onChange={handleChange}
+                        />
+                    </label>
+                    <label>
+                        Address:
+                        <input
+                            type="text"
+                            name="user.address"
+                            value={formData.user.address || ''}
+                            onChange={handleChange}
+                        />
+                    </label>
+                    <label>
+                        Phone Number:
+                        <input
+                            type="text"
+                            name="user.phone_number"
+                            value={formData.user.phone_number || ''}
+                            onChange={handleChange}
+                        />
+                    </label>
+                    <label>
+                        Change Password:
+                        <input
+                            type="checkbox"
+                            checked={passwordChange}
+                            onChange={handlePasswordChangeToggle}
+                        />
+                    </label>
+                    {passwordChange && (
+                        <>
+                            <label>
+                                New Password:
+                                <input
+                                    type="password"
+                                    name="user.password"
+                                    value={formData.user.password || ''}
+                                    onChange={handleChange}
+                                />
+                            </label>
+                            <label>
+                                Confirm New Password:
+                                <input
+                                    type="password"
+                                    value={passwordConfirm}
+                                    onChange={handlePasswordConfirmChange}
+                                />
+                                {formErrors.passwordConfirm && <p>{formErrors.passwordConfirm}</p>}
+                            </label>
+                        </>
+                    )}
+                </div>
+                <button type="submit" className="save-button">Save Changes</button>
             </form>
         </div>
     );

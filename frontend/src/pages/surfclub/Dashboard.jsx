@@ -9,8 +9,13 @@ const Dashboard = () => {
         <nav className="sidebar-nav">
           <ul>
             <li>
-              <Link to="/dashboard/statistics">
+              <Link to="/">
                 <i className="fas fa-home"></i> Accueil
+              </Link>
+            </li>
+            <li>
+              <Link to="/dashboard/statistics">
+                <i className="fas fa-home"></i> Statistics
               </Link>
             </li>
             <li>

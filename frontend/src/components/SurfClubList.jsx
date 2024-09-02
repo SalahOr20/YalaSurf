@@ -1,10 +1,10 @@
-// src/components/SurfClubList.jsx
 import React from 'react';
 import SurfClubCard from './SurfClubCard';
+import './SurfClubList.css'; // Ensure this file is correctly created and imported
 
 const SurfClubList = ({ clubs }) => {
     if (!clubs || clubs.length === 0) {
-        return <p>No clubs available for this surf spot.</p>;
+        return <p className="no-clubs-message">No clubs available for this surf spot.</p>;
     }
 
     return (

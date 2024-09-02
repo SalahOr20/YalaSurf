@@ -51,7 +51,7 @@ const LessonSchedules = () => {
     <div className="lesson-schedules-container">
       <div className="header">
         <h1>Lesson Schedules</h1>
-        <Link to="/dashboard/lesson-schedule/create" className="add-link">Add New Schedule</Link>
+        <Link to="/dashboard/lesson-schedule/create" className="lesson-add-link">Add New Schedule</Link>
       </div>
       <ul className="lesson-schedules-list">
         {lessonSchedules.map(schedule => (

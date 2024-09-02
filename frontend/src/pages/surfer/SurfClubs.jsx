@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import SurfSpotCard from '../../components/SurfSpotCard';
+import './SurfClubs.css'; // Make sure this file exists
 
 const SurfClubs = () => {
     const [surfSpots, setSurfSpots] = useState([]);
@@ -10,7 +11,6 @@ const SurfClubs = () => {
             try {
                 const response = await axios.get('http://127.0.0.1:8000/api/surf-spots/');
                 setSurfSpots(response.data);
-                console.log(response.data) // Assurez-vous que c'est le bon format
             } catch (error) {
                 console.error("Failed to fetch surf spots", error);
             }
@@ -21,7 +21,7 @@ const SurfClubs = () => {
 
     return (
         <div className="surf-clubs-page">
-            <h1>Surf Spots</h1>
+            <h1 className="page-title">Select a Surf Spot</h1>
             <div className="surf-spot-list">
                 {surfSpots.map((spot) => (
                     <SurfSpotCard key={spot.id} surfSpot={spot} />

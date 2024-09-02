@@ -53,9 +53,13 @@ const Equipments = () => {
 
   return (
     <div className="equipments-container">
+            <div className="header">
       <h1>Equipments</h1>
+
       <Link to="/dashboard/equipment/create" className="add-link">Add New Equipment</Link>
+      </div>
       <ul className="equipments-list">
+
         {equipments.map(equipment => (
           <li key={equipment.id} className="equipment-item">
             <div className="equipment-image">

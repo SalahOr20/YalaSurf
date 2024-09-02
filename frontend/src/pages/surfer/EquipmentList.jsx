@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
+import './EquipmentList.css'; 
 
 const EquipmentList = () => {
-    const { id } = useParams(); // ID du Surf Club
+    const { id } = useParams(); // ID of the Surf Club
     const [equipments, setEquipments] = useState([]);
 
     useEffect(() => {
@@ -25,17 +26,35 @@ const EquipmentList = () => {
     }, [id]);
 
     return (
-        <div className="equipment-list-page">
-            <h1>Équipements à vendre</h1>
-            <div className="equipment-grid">
+        <div className="equipment-list-page-specific">
+            <h1 className="equipment-list-title-specific">Équipements à vendre</h1>
+            <div className="equipment-grid-specific">
                 {equipments.map((equipment) => (
-                    <div key={equipment.id} className="equipment-item">
-                        <img src={`http://127.0.0.1:8000${equipment.photo}`} alt={equipment.name} />
-                        <h3>{equipment.name}</h3>
-                        <p>Prix: {equipment.price} €</p>
-                        <Link to={`/equipment/${equipment.id}`} state={{ equipment, surfClubId: id }}>
-                            Voir les détails
-                        </Link>
+                    <div key={equipment.id} className="equipment-item-specific">
+                        {equipment.is_sell && <div className="equipment-badge-specific">SALE</div>}
+                        <div className="equipment-photo-container-specific">
+                            <img 
+                                src={`http://127.0.0.1:8000${equipment.photos[0]?.image}`} 
+                                alt={equipment.name} 
+                                className="equipment-photo-specific" 
+                            />
+                        </div>
+                        <div className="equipment-info-specific">
+                            <h3 className="equipment-name-specific">{equipment.name}</h3>
+                            <p className="equipment-price-specific">
+                                {equipment.sale_price ? `${equipment.sale_price} €` : `Prix: ${equipment.rent_price} €`}
+                            </p>
+                            <div className="equipment-rating-specific">
+                                ⭐️⭐️⭐️⭐️⭐️
+                            </div>
+                            <Link 
+                                to={`/equipment/${equipment.id}`} 
+                                state={{ equipment, surfClubId: id }} 
+                                className="equipment-details-link-specific"
+                            >
+                                View products
+                            </Link>
+                        </div>
                     </div>
                 ))}
             </div>

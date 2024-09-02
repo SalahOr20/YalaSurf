@@ -1,9 +1,8 @@
-// src/components/SurfClubCard.jsx
 import React from 'react';
 import { Link } from 'react-router-dom';
+import './SurfClubCard.css'; // Ensure this CSS is linked
 
 const SurfClubCard = ({ club }) => {
-    
     return (
         <div className="surf-club-card">
             <Link to={`/surf-clubs/${club.id}`} state={{ club }}>

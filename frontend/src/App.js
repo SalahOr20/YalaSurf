@@ -3,12 +3,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Header from './pages/Header';
+import Footer from './pages/Footer';  // Importer le Footer
 import Login from './pages/Auth/Login';
 import Register from './pages/Auth/Register';
 import SurferForm from './pages/surfer/SurferForm';
 import SurfClubForm from './pages/surfclub/SurfClubForm';
 import SurfClubs from './pages/surfer/SurfClubs';
-import SurfSpotDetails from './pages/surfer/SurfSpotDetails'; // Import de la page SurfSpotDetails
+import SurfSpotDetails from './pages/surfer/SurfSpotDetails';
 import Previsions from './pages/surfer/SurfSpotsList.jsx';
 import Forum from './pages/surfer/Forum.jsx';
 import Dashboard from './pages/surfclub/Dashboard.jsx';
@@ -40,6 +41,7 @@ import EditSurferProfile from './pages/surfer/EditSurferProfile';
 import EditSurfClubProfile from './pages/surfclub/EditSurfClubProfile';
 import SurfClubProfile from './pages/surfclub/SurfCubProfile';
 import SurfClubStatistics from './pages/surfclub/SurfClubStatistics';
+
 const App = () => {
   const { userRole, setUserRole } = useUser();
 
@@ -77,7 +79,6 @@ const App = () => {
             <Route path="/forecast/:spot_id" element={<Forecast />} />
             <Route path="/surfer/profile" element={<SurferProfile />} />
             <Route path="/surfer/edit" element={<EditSurferProfile />} />
-
           </>
         )}
 
@@ -85,34 +86,32 @@ const App = () => {
           <>
             <Route path="/surfclub/profile" element={<SurfClubProfile />} />
             <Route path="/surfclub/edit" element={<EditSurfClubProfile />} />
-       
-          <Route path="/dashboard" element={<Dashboard />}>
-            <Route path="monitors" element={<Monitors />} />
-            <Route path="monitor/create" element={<MonitorForm />} />
-            <Route path="monitor/:id/edit" element={<MonitorForm />} />
-            <Route path="equipments" element={<Equipments />} />
-            <Route path="equipment/create" element={<EquipmentForm />} />
-            <Route path="equipment/:id/edit" element={<EquipmentForm />} />
-            <Route path="surf-session" element={<SurfSessions />} />
-            <Route path="/dashboard/surf-session/create" element={<SurfSessionForm />} />
-            <Route path="/dashboard/surf-session/:id/edit" element={<SurfSessionForm />} />
-            <Route path="lesson-schedule" element={<LessonSchedules />} />
-            <Route path="/dashboard/lesson-schedule/create" element={<LessonScheduleForm />} />
-            <Route path="/dashboard/lesson-schedule/:id/edit" element={<LessonScheduleForm />} />
-            <Route path="surf-lesson" element={<SurfLessons />} />
-            <Route path="/dashboard/surf-lesson/:id" element={<SurfLessonDetail />} />
-            <Route path="orders" element={<Orders />} />
-            <Route path="statistics" element={<SurfClubStatistics />} />
-
-            <Route path="/dashboard/orders/:id" element={<OrderDetail />} />
-            
-          </Route>
+            <Route path="/dashboard" element={<Dashboard />}>
+              <Route path="monitors" element={<Monitors />} />
+              <Route path="monitor/create" element={<MonitorForm />} />
+              <Route path="monitor/:id/edit" element={<MonitorForm />} />
+              <Route path="equipments" element={<Equipments />} />
+              <Route path="equipment/create" element={<EquipmentForm />} />
+              <Route path="equipment/:id/edit" element={<EquipmentForm />} />
+              <Route path="surf-session" element={<SurfSessions />} />
+              <Route path="/dashboard/surf-session/create" element={<SurfSessionForm />} />
+              <Route path="/dashboard/surf-session/:id/edit" element={<SurfSessionForm />} />
+              <Route path="lesson-schedule" element={<LessonSchedules />} />
+              <Route path="/dashboard/lesson-schedule/create" element={<LessonScheduleForm />} />
+              <Route path="/dashboard/lesson-schedule/:id/edit" element={<LessonScheduleForm />} />
+              <Route path="surf-lesson" element={<SurfLessons />} />
+              <Route path="/dashboard/surf-lesson/:id" element={<SurfLessonDetail />} />
+              <Route path="orders" element={<Orders />} />
+              <Route path="statistics" element={<SurfClubStatistics />} />
+              <Route path="/dashboard/orders/:id" element={<OrderDetail />} />
+              <Route path="statistics" element={<Orders />} />
+            </Route>
           </>
-          
         )}
 
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
+      <Footer /> 
     </Router>
   );
 };

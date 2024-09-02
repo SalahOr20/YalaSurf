@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { FaTrashAlt } from 'react-icons/fa'; // Importing trash icon
+import './Cart.css';
 
 const Cart = () => {
     const [cart, setCart] = useState([]);
@@ -47,25 +49,36 @@ const Cart = () => {
         }
     };
 
+    const calculateTotal = () => {
+        return cart.reduce((total, item) => total + item.quantity * item.equipment.sale_price, 0).toFixed(2);
+    };
+
     return (
         <div className="cart-page">
-            <h1>Votre Panier</h1>
+            <h1 className="cart-title">Mon panier</h1>
             {cart.length === 0 ? (
                 <p>Votre panier est vide.</p>
             ) : (
                 <>
-                    <ul>
+                    <ul className="cart-items">
                         {cart.map((item, index) => (
-                            <li key={index}>
-                                <img src={`http://127.0.0.1:8000${item.equipment.photo}`} alt={item.equipment.name} />
-                                <p>{item.equipment.name}</p>
-                                <p>Quantité: {item.quantity}</p>
-                                <p>Prix unitaire: {item.equipment.price} €</p>
-                                <button onClick={() => handleRemoveItem(index)}>Supprimer</button>
+                            <li key={index} className="cart-item">
+                                <img src={`http://127.0.0.1:8000${item.equipment.photos[0]?.image}`} alt={item.equipment.name} className="cart-item-image" />
+                                <div className="cart-item-details">
+                                    <p className="cart-item-name">{item.equipment.name}</p>
+                                    <p className="cart-item-price">{item.equipment.sale_price} €</p>
+                                    <p className="cart-item-quantity">Quantité: {item.quantity}</p>
+                                </div>
+                                <button className="cart-item-remove" onClick={() => handleRemoveItem(index)}>
+                                    <FaTrashAlt />
+                                </button>
                             </li>
                         ))}
                     </ul>
-                    <button onClick={handleOrder}>Passer la commande</button>
+                    <div className="cart-total">
+                        <p>Total: <span>{calculateTotal()} €</span></p>
+                    </div>
+                    <button className="cart-order-btn" onClick={handleOrder}>Passer la commande</button>
                 </>
             )}
         </div>

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { FaRuler, FaTag, FaEuroSign } from 'react-icons/fa'; // Importing icons
+import './EquipmentDetails.css';
 
 const EquipmentDetails = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const { equipment, surfClubId } = location.state || {};
+    const { equipment } = location.state || {};
     const [quantity, setQuantity] = useState(1);
 
     if (!equipment) {
@@ -20,27 +22,35 @@ const EquipmentDetails = () => {
             cart.push({ equipment, quantity });
         }
         localStorage.setItem('cart', JSON.stringify(cart));
-        navigate(`/surf-clubs/${surfClubId}/equipments`);
+        navigate(`/surf-clubs/${equipment.surf_club}/equipments`);
     };
 
     return (
         <div className="equipment-details-page">
-            <h1>{equipment.name}</h1>
-            <img src={`http://127.0.0.1:8000${equipment.photo}`} alt={equipment.name} />
-            <p>Description: {equipment.description}</p>
-            <p>Taille: {equipment.size}</p>
-            <p>État: {equipment.state}</p>
-            <p>Prix: {equipment.price} €</p>
-            <div>
-                <label>Quantité:</label>
-                <input
-                    type="number"
-                    value={quantity}
-                    onChange={(e) => setQuantity(parseInt(e.target.value))}
-                    min="1"
-                />
+            <div className="equipment-image-section">
+                <img src={`http://127.0.0.1:8000${equipment.photos[0]?.image}`} alt={equipment.name} className="equipment-image" />
             </div>
-            <button onClick={handleAddToCart}>Ajouter au panier</button>
+            <div className="equipment-info-section">
+                <h2 className="equipment-category">BEST EQUIPMENT</h2>
+                <h1 className="equipment-title">{equipment.name}</h1>
+                <p className="equipment-description">{equipment.description}</p>
+                <div className="equipment-details">
+                    <p><FaRuler /> <strong>Taille:</strong> {equipment.size}</p>
+                    <p><FaTag /> <strong>État:</strong> {equipment.state}</p>
+                    <p><FaEuroSign /> <strong>Prix:</strong> {equipment.sale_price} €</p>
+                </div>
+                <div className="equipment-quantity">
+                    <label htmlFor="quantity">Quantité:</label>
+                    <input
+                        type="number"
+                        id="quantity"
+                        value={quantity}
+                        onChange={(e) => setQuantity(parseInt(e.target.value))}
+                        min="1"
+                    />
+                </div>
+                <button className="add-to-cart-btn" onClick={handleAddToCart}>Ajouter au panier</button>
+            </div>
         </div>
     );
 };

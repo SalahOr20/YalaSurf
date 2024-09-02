@@ -1,52 +1,59 @@
-/* src/pages/Header.css */
-#header {
-    width: 100%;
-    background-color: #f8f9fa; /* Couleur de fond pour le header */
-    position: relative;
-    z-index: 1000; /* Assure que le header est toujours au-dessus des autres éléments */
+.auth-buttons-desktop {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
 }
 
-#navbar {
-    padding: 0.25rem 1rem; /* Réduit le padding autour du contenu du navbar */
-    height: auto; /* Laissez la hauteur s'ajuster au contenu */
+.auth-buttons-desktop .nav-link {
+    display: flex;
+    align-items: center;
+    color: #333;
+    text-decoration: none;
+    margin-right: 20px;
+    font-size: 1.1rem;
 }
 
-#navbar-brand {
-    font-size: 1.25rem; /* Taille de la police pour le logo du navbar */
-    line-height: 56px; /* Aligne le texte verticalement au centre */
+.auth-buttons-desktop .nav-link .me-2 {
+    margin-right: 8px; /* Adjusted for better spacing */
 }
 
-#navbar-toggler {
-    border: none; /* Enlever la bordure du bouton de basculement */
+.auth-buttons-desktop .btn {
+    margin-left: 10px;
 }
 
-#nav-links {
-    margin-right: auto; /* Espacement automatique à droite pour aligner les éléments de navigation */
-    display: flex; /* Utiliser flex pour aligner les éléments horizontalement */
-    align-items: center; /* Aligner les éléments verticalement au centre */
+.auth-buttons-desktop .badge {
+    background-color: #dc3545;
+    color: white;
+    font-size: 0.9rem;
+    border-radius: 50%;
+    padding: 0.3rem 0.5rem;
+    margin-left: 5px;
 }
 
-#nav-links .nav-item {
-    margin-right: 1rem; /* Espacement entre les éléments de navigation */
+.navbar-toggler {
+    border: none;
 }
 
-#auth-buttons {
-    margin-left: auto; /* Aligner les boutons de connexion/déconnexion à droite */
-    display: flex; /* Utiliser flex pour aligner les boutons horizontalement */
-    align-items: center; /* Aligner les boutons verticalement au centre */
+.navbar-toggler:focus {
+    outline: none;
 }
 
-#nav-item-login .btn-primary {
-    background-color: #007bff; /* Couleur de fond pour le bouton Login */
-    border-color: #007bff; /* Couleur de bordure pour le bouton Login */
+.logo {
+    height: 50px;
 }
 
-#nav-item-logout .btn-danger {
-    background-color: #dc3545; /* Couleur de fond pour le bouton Logout */
-    border-color: #dc3545; /* Couleur de bordure pour le bouton Logout */
+.navbar-brand {
+    margin-right: 20px;
 }
 
-/* Pour éviter le chevauchement du contenu avec la barre de navigation fixe */
-.content {
-    margin-top: 60px; /* Ajustez cette valeur en fonction de la hauteur de votre navbar */
+@media (max-width: 768px) {
+    .auth-buttons-desktop {
+        flex-direction: column;
+        margin-left: 0;
+    }
+
+    .auth-buttons-desktop .btn {
+        margin-left: 0;
+        margin-top: 10px;
+    }
 }

@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
+import './Forecast.css'; 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faWind, faWater, faThermometerHalf, faTachometerAlt } from '@fortawesome/free-solid-svg-icons';
 
 const Forecast = () => {
     const location = useLocation();
-    const spot = location.state?.spot;  // Récupérer les données du spot depuis le state
+    const spot = location.state?.spot;
     const [forecast, setForecast] = useState(null);
+    const [currentCondition, setCurrentCondition] = useState(null);
 
     useEffect(() => {
         if (spot) {
@@ -16,7 +20,13 @@ const Forecast = () => {
                             'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
                         }
                     });
-                    setForecast(response.data.forecast);  // Utiliser les données de prévision renvoyées par le backend
+                    const forecastData = response.data.forecast;
+                    setForecast(forecastData);
+                    
+                    const now = new Date();
+                    const nearestHour = new Date(now.setHours(now.getHours() + 1, 0, 0, 0));
+                    const currentData = forecastData.hours.find(hour => new Date(hour.time).getTime() === nearestHour.getTime());
+                    setCurrentCondition(currentData);
                 } catch (error) {
                     console.error("Failed to fetch forecast", error);
                 }
@@ -29,10 +39,37 @@ const Forecast = () => {
     return (
         <div className="forecast-page">
             <h1>Forecast for {spot ? spot.name : 'Loading...'}</h1>
+            {currentCondition && (
+                <div className="current-condition">
+                    <h2>Current Surf Conditions</h2>
+                    <div className="current-condition-grid">
+                        <div className="condition-item">
+                            <FontAwesomeIcon icon={faWater} className="condition-icon" />
+                            <p className="condition-label">Surf:</p>
+                            <p className="condition-value">{currentCondition.waveHeight?.meteo?.toFixed(2) || 'N/A'} m</p>
+                        </div>
+                        <div className="condition-item">
+                            <FontAwesomeIcon icon={faTachometerAlt} className="condition-icon" />
+                            <p className="condition-label">Rating:</p>
+                            <p className="condition-value condition-rating">{currentCondition.rating || 'N/A'}</p>
+                        </div>
+                        <div className="condition-item">
+                            <FontAwesomeIcon icon={faWind} className="condition-icon" />
+                            <p className="condition-label">Wind:</p>
+                            <p className="condition-value">{currentCondition.windSpeed?.noaa?.toFixed(2) || 'N/A'} m/s</p>
+                        </div>
+                        <div className="condition-item">
+                            <FontAwesomeIcon icon={faThermometerHalf} className="condition-icon" />
+                            <p className="condition-label">Weather:</p>
+                            <p className="condition-value">{currentCondition.airTemperature?.noaa?.toFixed(2) || 'N/A'} °C</p>
+                        </div>
+                    </div>
+                </div>
+            )}
             {forecast ? (
-                <div>
+                <div className="forecast-details">
                     <h2>Weather Forecast</h2>
-                    <table>
+                    <table className="forecast-table">
                         <thead>
                             <tr>
                                 <th>Time</th>
@@ -45,7 +82,7 @@ const Forecast = () => {
                         <tbody>
                             {forecast.hours.map((data, index) => (
                                 <tr key={index}>
-                                    <td>{new Date(data.time).toLocaleString()}</td> {/* Convertir le timestamp en date lisible */}
+                                    <td>{new Date(data.time).toLocaleString()}</td>
                                     <td>{data.waveHeight?.meteo?.toFixed(2) || 'N/A'}</td>
                                     <td>{data.swellPeriod?.meteo?.toFixed(2) || 'N/A'}</td>
                                     <td>{data.windSpeed?.noaa?.toFixed(2) || 'N/A'}</td>

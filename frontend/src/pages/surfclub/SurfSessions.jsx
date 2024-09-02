@@ -47,10 +47,11 @@ const SurfSessions = () => {
   return (
     <div className="surf-sessions-container">
       <div className="header">
-        <h1>Surf Sessions</h1>
-        <Link to="/dashboard/surf-session/create" className="add-link">
+        <div> <h1>Surf Sessions</h1></div>
+       <div>      <Link to="/dashboard/surf-session/create" className="session-add-link">
           <i className="fas fa-plus"></i> Create New Session
-        </Link>
+        </Link></div>
+  
       </div>
       {surfSessions.length > 0 ? (
         <ul className="surf-sessions-list">

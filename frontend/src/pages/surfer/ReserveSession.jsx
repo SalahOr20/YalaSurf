@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import { FaCalendarAlt, FaClock, FaUser, FaCheckCircle, FaShoppingCart, FaExclamationCircle } from 'react-icons/fa'; 
+import './ReserveSession.css'; 
 
 const ReserveSession = () => {
     const { id } = useParams();
-    const navigate = useNavigate(); // Hook pour la navigation
+    const navigate = useNavigate(); 
     const [sessions, setSessions] = useState([]);
     const [equipments, setEquipments] = useState([]);
     const [selectedSession, setSelectedSession] = useState(null);
@@ -67,7 +69,7 @@ const ReserveSession = () => {
                 }
             );
             alert('Réservation confirmée!');
-            navigate('/'); // Redirige vers la page d'accueil après confirmation
+            navigate('/'); 
         } catch (error) {
             console.error("Failed to book surf lesson", error);
             setErrorMessage("Erreur lors de la réservation. Veuillez réessayer.");
@@ -76,15 +78,15 @@ const ReserveSession = () => {
 
     return (
         <div className="reserve-session-page">
-            <h1>Réserver une session</h1>
-            {errorMessage && <p className="error-message">{errorMessage}</p>}
+            <h1 className="reserve-session-title"><FaCalendarAlt /> Réserver une session</h1>
+            {errorMessage && <p className="reserve-session-error"><FaExclamationCircle /> {errorMessage}</p>}
             
-            <div className="sessions-section">
-                <h2>Sélectionner une session</h2>
+            <div className="reserve-session-list">
+                <h2 className="reserve-session-subtitle"><FaClock /> Sélectionner une session</h2>
                 <ul>
                     {sessions.map((session) => (
                         <li key={session.id}>
-                            <button onClick={() => handleSessionSelect(session)}>
+                            <button className={`session-btn ${selectedSession === session ? 'selected' : ''}`} onClick={() => handleSessionSelect(session)}>
                                 {new Date(session.lesson_schedule.day).toLocaleDateString()} - {session.lesson_schedule.start_time} à {session.lesson_schedule.end_time}
                             </button>
                         </li>
@@ -93,34 +95,48 @@ const ReserveSession = () => {
             </div>
 
             {selectedSession && (
-                <div className="session-details">
-                    <h2>Détails de la session</h2>
-                    <p>Date: {new Date(selectedSession.lesson_schedule.day).toLocaleDateString()}</p>
-                    <p>Horaire: {selectedSession.lesson_schedule.start_time} - {selectedSession.lesson_schedule.end_time}</p>
-                    <div className="monitor-info">
-                        <h3>Moniteur</h3>
-                        <p>Nom: {selectedSession.monitor.first_name} {selectedSession.monitor.last_name}</p>
-                        <img
-                            src={`http://127.0.0.1:8000${selectedSession.monitor.photo}`}
-                            alt={`${selectedSession.monitor.first_name} ${selectedSession.monitor.last_name}`}
-                        />
+                <div className="reserve-session-details">
+                    <h2 className="reserve-session-subtitle"><FaUser /> Détails de la session</h2>
+                    <div className="session-details-grid">
+                        <div className='Infos'>
+                        <div className="session-details-item">
+                            <p><FaCalendarAlt /> Date: {new Date(selectedSession.lesson_schedule.day).toLocaleDateString()}</p>
+                        </div>
+                        <div className="session-details-item">
+                            <p><FaClock /> Horaire: {selectedSession.lesson_schedule.start_time} - {selectedSession.lesson_schedule.end_time}</p>
+                        </div>
+                        </div>
+                        <div className='Monitor'>
+                        <div className="session-details-item monitor-info">
+                            <h3 className="reserve-monitor-info-title">Moniteur</h3>
+                            <img
+                                src={`http://127.0.0.1:8000${selectedSession.monitor.photo}`}
+                                alt={`${selectedSession.monitor.first_name} ${selectedSession.monitor.last_name}`}
+                                className="monitor-photo"
+                            />
+                   <strong><p>{selectedSession.monitor.first_name} {selectedSession.monitor.last_name}</p></strong>
+</div>
+                        </div>
                     </div>
                 </div>
             )}
 
             {selectedSession && (
-                <div className="equipments-section">
-                    <h2>Sélectionner le matériel</h2>
-                    <ul>
+                <div className="reserve-equipments-section">
+                    <h2 className="reserve-session-subtitle"><FaShoppingCart /> Sélectionner le matériel</h2>
+                    <ul className="reserve-equipments-list">
                         {equipments.map((equipment) => (
-                            <li key={equipment.id}>
-                                <label>
-                                    <input
-                                        type="checkbox"
-                                        onChange={() => handleEquipmentSelect(equipment)}
-                                    />
-                                    {equipment.name} - {equipment.description}
-                                </label>
+                            <li key={equipment.id} className={`equipment-card ${selectedEquipment.includes(equipment) ? 'selected' : ''}`}>
+                                <div 
+                                    className="equipment-photo" 
+                                    style={{ backgroundImage: `url(http://127.0.0.1:8000${equipment.photos[0]?.image})` }}
+                                    onClick={() => handleEquipmentSelect(equipment)}
+                                >
+                                    <div className="equipment-overlay">
+                                        <strong>{equipment.name}</strong><br></br>
+                                        <strong>{equipment.rent_price}€</strong>
+                                    </div>
+                                </div>
                             </li>
                         ))}
                     </ul>
@@ -128,16 +144,16 @@ const ReserveSession = () => {
             )}
 
             {selectedSession && (
-                <div className="reservation-summary">
-                    <h2>Résumé de la réservation</h2>
-                    <p>Session: {new Date(selectedSession.lesson_schedule.day).toLocaleDateString()} - {selectedSession.lesson_schedule.start_time} à {selectedSession.lesson_schedule.end_time}</p>
+                <div className="reserve-summary">
+                    <h2 className="reserve-session-subtitle"><FaCheckCircle /> Résumé de la réservation</h2>
+                    <p><FaCalendarAlt /> Session: {new Date(selectedSession.lesson_schedule.day).toLocaleDateString()} - {selectedSession.lesson_schedule.start_time} à {selectedSession.lesson_schedule.end_time}</p>
                     <p>Matériel choisi:</p>
                     <ul>
                         {selectedEquipment.map((equipment) => (
                             <li key={equipment.id}>{equipment.name}</li>
                         ))}
                     </ul>
-                    <button onClick={handleSubmit}>Confirmer la réservation</button>
+                    <button className="reserve-submit-btn" onClick={handleSubmit}>Confirmer la réservation</button>
                 </div>
             )}
         </div>

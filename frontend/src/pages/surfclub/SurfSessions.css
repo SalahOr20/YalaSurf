@@ -110,4 +110,28 @@
     color: #0056b3;
   }
 
- 
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px; /* Adds some space below the header */
+    flex-wrap: wrap; /* Ensures that the content wraps if the screen is too small */
+  }
+  
+  .session-add-link {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px;
+    display: inline-block;
+    text-align: center;
+    margin-top: 10px; /* Adds space above the button */
+    transition: background-color 0.3s ease;
+  }
+  
+  .session-add-link:hover {
+    background-color: #0056b3;
+  }
+  
