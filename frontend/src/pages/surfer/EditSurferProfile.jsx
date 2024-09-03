@@ -10,9 +10,8 @@ const EditSurferProfile = () => {
     });
     const [passwordChange, setPasswordChange] = useState(false);
     const [passwordConfirm, setPasswordConfirm] = useState('');
+    const [newPhoto, setNewPhoto] = useState(null); // Stocker le fichier photo
     const [formErrors, setFormErrors] = useState({});
-    const [newPhoto, setNewPhoto] = useState(null);
-    const [photoPreview, setPhotoPreview] = useState('');
     const navigate = useNavigate();
     const token = localStorage.getItem('accessToken');
 
@@ -26,10 +25,6 @@ const EditSurferProfile = () => {
                     user: response.data.user,
                     surfer: response.data.surfer
                 });
-
-                if (response.data.surfer.photo) {
-                    setPhotoPreview(response.data.surfer.photo);
-                }
             } catch (error) {
                 console.error("Failed to fetch profile", error);
             }
@@ -51,9 +46,8 @@ const EditSurferProfile = () => {
 
     const handlePhotoChange = (e) => {
         const file = e.target.files[0];
-        setNewPhoto(file);
         if (file) {
-            setPhotoPreview(URL.createObjectURL(file));
+            setNewPhoto(file); // Stocker le nouveau fichier photo sélectionné
         }
     };
 
@@ -85,7 +79,7 @@ const EditSurferProfile = () => {
             dataToSubmit.append('surfer', JSON.stringify(formData.surfer));
 
             if (newPhoto) {
-                dataToSubmit.append('photo', newPhoto);
+                dataToSubmit.append('photo', newPhoto); // Ajouter la nouvelle photo uniquement si sélectionnée
             }
 
             try {
@@ -156,15 +150,6 @@ const EditSurferProfile = () => {
                             accept="image/*"
                             onChange={handlePhotoChange}
                         />
-                        {photoPreview && (
-                            <div className="photo-preview">
-                                <img
-                                    src={photoPreview}
-                                    alt="Profile Preview"
-                                    className="preview-img"
-                                />
-                            </div>
-                        )}
                     </label>
                 </div>
                 <div className="form-section">
@@ -211,7 +196,6 @@ const EditSurferProfile = () => {
                                 <input
                                     type="password"
                                     name="user.password"
-                                    value={formData.user.password || ''}
                                     onChange={handleChange}
                                 />
                             </label>

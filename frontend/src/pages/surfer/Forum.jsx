@@ -8,8 +8,9 @@ const Forum = () => {
     const [forum, setForum] = useState(null);
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
+    const [lastMessageId, setLastMessageId] = useState(null);
     const token = localStorage.getItem('accessToken');
-    const currentUserId = localStorage.getItem('userId'); // Assume you have stored the userId somewhere
+    const currentUserId = localStorage.getItem('userId');
 
     useEffect(() => {
         const fetchForumDetails = async () => {
@@ -21,6 +22,9 @@ const Forum = () => {
                 });
                 setForum(response.data.forum);
                 setMessages(response.data.messages);
+                if (response.data.messages.length > 0) {
+                    setLastMessageId(response.data.messages[response.data.messages.length - 1].id);
+                }
             } catch (error) {
                 console.error('Failed to fetch forum details', error);
             }
@@ -28,6 +32,33 @@ const Forum = () => {
 
         fetchForumDetails();
     }, [surf_spot_id, token]);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            fetchNewMessages();
+        }, 3000); // Interroger le serveur toutes les 3 secondes
+
+        return () => clearInterval(interval);
+    }, [lastMessageId]);
+
+    const fetchNewMessages = async () => {
+        try {
+            const response = await axios.get(`http://127.0.0.1:8000/api/forums/${surf_spot_id}/messages/`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+                params: {
+                    last_message_id: lastMessageId,
+                },
+            });
+            if (response.data.messages.length > 0) {
+                setMessages(prevMessages => [...prevMessages, ...response.data.messages]);
+                setLastMessageId(response.data.messages[response.data.messages.length - 1].id);
+            }
+        } catch (error) {
+            console.error('Failed to fetch new messages', error);
+        }
+    };
 
     const handleMessageChange = (e) => {
         setNewMessage(e.target.value);
@@ -48,12 +79,7 @@ const Forum = () => {
                 }
             );
             setNewMessage('');
-            const response = await axios.get(`http://127.0.0.1:8000/api/forums/${surf_spot_id}/`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-            setMessages(response.data.messages);
+            fetchNewMessages(); // Récupère immédiatement les nouveaux messages après l'envoi
         } catch (error) {
             console.error('Failed to send message', error);
         }
@@ -61,7 +87,7 @@ const Forum = () => {
 
     return (
         <div className="forum-page">
-            <h1> {forum ? forum.surf_spot.name : 'Loading...'}</h1>
+            <h1>{forum ? forum.surf_spot.name : 'Loading...'}</h1>
             <div className="messages">
                 {messages.map((message) => (
                     <div

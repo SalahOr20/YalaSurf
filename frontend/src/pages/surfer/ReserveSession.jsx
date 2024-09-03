@@ -11,6 +11,7 @@ const ReserveSession = () => {
     const [equipments, setEquipments] = useState([]);
     const [selectedSession, setSelectedSession] = useState(null);
     const [selectedEquipment, setSelectedEquipment] = useState([]);
+    const [equipmentQuantities, setEquipmentQuantities] = useState({});
     const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
@@ -37,11 +38,37 @@ const ReserveSession = () => {
     };
 
     const handleEquipmentSelect = (equipment) => {
-        setSelectedEquipment(prev =>
-            prev.includes(equipment)
-            ? prev.filter(item => item !== equipment)
-            : [...prev, equipment]
-        );
+        setSelectedEquipment(prev => {
+            const isSelected = prev.includes(equipment);
+
+            if (isSelected) {
+                // Si déjà sélectionné, retirer de la sélection
+                const updatedEquipment = prev.filter(item => item !== equipment);
+                const { [equipment.id]: removed, ...rest } = equipmentQuantities;
+                setEquipmentQuantities(rest);
+                return updatedEquipment;
+            } else {
+                if (equipment.quantity > 0) {
+                    // Si la quantité est disponible, ajouter à la sélection
+                    setEquipmentQuantities(prevQuantities => ({
+                        ...prevQuantities,
+                        [equipment.id]: 1, // Initialise avec 1 par défaut
+                    }));
+                    return [...prev, equipment];
+                } else {
+                    alert(`Le matériel ${equipment.name} n'est plus disponible.`);
+                    return prev;
+                }
+            }
+        });
+    };
+
+    const handleQuantityChange = (equipmentId, value) => {
+        if (value <= 0) return;
+        setEquipmentQuantities(prevQuantities => ({
+            ...prevQuantities,
+            [equipmentId]: value,
+        }));
     };
 
     const handleSubmit = async () => {
@@ -61,6 +88,7 @@ const ReserveSession = () => {
                 {
                     surf_session_id: selectedSession.id,
                     equipment_ids: selectedEquipment.map(eq => eq.id),
+                    equipment_quantities: equipmentQuantities,
                 },
                 {
                     headers: {
@@ -114,8 +142,8 @@ const ReserveSession = () => {
                                 alt={`${selectedSession.monitor.first_name} ${selectedSession.monitor.last_name}`}
                                 className="monitor-photo"
                             />
-                   <strong><p>{selectedSession.monitor.first_name} {selectedSession.monitor.last_name}</p></strong>
-</div>
+                            <strong><p>{selectedSession.monitor.first_name} {selectedSession.monitor.last_name}</p></strong>
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -133,10 +161,23 @@ const ReserveSession = () => {
                                     onClick={() => handleEquipmentSelect(equipment)}
                                 >
                                     <div className="equipment-overlay">
-                                        <strong>{equipment.name}</strong><br></br>
-                                        <strong>{equipment.rent_price}€</strong>
+                                        <strong>{equipment.name}</strong><br />
+                                        <strong>{equipment.rent_price}€</strong><br />
+                                        <strong>Quantité disponible: {equipment.quantity}</strong>
                                     </div>
                                 </div>
+                                {selectedEquipment.includes(equipment) && (
+                                    <div className="quantity-selector">
+                                        <label>Quantité:</label>
+                                        <input
+                                            type="number"
+                                            value={equipmentQuantities[equipment.id]}
+                                            min="1"
+                                            max={equipment.quantity}
+                                            onChange={(e) => handleQuantityChange(equipment.id, parseInt(e.target.value))}
+                                        />
+                                    </div>
+                                )}
                             </li>
                         ))}
                     </ul>
@@ -150,7 +191,7 @@ const ReserveSession = () => {
                     <p>Matériel choisi:</p>
                     <ul>
                         {selectedEquipment.map((equipment) => (
-                            <li key={equipment.id}>{equipment.name}</li>
+                            <li key={equipment.id}>{equipment.name} - Quantité: {equipmentQuantities[equipment.id]}</li>
                         ))}
                     </ul>
                     <button className="reserve-submit-btn" onClick={handleSubmit}>Confirmer la réservation</button>

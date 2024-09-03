@@ -14,6 +14,7 @@ const MonitorForm = () => {
     active: false,
     photo: null,
   });
+  const [selectedPhoto, setSelectedPhoto] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
 
   // Fonction pour récupérer le token d'authentification
@@ -44,19 +45,35 @@ const MonitorForm = () => {
 
   const handleChange = (e) => {
     const { name, value, type, files, checked } = e.target;
-    setMonitor(prev => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : type === 'file' ? files[0] : value,
-    }));
+    if (type === 'file') {
+      setSelectedPhoto(files[0]);
+    } else {
+      setMonitor(prev => ({
+        ...prev,
+        [name]: type === 'checkbox' ? checked : value,
+      }));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
 
-    // Ajoute tous les champs à FormData
+    // Ajoute tous les champs à FormData sauf la photo s'il n'y a pas de nouvelle photo sélectionnée
     for (const key in monitor) {
-      formData.append(key, monitor[key] || ''); // Assurez-vous que les champs sont correctement ajoutés
+      if (key === 'active') {
+        formData.append(key, monitor[key] ? 'true' : 'false');
+      } else if (key === 'photo' && !selectedPhoto) {
+        // Ne pas ajouter la photo actuelle si aucune nouvelle photo n'est sélectionnée
+        continue;
+      } else {
+        formData.append(key, monitor[key] || '');
+      }
+    }
+
+    // Ajouter le champ 'photo' seulement si une nouvelle photo est sélectionnée
+    if (selectedPhoto) {
+      formData.append('photo', selectedPhoto);
     }
 
     try {
@@ -77,77 +94,71 @@ const MonitorForm = () => {
   };
 
   return (
-<div className="monitor-form-container">
-    <div className="monitor-form-left">
+    <div className="monitor-form-container">
+      <div className="monitor-form-left">
         <img src={monitorFormImage} alt="Illustration" />
-    </div>
-    <div className="monitor-form-right">
+      </div>
+      <div className="monitor-form-right">
         <h2>{isEditing ? 'Edit Monitor' : 'Add Monitor'}</h2>
         <form onSubmit={handleSubmit} className="monitor-form">
-            <div className="form-group">
-                <label htmlFor="first_name">First Name</label>
-                <input
-                    type="text"
-                    id="first_name"
-                    name="first_name"
-                    value={monitor.first_name}
-                    onChange={handleChange}
-                    required
-                />
-            </div>
-            <div className="form-group">
-                <label htmlFor="last_name">Last Name</label>
-                <input
-                    type="text"
-                    id="last_name"
-                    name="last_name"
-                    value={monitor.last_name}
-                    onChange={handleChange}
-                    required
-                />
-            </div>
-            <div className="form-group">
-                <label htmlFor="birthday">Birthday</label>
-                <input
-                    type="date"
-                    id="birthday"
-                    name="birthday"
-                    value={monitor.birthday}
-                    onChange={handleChange}
-                    required
-                />
-            </div>
-            <div className="form-group checkbox-container">
-                <input
-                    type="checkbox"
-                    id="active"
-                    name="active"
-                    checked={monitor.active}
-                    onChange={handleChange}
-                />
-                <label htmlFor="active">Active</label>
-            </div>
-            {isEditing && monitor.photo && (
-                <div className="form-group">
-                    <img src={`http://127.0.0.1:8000${monitor.photo}`} alt="Monitor" className="preview-image" />
-                </div>
-            )}
-            <div className="form-group">
-                <label htmlFor="photo">Upload Photo</label>
-                <input
-                    type="file"
-                    id="photo"
-                    name="photo"
-                    onChange={handleChange}
-                />
-            </div>
-            <button type="submit" className="submit-button">
-                {isEditing ? 'Update Monitor' : 'Add Monitor'}
-            </button>
+          <div className="form-group">
+            <label htmlFor="first_name">First Name</label>
+            <input
+              type="text"
+              id="first_name"
+              name="first_name"
+              value={monitor.first_name}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="last_name">Last Name</label>
+            <input
+              type="text"
+              id="last_name"
+              name="last_name"
+              value={monitor.last_name}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="birthday">Birthday</label>
+            <input
+              type="date"
+              id="birthday"
+              name="birthday"
+              value={monitor.birthday}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group checkbox-container">
+            <input
+              type="checkbox"
+              id="active"
+              name="active"
+              checked={monitor.active}
+              onChange={handleChange}
+            />
+            <label htmlFor="active">Active</label>
+          </div>
+          <div className="form-group">
+            <label htmlFor="photo">Upload Photo</label>
+            <input
+              type="file"
+              id="photo"
+              name="photo"
+              onChange={handleChange}
+            />
+          </div>
+          <button type="submit" className="submit-button">
+            {isEditing ? 'Update Monitor' : 'Add Monitor'}
+          </button>
         </form>
+      </div>
     </div>
-</div>
-
   );
 };
 

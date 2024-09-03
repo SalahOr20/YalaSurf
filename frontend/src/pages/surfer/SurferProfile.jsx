@@ -72,10 +72,10 @@ const SurferProfile = () => {
                         <div>
                             <h3>Profile Photo</h3>
                             <img
-                                src={profile.surfer.photo}
-                                alt={`${profile.surfer.firstname} ${profile.surfer.lastname}`}
-                                className="surfer-profile-photo"
-                            />
+                src={`http://127.0.0.1:8000${profile['surfer'].photo}`}
+                alt="Club Logo"
+                className="club-logo"
+            />
                         </div>
                     )}
                 </div>

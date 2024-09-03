@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import DragAndDrop from './DragAndDrop'; // Import the Drag and Drop component
 import './EquipmentForm.css'; // Import the CSS file for styling
 
 const EquipmentForm = () => {
@@ -13,18 +14,18 @@ const EquipmentForm = () => {
     state: '',
     material_type: 'rent',
     equipment_type: '',
-    surf_club: '',
     sale_price: '',
     rent_price: '',
+    quantity: 0, // Add the quantity field here
     is_rent: false,
     is_sell: false,
-    photos: []  // Toujours initialiser avec un tableau vide
+    photos: []  // Initialize with an empty array
   });
+  const [previousMaterialType, setPreviousMaterialType] = useState('rent'); // Store the previous material_type
   const [isEditing, setIsEditing] = useState(false);
   const [error, setError] = useState('');
   const [EquipmentTypes, setEquipmentTypes] = useState([]);
 
-  // Fonction pour récupérer le token d'authentification
   const getAuthToken = () => {
     return localStorage.getItem('accessToken');
   };
@@ -57,9 +58,10 @@ const EquipmentForm = () => {
           const response = await axios.get(`http://127.0.0.1:8000/api/surf-club/equipment/${id}/`, { headers });
           const equipmentData = {
             ...response.data,
-            photos: response.data.photos || []  // S'assurer que photos est un tableau
+            photos: response.data.photos || []  // Ensure photos is an array
           };
           setEquipment(equipmentData);
+          setPreviousMaterialType(equipmentData.material_type); // Initialize previous material_type value
           setIsEditing(true);
         } catch (error) {
           console.error('Error fetching equipment:', error);
@@ -80,21 +82,24 @@ const EquipmentForm = () => {
 
   const handleMaterialTypeChange = (e) => {
     const value = e.target.value;
-    setEquipment(prev => ({
-      ...prev,
-      material_type: value,
-      is_rent: value === 'rent',
-      is_sell: value === 'sale',
-      rent_price: value === 'rent' ? prev.rent_price : '',
-      sale_price: value === 'sale' ? prev.sale_price : ''
-    }));
+    // Check if the user is actually changing the material_type
+    if (value !== previousMaterialType) {
+      setEquipment(prev => ({
+        ...prev,
+        material_type: value,
+        is_rent: false, // Reset to false
+        is_sell: false, // Reset to false
+        rent_price: '',
+        sale_price: ''
+      }));
+      setPreviousMaterialType(value); // Update the previous value
+    }
   };
 
-  const handleFileChange = (e) => {
-    const files = Array.from(e.target.files);
+  const handleFilesAdded = (files) => {
     setEquipment(prev => ({
       ...prev,
-      photos: files
+      photos: [...prev.photos, ...files]
     }));
   };
 
@@ -200,6 +205,15 @@ const EquipmentForm = () => {
             className="form-input"
           />
         )}
+        <input
+          type="number"
+          name="quantity"
+          value={equipment.quantity || ''}
+          onChange={handleChange}
+          placeholder="Quantity"
+          required
+          className="form-input"
+        />
         <select
           name="equipment_type"
           value={equipment.equipment_type}
@@ -212,12 +226,10 @@ const EquipmentForm = () => {
             <option key={type.id} value={type.id}>{type.type}</option>
           ))}
         </select>
-        <input
-          type="file"
-          multiple
-          onChange={handleFileChange}
-          className="form-input"
-        />
+
+        {/* Drag and Drop Zone */}
+        <DragAndDrop onFilesAdded={handleFilesAdded} />
+
         <button type="submit" className="submit-button">
           {isEditing ? 'Update Equipment' : 'Add Equipment'}
         </button>

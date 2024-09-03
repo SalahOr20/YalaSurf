@@ -52,7 +52,6 @@ const SurfClubProfile = () => {
         </div>
         <div className="club-details">
             <p><strong>Name:</strong> {profile['surf-club'].name}</p>
-            <p><strong>Description:</strong> {profile['surf-club'].description}</p>
             <p><strong>Surf Spot:</strong> {surfSpot.name}</p>
         </div>
     </div>

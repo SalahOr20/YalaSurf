@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import './EditSurfClubProfile.css'; // Make sure to create and use this CSS file
+import './EditSurfClubProfile.css'; // Assurez-vous d'importer le fichier CSS
 
 const EditSurfClubProfile = () => {
     const [formData, setFormData] = useState({
@@ -18,8 +18,7 @@ const EditSurfClubProfile = () => {
     });
     const [changePassword, setChangePassword] = useState(false);
     const [passwordConfirm, setPasswordConfirm] = useState('');
-    const [logoPreview, setLogoPreview] = useState(null);
-    const [logoFile, setLogoFile] = useState(null); // Store the logo file
+    const [logoFile, setLogoFile] = useState(null); // Stocker le fichier logo
     const [formErrors, setFormErrors] = useState({});
     const [surfSpots, setSurfSpots] = useState([]);
     const navigate = useNavigate();
@@ -35,9 +34,6 @@ const EditSurfClubProfile = () => {
                     user: response.data.user,
                     surf_club: response.data['surf-club'],
                 });
-                if (response.data['surf-club'].logo) {
-                    setLogoPreview(response.data['surf-club'].logo);
-                }
             } catch (error) {
                 console.error("Failed to fetch profile", error);
             }
@@ -73,13 +69,22 @@ const EditSurfClubProfile = () => {
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (file) {
-            setLogoPreview(URL.createObjectURL(file));
-            setLogoFile(file); // Store the file in separate state
+            setLogoFile(file); // Stocker le fichier dans un état séparé
         }
     };
 
     const handlePasswordChange = (e) => {
         setChangePassword(e.target.checked);
+        if (!e.target.checked) {
+            setFormData(prevData => ({
+                ...prevData,
+                user: {
+                    ...prevData.user,
+                    password: '' // Efface le mot de passe si la case est décochée
+                }
+            }));
+            setPasswordConfirm(''); // Efface la confirmation de mot de passe également
+        }
     };
 
     const handlePasswordConfirmChange = (e) => {
@@ -98,21 +103,25 @@ const EditSurfClubProfile = () => {
         if (Object.keys(errors).length === 0) {
             const dataToSend = new FormData();
 
-            const userJson = JSON.stringify({
+            // Préparation des données utilisateur
+            const userData = {
                 email: formData.user.email,
                 address: formData.user.address,
                 phone_number: formData.user.phone_number,
-                ...(changePassword && { password: formData.user.password }),
-            });
+            };
 
-            const surfClubJson = JSON.stringify({
+            if (changePassword) {
+                userData.password = formData.user.password;
+            }
+
+            dataToSend.append('user', JSON.stringify(userData));
+            dataToSend.append('surf_club', JSON.stringify({
+                id: formData.surf_club.id,
                 name: formData.surf_club.name,
-                surf_spot: formData.surf_club.surf_spot,
-            });
+                surf_spot: formData.surf_club.surf_spot
+            }));
 
-            dataToSend.append('user', userJson);
-            dataToSend.append('surf_club', surfClubJson);
-
+            // N'ajouter le champ 'logo' que si un nouveau fichier est sélectionné
             if (logoFile) {
                 dataToSend.append('logo', logoFile);
             }
@@ -153,14 +162,6 @@ const EditSurfClubProfile = () => {
                             name="surf_club.logo"
                             onChange={handleFileChange}
                         />
-                        {logoPreview && (
-                            <div className="logo-preview">
-                                <img
-                                    src={logoPreview}
-                                    alt="Preview"
-                                />
-                            </div>
-                        )}
                     </label>
                     <label>
                         Surf Spot:
@@ -222,7 +223,6 @@ const EditSurfClubProfile = () => {
                                 <input
                                     type="password"
                                     name="user.password"
-                                    value={formData.user.password || ''}
                                     onChange={handleChange}
                                 />
                             </label>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
-import './SurfSessionForm.css'; // Ensure to create and use this CSS file for styling
+import './SurfSessionForm.css'; // Assurez-vous de créer et d'utiliser ce fichier CSS pour le style
 
 const SurfSessionForm = () => {
   const [lessonSchedules, setLessonSchedules] = useState([]);
@@ -12,9 +12,9 @@ const SurfSessionForm = () => {
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { id } = useParams(); // Get the ID for editing
+  const { id } = useParams(); // Récupère l'ID pour l'édition
   const navigate = useNavigate();
-  const isEdit = !!id; // Determine if we are editing based on the presence of `id`
+  const isEdit = !!id; // Détermine si on est en mode édition en fonction de la présence de `id`
 
   useEffect(() => {
     const fetchLessonSchedules = async () => {
@@ -34,11 +34,7 @@ const SurfSessionForm = () => {
         const token = localStorage.getItem('accessToken');
         const headers = { Authorization: `Bearer ${token}` };
         const response = await axios.get('http://127.0.0.1:8000/api/surf-club/monitors/', { headers });
-        
-        // Filter monitors to show only inactive ones
-        const inactiveMonitors = response.data.monitors.filter(monitor => !monitor.active);
-
-        setMonitors(inactiveMonitors);
+        setMonitors(response.data.monitors);
       } catch (err) {
         setError('Error fetching monitors.');
         console.error('Error fetching monitors:', err);
@@ -52,23 +48,23 @@ const SurfSessionForm = () => {
         const response = await axios.get(`http://127.0.0.1:8000/api/surf-club/surf-sessions/${id}/`, { headers });
         setFormData({
           lesson_schedule: response.data.SurfSession.lesson_schedule.id,
-          monitor: response.data.SurfSession.monitor.id
+          monitor: response.data.SurfSession.monitor.id // Pré-remplir avec le moniteur existant
         });
-        setLoading(false); // Stop loading after fetching the data
+        setLoading(false); // Arrête le chargement après avoir récupéré les données
       } catch (err) {
         setError('Error fetching surf session details.');
         console.error('Error fetching surf session details:', err);
       }
     };
 
-    // Fetch data for create mode or edit mode
+    // Récupère les données pour le mode création ou édition
     const fetchData = async () => {
       await fetchLessonSchedules();
       await fetchMonitors();
       if (isEdit) {
         await fetchDataForEdit();
       } else {
-        setLoading(false); // Stop loading if in create mode
+        setLoading(false); // Arrête le chargement en mode création
       }
     };
 
@@ -100,7 +96,7 @@ const SurfSessionForm = () => {
         data: formData
       });
 
-      navigate('/surf-session'); // Redirect to the surf sessions list after successful submission
+      navigate('/surf-session'); // Redirige vers la liste des sessions après la soumission réussie
     } catch (err) {
       setError('Error submitting the form.');
       console.error('Error submitting the form:', err);
