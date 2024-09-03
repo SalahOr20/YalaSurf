@@ -10,7 +10,7 @@ from .views import register, login_view, get_surfclub_profile, surfclub_monitors
     get_forum_details, create_message, surfclub_SurfSessions, EquipmentUpdateDeleteView, \
     SurfSessionUpdateDeleteView, LessonScheduleUpdateDeleteView, MonitorUpdateDeleteView, surfclub_equipement_types, \
     create_surf_session, surfclub_SurfSession, surfclub_orders, surfclub_orderItems, get_surfclub_equipments_buy, \
-    surf_spot_details, get_surfer_profile, get_order_details
+    surf_spot_details, get_surfer_profile, get_order_details, get_new_messages
 
 urlpatterns = [
     #####Urls for users#####
@@ -61,6 +61,7 @@ urlpatterns = [
 
     path('surfers/add-order/', create_order, name='create_order'),
     ###### Forums##########
+    path('forums/<int:surf_spot_id>/messages/', get_new_messages, name='get_new_messages'),
     path('forums/<int:surf_spot_id>/', get_forum_details, name='get_forum_details'),
     path('forums/<int:forum_id>/messages/create/', create_message, name='create_message'),
     ########Update and Delete#########
@@ -68,5 +69,6 @@ urlpatterns = [
     path('surf-club/surf-session/<int:pk>/', SurfSessionUpdateDeleteView.as_view(), name='surf-session-update-delete'),
     path('surf-club/lesson-schedule/<int:pk>/', LessonScheduleUpdateDeleteView.as_view(), name='lesson-schedule-update-delete'),
     path('surf-club/monitor/<int:pk>/', MonitorUpdateDeleteView.as_view(), name='monitor-update-delete'),
+    ########Update Only########
 
 ]

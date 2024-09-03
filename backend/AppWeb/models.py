@@ -103,8 +103,8 @@ class Equipment(models.Model):
     surf_club = models.ForeignKey('SurfClub', on_delete=models.CASCADE, related_name='equipment')
     sale_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     rent_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    is_rent = models.BooleanField(default=False)
-    is_sell = models.BooleanField(default=False)
+    quantity = models.IntegerField(default=0)
+
 
     def __str__(self):
         return self.name
@@ -150,6 +150,7 @@ class SurfLesson(models.Model):
     surfer = models.ForeignKey(Surfer, on_delete=models.CASCADE, related_name='lessons')
     surf_session = models.ForeignKey(SurfSession, on_delete=models.CASCADE, related_name='lessons')
     equipment = models.ManyToManyField(Equipment, through='EquipmentSelection', related_name='lessons')
+    total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
 
 
     def __str__(self):
