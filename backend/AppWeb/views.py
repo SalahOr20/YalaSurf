@@ -7,23 +7,25 @@ from django.db import transaction
 
 from django.contrib.auth import authenticate
 from django.contrib.auth.hashers import make_password
+from django.views.generic import CreateView
 from rest_framework import status, generics
 from rest_framework.generics import get_object_or_404
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.reverse import reverse_lazy
 from rest_framework.views import APIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from .models import SurfClub, CustomUser, Monitor, Equipment, SurfSpot, LessonSchedule, SurfLesson, Order, Surfer, \
-    SurfSession, EquipmentSelection, OrderItem, Forum, Message, Photo, EquipmentType
+    SurfSession, EquipmentSelection, OrderItem, Forum, Message, Photo, EquipmentType, Contact
 from .serializer import CustomUserSerializer, SurferSerializer, SurfClubSerializer, MonitorSerializer, \
     EquipmentSerializer, SurfSpotSerializer, SurfLessonSerializer, LessonScheduleSerializer, OrderSerializer, \
     SurfSessionSerializer, MessageSerializer, ForumSerializer, EquipmentTypeSerializer, \
     GetOrderSerializer, GetOrderItemSerializer, GetSurfSessionSerializer, GetSurfSessionProfileSerializer, \
-    GetEquipmentSerializer
+    GetEquipmentSerializer, ContactSerializer
 from .services import fetch_forecast
 
 
@@ -1271,3 +1273,12 @@ def surfclub_orderItems(request, pk):
         return Response({"error": "Order items not found."}, status=status.HTTP_404_NOT_FOUND)
 
 
+
+class ContactView(APIView):
+    def post(self, request):
+        print(request.data)
+        serializer = ContactSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Message received successfully"}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

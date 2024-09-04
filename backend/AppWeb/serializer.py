@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import CustomUser, SurfClub, Surfer, Order, OrderItem, EquipmentSelection, \
-    SurfLesson, LessonSchedule, Monitor, SurfSpot, Equipment, SurfSession, Message, Forum, EquipmentType, Photo
+    SurfLesson, LessonSchedule, Monitor, SurfSpot, Equipment, SurfSession, Message, Forum, EquipmentType, Photo, Contact
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
@@ -133,4 +133,9 @@ class GetEquipmentSerializer(serializers.ModelSerializer):
     photos = PhotoSerializer(many=True, read_only=True)
     class Meta:
         model = Equipment
+        fields = '__all__'
+
+class ContactSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Contact
         fields = '__all__'
