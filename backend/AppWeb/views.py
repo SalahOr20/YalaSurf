@@ -172,7 +172,6 @@ def get_surfclub_profile(request):
         # Récupérer le club de surf associé à cet utilisateur
         surf_club = SurfClub.objects.get(user=custom_user)
 
-        # Sérialiser les données
         user_serializer = CustomUserSerializer(custom_user)
         surfclub_serializer = SurfClubSerializer(surf_club)
 
