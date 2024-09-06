@@ -37,7 +37,7 @@ const EquipmentForm = () => {
         "Authorization": `Bearer ${token}`,
         "Content-Type": "application/json"
       };
-      const response = await axios.get('http://127.0.0.1:8000/api/surf-club/equipment-types/', { headers });
+      const response = await axios.get('http://localhost:8000/api/surf-club/equipment-types/', { headers });
       setEquipmentTypes(response.data.equipment_types);
     } catch (error) {
       console.error('Error fetching equipment types:', error);
@@ -55,7 +55,7 @@ const EquipmentForm = () => {
             "Authorization": `Bearer ${token}`,
             "Content-Type": "application/json"
           };
-          const response = await axios.get(`http://127.0.0.1:8000/api/surf-club/equipment/${id}/`, { headers });
+          const response = await axios.get(`http://localhost:8000/api/surf-club/equipment/${id}/`, { headers });
           const equipmentData = {
             ...response.data,
             photos: response.data.photos || []  // Ensure photos is an array
@@ -122,9 +122,9 @@ const EquipmentForm = () => {
         });
       }
       if (isEditing) {
-        await axios.put(`http://127.0.0.1:8000/api/surf-club/equipment/${id}/`, formData, { headers });
+        await axios.put(`http://localhost:8000/api/surf-club/equipment/${id}/`, formData, { headers });
       } else {
-        await axios.post('http://127.0.0.1:8000/api/surf-club/add-equipment/', formData, { headers });
+        await axios.post('http://localhost:8000/api/surf-club/add-equipment/', formData, { headers });
       }
       navigate('/dashboard/equipments');
     } catch (error) {

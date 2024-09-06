@@ -22,7 +22,7 @@ const OrderDetails = () => {
           "Content-Type": "application/json",
         };
         const response = await axios.get(
-          `http://127.0.0.1:8000/api/surf-club/orders/${id}/`,
+          `http://localhost:8000/api/surf-club/orders/${id}/`,
           { headers }
         );
         setOrderItems(response.data.orderItems);

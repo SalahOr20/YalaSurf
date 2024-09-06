@@ -70,7 +70,7 @@ const EquipmentDetails = () => {
                             equipment.photos.map((photo, index) => (
                                 <div key={index} className={`equipment-slide ${index === currentSlide ? 'active' : ''}`}>
                                     <img 
-                                        src={`http://127.0.0.1:8000${photo.image}`} 
+                                        src={`http://localhost:8000${photo.image}`} 
                                         alt={`Slide ${index + 1}`} 
                                         className="equipment-slide-image"
                                     />
@@ -93,13 +93,13 @@ const EquipmentDetails = () => {
                 <h1 className="equipment-title">{equipment.name}</h1>
                 <p className="equipment-description">{equipment.description}</p>
                 <div className="equipment-details">
-                    <p><FaRuler /> <strong>Taille:</strong> {equipment.size}</p>
-                    <p><FaTag /> <strong>État:</strong> {equipment.state}</p>
-                    <p><FaEuroSign /> <strong>Prix:</strong> {equipment.sale_price} €</p>
-                    <p><strong>Stock disponible:</strong> {equipment.quantity}</p>
+                    <p><FaRuler /> <strong>Size:</strong> {equipment.size}</p>
+                    <p><FaTag /> <strong>State:</strong> {equipment.state}</p>
+                    <p><FaEuroSign /> <strong>Price:</strong> {equipment.sale_price} €</p>
+                    <p><strong>Stock:</strong> {equipment.quantity}</p>
                 </div>
                 <div className="equipment-quantity">
-                    <label htmlFor="quantity">Quantité:</label>
+                    <label htmlFor="quantity">Quantity:</label>
                     <input
                         type="number"
                         id="quantity"
@@ -109,7 +109,7 @@ const EquipmentDetails = () => {
                         max={equipment.quantity}
                     />
                 </div>
-                <button className="add-to-cart-btn" onClick={handleAddToCart}>Ajouter au panier</button>
+                <button className="add-to-cart-btn" onClick={handleAddToCart}>Add to Cart</button>
             </div>
         </div>
     );

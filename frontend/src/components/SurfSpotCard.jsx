@@ -4,7 +4,7 @@ import defaultImage from '../assets/bouznika.jpg'; // Ensure this image is in th
 
 const SurfSpotCard = ({ surfSpot }) => {
     const photoUrl = surfSpot.photos && surfSpot.photos.length > 0
-        ? `http://127.0.0.1:8000${surfSpot.photos[0].image}`
+        ? `http://localhost:8000${surfSpot.photos[0].image}`
         : defaultImage;
 
     return (

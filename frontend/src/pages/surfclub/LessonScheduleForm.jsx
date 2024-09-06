@@ -29,7 +29,7 @@ const LessonScheduleForm = () => {
             "Authorization": `Bearer ${token}`,
             "Content-Type": "application/json"
           };
-          const response = await axios.get(`http://127.0.0.1:8000/api/surf-club/lesson-schedule/${id}/`, { headers });
+          const response = await axios.get(`http://localhost:8000/api/surf-club/lesson-schedule/${id}/`, { headers });
           setLessonSchedule(response.data);
           setIsEditing(true);
         } catch (error) {
@@ -60,9 +60,9 @@ const LessonScheduleForm = () => {
       };
 
       if (isEditing) {
-        await axios.put(`http://127.0.0.1:8000/api/surf-club/lesson-schedule/${id}/`, lessonSchedule, { headers });
+        await axios.put(`http://localhost:8000/api/surf-club/lesson-schedule/${id}/`, lessonSchedule, { headers });
       } else {
-        await axios.post('http://127.0.0.1:8000/api/surf-club/add-lesson-schedule/', lessonSchedule, { headers });
+        await axios.post('http://localhost:8000/api/surf-club/add-lesson-schedule/', lessonSchedule, { headers });
       }
       
       navigate('/dashboard/lesson-schedule');

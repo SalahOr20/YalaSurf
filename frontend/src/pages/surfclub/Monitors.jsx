@@ -20,7 +20,7 @@ const Monitors = () => {
           "Authorization": `Bearer ${token}`,
           "Content-Type": "application/json"
         };
-        const response = await axios.get('http://127.0.0.1:8000/api/surf-club/monitors/', { headers });
+        const response = await axios.get('http://localhost:8000/api/surf-club/monitors/', { headers });
         setMonitors(response.data.monitors);
       } catch (error) {
         console.error('Error fetching monitors:', error);
@@ -39,7 +39,7 @@ const Monitors = () => {
           "Authorization": `Bearer ${token}`,
           "Content-Type": "application/json"
         };
-        await axios.delete(`http://127.0.0.1:8000/api/surf-club/monitor/${id}/`, { headers });
+        await axios.delete(`http://localhost:8000/api/surf-club/monitor/${id}/`, { headers });
         // Recharger la liste des moniteurs après suppression
         setMonitors(prev => prev.filter(monitor => monitor.id !== id));
       } catch (error) {
@@ -59,7 +59,7 @@ const Monitors = () => {
           <li key={monitor.id} className="monitor-item">
             <div className="monitor-image">
               <img
-                src={monitor.photo ? `http://127.0.0.1:8000${monitor.photo}` : defaultMonitorImage}
+                src={monitor.photo ? `http://localhost:8000${monitor.photo}` : defaultMonitorImage}
                 alt={`${monitor.first_name} ${monitor.last_name}`}
                 className="monitor-photo"
               />

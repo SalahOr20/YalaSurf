@@ -50,13 +50,13 @@
     font-size: 1.25rem;
     margin-bottom: 40px;
     line-height: 1.5;
-    color: #d1d1d1;
+    color: #ecebeb;
 }
 
 .cta-button {
     padding: 15px 30px;
-    background-color: #ffcc00;
-    color: #333;
+    background-color: #289db9;
+    color: #fffffff5;
     text-decoration: none;
     font-size: 1.2rem;
     border-radius: 30px;
@@ -64,7 +64,7 @@
 }
 
 .cta-button:hover {
-    background-color: #e6b800;
+    background-color: #289db9;
 }
 
 .scroll-indicator {
@@ -73,7 +73,7 @@
     left: 50%;
     transform: translateX(-50%);
     font-size: 2rem;
-    color: #ffcc00;
+    color: #289db9;
     animation: bounce 2s infinite;
 }
 
@@ -96,7 +96,7 @@
     font-size: 2.5rem;
     font-weight: 700;
     margin-bottom: 10px;
-    color: #000000;
+    color: #3D5798;
 }
 
 .meet-flowspark-content p {
@@ -139,7 +139,7 @@
 
 .mission-statement h3 {
     font-size: 2rem;
-    color: #000000;
+    color: #3D5798;
     margin-bottom: 20px;
 }
 
@@ -160,6 +160,7 @@
     font-size: 2.5rem;
     margin-bottom: 20px;
     font-weight: bold;
+    color:#3D5798;
 }
 
 .latest-from-blog-section p {
@@ -192,8 +193,8 @@
 }
 
 .post-category {
-    background-color: #ffcc00;
-    color: #333;
+    background-color: #289db9;
+    color: #ffffff;
     padding: 5px 10px;
     font-size: 0.9rem;
     font-weight: bold;

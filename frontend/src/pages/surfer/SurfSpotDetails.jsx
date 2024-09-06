@@ -13,7 +13,7 @@ const SurfSpotDetails = () => {
         const fetchSurfSpotDetails = async () => {
             try {
                 const token = localStorage.getItem('accessToken');
-                const response = await axios.get(`http://127.0.0.1:8000/api/surf-spots/${id}/`, {
+                const response = await axios.get(`http://localhost:8000/api/surf-spots/${id}/`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -45,7 +45,11 @@ const SurfSpotDetails = () => {
                 <div className="surfspot-info">
                     <h2 className="surfspot-info-title">{surfSpot.name}</h2>
                     <p className="surfspot-info-description">{surfSpot.description}</p>
-                    <p className="surfspot-info-address">{surfSpot.address}</p>
+                    
+                    {/* Ajout de l'icône d'adresse à côté du texte */}
+                    <p className="surfspot-info-address">
+                        <i className="fas fa-map-marker-alt"></i> {surfSpot.address}
+                    </p>
                 </div>
 
                 <div className="surfspot-slider">
@@ -55,7 +59,7 @@ const SurfSpotDetails = () => {
                                 <div 
                                     key={index} 
                                     className={`surfspot-slide ${index === currentSlide ? 'active' : ''}`}
-                                    style={{backgroundImage: `url(http://127.0.0.1:8000${photo.image})`}}
+                                    style={{backgroundImage: `url(http://localhost:8000${photo.image})`}}
                                 >
                                 </div>
                             ))

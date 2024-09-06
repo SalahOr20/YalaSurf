@@ -44,7 +44,7 @@ const SurferForm = () => {
     formData.append('role', "surfer");
 
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/user/register/', formData, {
+      const response = await axios.post('http://localhost:8000/api/user/register/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -62,7 +62,7 @@ const SurferForm = () => {
         <div id="register-logo">
           <img src={logo} alt="Logo" />
         </div>
-        <h2>Sign up into your account</h2>
+        <h2>Register as a Surfer</h2>
         <form onSubmit={handleSubmit}>
           <div className="form-row">
             <div className="form-group">

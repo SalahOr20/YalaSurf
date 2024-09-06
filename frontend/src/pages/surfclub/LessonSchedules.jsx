@@ -19,7 +19,7 @@ const LessonSchedules = () => {
           "Authorization": `Bearer ${token}`,
           "Content-Type": "application/json"
         };
-        const response = await axios.get('http://127.0.0.1:8000/api/surf-club/lesson-schedules/', { headers });
+        const response = await axios.get('http://localhost:8000/api/surf-club/lesson-schedules/', { headers });
         setLessonSchedules(response.data.LessonSchedules);
 
       } catch (error) {
@@ -40,7 +40,7 @@ const LessonSchedules = () => {
         "Authorization": `Bearer ${token}`,
         "Content-Type": "application/json"
       };
-      await axios.delete(`http://127.0.0.1:8000/api/surf-club/lesson-schedule/${id}/`, { headers });
+      await axios.delete(`http://localhost:8000/api/surf-club/lesson-schedule/${id}/`, { headers });
       setLessonSchedules(lessonSchedules.filter(schedule => schedule.id !== id));
     } catch (error) {
       console.error('Error deleting lesson schedule:', error);
@@ -57,7 +57,7 @@ const LessonSchedules = () => {
         {lessonSchedules.map(schedule => (
           <li key={schedule.id} className="lesson-schedule-item">
             <div className="schedule-info">
-              <p><i className="fas fa-calendar-alt"></i> <strong>Day:</strong> {schedule.day}</p>
+              <p><i className="fas fa-calendar-alt"></i> {schedule.day}</p>
               <p><i className="fas fa-clock"></i> <strong>Start Time:</strong> {schedule.start_time}</p>
               <p><i className="fas fa-clock"></i> <strong>End Time:</strong> {schedule.end_time}</p>
             </div>

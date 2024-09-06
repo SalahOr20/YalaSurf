@@ -10,14 +10,16 @@
 
 .reserve-session-title {
     font-size: 2rem;
-    color: #333;
+    color: #3D5798;
+    font-weight: 600;
+    letter-spacing: 4px;
     text-align: center;
     margin-bottom: 20px;
 }
 
 .reserve-session-subtitle {
     font-size: 1.5rem;
-    color: #007bff;
+    color: #289db9;
     margin-bottom: 15px;
 }
 
@@ -44,7 +46,7 @@
     width: 100%;
     max-width: 400px;
     padding: 10px 15px;
-    background-color: #007bff;
+    background-color: #289db9 !important;
     color: white;
     border: none;
     border-radius: 5px;
@@ -90,7 +92,9 @@
 .reserve-equipments-section {
     margin-top: 20px;
 }
-
+.reserve-session-page i{
+    color: #3D5798 !important;
+}
 .reserve-equipments-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -165,7 +169,7 @@
     width: 100%;
     max-width: 400px;
     padding: 15px;
-    background-color: #28a745;
+    background-color: #3D5798 !important;
     color: white;
     border: none;
     border-radius: 5px;
@@ -176,5 +180,5 @@
 }
 
 .reserve-submit-btn:hover {
-    background-color: #218838;
+    background-color: #289db9 !important;
 }

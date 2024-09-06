@@ -21,7 +21,7 @@ const Orders = () => {
           "Content-Type": "application/json",
         };
         const response = await axios.get(
-          "http://127.0.0.1:8000/api/surf-club/orders/",
+          "http://localhost:8000/api/surf-club/orders/",
           { headers }
         );
         setOrders(response.data.orders);
@@ -57,11 +57,11 @@ const Orders = () => {
                   : "N/A"}
               </p>
               <p>
-                <i className="fas fa-calendar-alt"></i> <strong>Order Date:</strong>{" "}
+                <i className="fas fa-calendar-alt"></i> <strong></strong>{" "}
                 {order.order_date}
               </p>
               <p>
-                <i className="fas fa-dollar-sign"></i> <strong>Total Price:</strong>{" "}
+                <i className="fas fa-dollar-sign"></i> <strong></strong>{" "}
                 ${order.total_price}
               </p>
             </div>

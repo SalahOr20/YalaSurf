@@ -1,11 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import './Dashboard.css'; // Assurez-vous d'avoir le CSS lié
 
 const Dashboard = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Ajoute un état pour la sidebar
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
   return (
     <div className="dashboard-container">
-      <aside className="sidebar">
+      {/* Bouton hamburger pour mobile */}
+      <button className="hamburger-btn" onClick={toggleSidebar}>
+        <i className="fas fa-bars"></i>
+      </button>
+
+      <aside className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
         <nav className="sidebar-nav">
           <ul>
             <li>

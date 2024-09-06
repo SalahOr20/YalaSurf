@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import SurferForm from '../surfer/SurferForm';
 import SurfClubForm from '../surfclub/SurfClubForm';
 import './Register.css';
+import surfclub from '../../assets/surfclub.jpg';
+import surfer from '../../assets/surfer.jpg';
 
 const Register = () => {
   const [role, setRole] = useState('');
@@ -11,38 +13,32 @@ const Register = () => {
       {!role && (
         <div className="row" id="role-selection">
           <div className="col-md-6">
-            <div className="card register-card">
+            <div
+              className="card register-card"
+              onClick={() => setRole('surfer')} // Redirection vers SurferForm
+            >
               <img
-                src="https://via.placeholder.com/400x200"
+                src={surfer}
                 className="card-img-top register-card-img-top"
                 alt="Surfer"
               />
               <div className="card-body text-center">
-                <h5 className="card-title register-card-title">Je suis surfeur</h5>
-                <button
-                  className="btn btn-primary register-btn-select"
-                  onClick={() => setRole('surfer')}
-                >
-                  Sélectionner
-                </button>
+                <h5 className="card-title register-card-title">I'M A SURFER</h5>
               </div>
             </div>
           </div>
           <div className="col-md-6">
-            <div className="card register-card">
+            <div
+              className="card register-card"
+              onClick={() => setRole('surfclub')} // Redirection vers SurfClubForm
+            >
               <img
-                src="https://via.placeholder.com/400x200"
+                src={surfclub}
                 className="card-img-top register-card-img-top"
                 alt="Surf Club"
               />
               <div className="card-body text-center">
-                <h5 className="card-title register-card-title">Je suis surf club</h5>
-                <button
-                  className="btn btn-primary register-btn-select"
-                  onClick={() => setRole('surfclub')}
-                >
-                  Sélectionner
-                </button>
+                <h5 className="card-title register-card-title">I'M A SURF CLUB</h5>
               </div>
             </div>
           </div>

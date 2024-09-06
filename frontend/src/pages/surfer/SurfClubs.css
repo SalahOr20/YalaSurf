@@ -4,6 +4,10 @@
     text-align: center;
 }
 
+.surf-clubs-page h1{
+    color: #3D5798;
+    font-weight: 600;
+}
 .page-title {
     font-size: 2rem;
     color: #333;

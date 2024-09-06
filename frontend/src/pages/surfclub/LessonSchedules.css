@@ -10,7 +10,7 @@
 }
 
 .lesson-add-link {
-  background-color: #007bff;
+  background-color: #3D5798;
   color: white;
   padding: 10px 20px;
   border-radius: 5px;
@@ -20,9 +20,11 @@
   display: inline-block;
   text-align: center;
 }
-
+.schedule-info i{
+  color: #289db9;
+}
 .lesson-add-link:hover {
-  background-color: #0056b3;
+  background-color: #3D5798;
 }
 
 .lesson-schedules-list {

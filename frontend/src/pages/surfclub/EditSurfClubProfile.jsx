@@ -27,7 +27,7 @@ const EditSurfClubProfile = () => {
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const response = await axios.get('http://127.0.0.1:8000/api/surf-club/profile/', {
+                const response = await axios.get('http://localhost:8000/api/surf-club/profile/', {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 setFormData({
@@ -41,7 +41,7 @@ const EditSurfClubProfile = () => {
 
         const fetchSurfSpots = async () => {
             try {
-                const response = await axios.get('http://127.0.0.1:8000/api/surf-spots/', {
+                const response = await axios.get('http://localhost:8000/api/surf-spots/', {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 setSurfSpots(response.data);
@@ -127,7 +127,7 @@ const EditSurfClubProfile = () => {
             }
 
             try {
-                await axios.put('http://127.0.0.1:8000/api/surf-club/profile/update/', dataToSend, {
+                await axios.put('http://localhost:8000/api/surf-club/profile/update/', dataToSend, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                         'Content-Type': 'multipart/form-data'

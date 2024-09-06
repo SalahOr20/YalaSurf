@@ -18,7 +18,7 @@ const EditSurferProfile = () => {
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const response = await axios.get('http://127.0.0.1:8000/api/surfer/profile/', {
+                const response = await axios.get('http://localhost:8000/api/surfer/profile/', {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 setFormData({
@@ -83,7 +83,7 @@ const EditSurferProfile = () => {
             }
 
             try {
-                await axios.put('http://127.0.0.1:8000/api/surfer/profile/update/', dataToSubmit, {
+                await axios.put('http://localhost:8000/api/surfer/profile/update/', dataToSubmit, {
                     headers: { 
                         'Authorization': `Bearer ${token}`,
                         'Content-Type': 'multipart/form-data'

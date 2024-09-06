@@ -31,7 +31,8 @@ const Footer = () => {
       <div className="footer-content">
         <div className="footer-section about">
           <img src={logo} alt="Yala Surf" className="footer-logo" />
-          <p>Lorem ipsum dolor sit amet, elit ut aliquam, purus sit amet luctus venenatis.</p>
+          <p>
+          It is a platform that brings together surfers and surf clubs from all over Morocco.</p>
           <div className="footer-socials">
             <a href="#"><i className="fab fa-facebook"></i></a>
             <a href="#"><i className="fab fa-instagram"></i></a>

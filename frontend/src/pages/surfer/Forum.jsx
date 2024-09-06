@@ -9,19 +9,29 @@ const Forum = () => {
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
     const [lastMessageId, setLastMessageId] = useState(null);
+
+    // Récupérer les données utilisateur du stockage local
     const token = localStorage.getItem('accessToken');
-    const currentUserId = localStorage.getItem('userId');
+    const storedSurfer = JSON.parse(localStorage.getItem('surfer'));
+    const userPhoto = storedSurfer ? storedSurfer.photo : null;
+    const currentUserId = storedSurfer ? storedSurfer.id : null;
+    const userName = storedSurfer ? storedSurfer.firstname : null;
+
+    // Log des valeurs pour vérifier si elles sont correctes
+    console.log('currentUserId:', currentUserId);
+    console.log('userPhoto:', userPhoto);
 
     useEffect(() => {
         const fetchForumDetails = async () => {
             try {
-                const response = await axios.get(`http://127.0.0.1:8000/api/forums/${surf_spot_id}/`, {
+                const response = await axios.get(`http://localhost:8000/api/forums/${surf_spot_id}/`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
                 });
                 setForum(response.data.forum);
                 setMessages(response.data.messages);
+
                 if (response.data.messages.length > 0) {
                     setLastMessageId(response.data.messages[response.data.messages.length - 1].id);
                 }
@@ -43,7 +53,7 @@ const Forum = () => {
 
     const fetchNewMessages = async () => {
         try {
-            const response = await axios.get(`http://127.0.0.1:8000/api/forums/${surf_spot_id}/messages/`, {
+            const response = await axios.get(`http://localhost:8000/api/forums/${surf_spot_id}/messages/`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -52,7 +62,10 @@ const Forum = () => {
                 },
             });
             if (response.data.messages.length > 0) {
-                setMessages(prevMessages => [...prevMessages, ...response.data.messages]);
+                setMessages(prevMessages => [
+                    ...prevMessages,
+                    ...response.data.messages.filter(msg => !prevMessages.some(m => m.id === msg.id))
+                ]);
                 setLastMessageId(response.data.messages[response.data.messages.length - 1].id);
             }
         } catch (error) {
@@ -67,19 +80,35 @@ const Forum = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post(
-                `http://127.0.0.1:8000/api/forums/${forum.id}/messages/create/`,
+            const response = await axios.post(
+                `http://localhost:8000/api/forums/${forum.id}/messages/create/`,
                 {
                     content: newMessage,
                 },
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
-                    },
+                    }
                 }
             );
-            setNewMessage('');
-            fetchNewMessages(); // Récupère immédiatement les nouveaux messages après l'envoi
+            
+            // On récupère le message que le serveur nous renvoie
+            const sentMessage = response.data; // Assurez-vous que l'API renvoie bien le message avec toutes les informations
+
+            // On met à jour les messages directement après l'envoi
+            setMessages(prevMessages => [
+                ...prevMessages,
+                { 
+                    ...sentMessage, 
+                    sender: { 
+                        id: currentUserId, 
+                        photo: userPhoto, 
+                        firstname: userName 
+                    }
+                }
+            ]);
+
+            setNewMessage(''); // Réinitialiser le champ du message
         } catch (error) {
             console.error('Failed to send message', error);
         }
@@ -93,11 +122,15 @@ const Forum = () => {
                     <div
                         key={message.id}
                         className={`message ${
-                            message.sender.id === currentUserId ? 'message-sent' : 'message-received'
+                            message.sender && message.sender.id === currentUserId ? 'message-sent' : 'message-received'
                         }`}
                     >
                         <div className="message-avatar">
-                            {message.sender && message.sender.firstname ? message.sender.firstname[0] : '?'}
+                            {message.sender && message.sender.id === currentUserId ? (
+                                <img src={`http://localhost:8000${userPhoto}`} alt="Your Avatar" className="message-photo" />
+                            ) : (
+                                <img src={`http://localhost:8000${message.sender?.photo}`} alt={message.sender?.firstname} className="message-photo" />
+                            )}
                         </div>
                         <div className="message-content">
                             <p>{message.content}</p>
@@ -109,6 +142,13 @@ const Forum = () => {
                 ))}
             </div>
             <form onSubmit={handleSubmit} className="message-form">
+                <div className="message-avatar">
+                    {userPhoto ? (
+                        <img src={`http://localhost:8000${userPhoto}`} alt="Your Avatar" className="message-photo" />
+                    ) : (
+                        <span>?</span>
+                    )}
+                </div>
                 <textarea
                     value={newMessage}
                     onChange={handleMessageChange}

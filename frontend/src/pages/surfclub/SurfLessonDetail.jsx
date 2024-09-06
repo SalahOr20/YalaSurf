@@ -12,7 +12,7 @@ const SurfLessonDetail = () => {
       try {
         const token = localStorage.getItem('accessToken');
         const headers = { Authorization: `Bearer ${token}` };
-        const response = await axios.get(`http://127.0.0.1:8000/api/surf-club/surf-lessons/${id}/`, { headers });
+        const response = await axios.get(`http://localhost:8000/api/surf-club/surf-lessons/${id}/`, { headers });
         setSurfLesson(response.data.SurfLesson);
       } catch (error) {
         console.error('Error fetching surf lesson details:', error);
@@ -33,7 +33,7 @@ const SurfLessonDetail = () => {
         <h2>Surfer</h2>
         <div className="info-container">
           <img 
-            src={`http://127.0.0.1:8000${surfLesson.surfer.photo}`} 
+            src={`http://localhost:8000${surfLesson.surfer.photo}`} 
             alt={`${surfLesson.surfer.firstname} ${surfLesson.surfer.lastname}`} 
             className="surfer-photo"
           />
@@ -50,8 +50,7 @@ const SurfLessonDetail = () => {
         <div className="info-container">
           <div className="info">
             <div className="lesson-schedule">
-              <h3><i className="fas fa-calendar-alt"></i> Lesson Schedule</h3>
-              <p><i className="fas fa-calendar-day"></i> Date: {surfLesson.LessonSchedule.day}</p>
+              <p><i className="fas fa-calendar-day"></i> {surfLesson.LessonSchedule.day}</p>
               <p><i className="fas fa-clock"></i> Start Time: {surfLesson.LessonSchedule.start_time}</p>
               <p><i className="fas fa-clock"></i> End Time: {surfLesson.LessonSchedule.end_time}</p>
             </div>
@@ -59,11 +58,11 @@ const SurfLessonDetail = () => {
           <div className="monitor">
            
             <img 
-            src={`http://127.0.0.1:8000${surfLesson.monitor.photo}`} 
+            src={`http://localhost:8000${surfLesson.monitor.photo}`} 
             className="surfer-photo"
           />
 
-            <p><i className="fas fa-user"></i><strong>Monitor:</strong> {surfLesson.monitor.first_name} {surfLesson.monitor.last_name}</p>
+            <p><i className="fas fa-user"></i><strong> Monitor</strong> {surfLesson.monitor.first_name} {surfLesson.monitor.last_name}</p>
           </div>
         </div>
       </div>

@@ -17,7 +17,7 @@ const SurfClubForm = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('http://127.0.0.1:8000/api/surf-spots/')
+    axios.get('http://localhost:8000/api/surf-spots/')
       .then(response => setSurfSpots(response.data))
       .catch(error => console.error('Error fetching surf spots:', error));
   }, []);
@@ -78,7 +78,7 @@ const SurfClubForm = () => {
     formData.append('role', 'surfclub');
 
     try {
-      await axios.post('http://127.0.0.1:8000/api/user/register/', formData, {
+      await axios.post('http://localhost:8000/api/user/register/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

@@ -1,24 +1,65 @@
+/* Styles de base pour la barre de navigation */
+.navbar {
+    background-color: #f8f9fa;
+    padding: 10px 20px;
+}
+
+.navbar-brand {
+    margin-right: 20px;
+}
+
+.logo {
+    height: 80px;
+}
+
+/* Pour centrer les éléments du menu */
+.navbar-nav {
+    display: flex;
+    justify-content: center;
+    flex-grow: 1;
+    font-weight: 500;
+}
+
+.nav-item {
+    margin: 0 10px;
+}
+
+.nav-link {
+    color: #289db9;
+    font-size: 1.2rem;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 10px 15px;
+    
+}
+
+.nav-link:hover {
+    color: #3D5798;
+}
+
+/* Pour gérer les boutons d'authentification (profil, panier, login/logout) */
 .auth-buttons-desktop {
     display: flex;
     align-items: center;
-    margin-left: auto;
+    margin-left: auto; /* Pousse le bouton login/logout à la fin */
 }
 
 .auth-buttons-desktop .nav-link {
     display: flex;
     align-items: center;
     color: #333;
-    text-decoration: none;
+    text-decoration:none;
     margin-right: 20px;
     font-size: 1.1rem;
 }
 
 .auth-buttons-desktop .nav-link .me-2 {
-    margin-right: 8px; /* Adjusted for better spacing */
+    margin-right: 8px; /* Ajuste l'espacement entre l'icône et le texte */
 }
 
 .auth-buttons-desktop .btn {
     margin-left: 10px;
+    padding: 5px 15px;
 }
 
 .auth-buttons-desktop .badge {
@@ -30,30 +71,71 @@
     margin-left: 5px;
 }
 
+/* Styles pour le bouton hamburger */
 .navbar-toggler {
     border: none;
+    outline: none;
 }
 
 .navbar-toggler:focus {
     outline: none;
 }
 
-.logo {
-    height: 50px;
+/* Aligner correctement le bouton Logout/Login à la fin */
+@media (min-width: 768px) {
+    .navbar-nav {
+        justify-content: center;
+        width: 100%;
+    }
+
+    .auth-buttons-desktop {
+        justify-content: flex-end;
+    }
 }
 
-.navbar-brand {
-    margin-right: 20px;
-}
-
+/* Styles pour petits écrans (menu hamburger) */
 @media (max-width: 768px) {
+    .navbar-nav {
+        flex-direction: column;
+        align-items: center;
+    }
+
     .auth-buttons-desktop {
         flex-direction: column;
         margin-left: 0;
+        align-items: flex-start;
+        width: 100%;
+    }
+
+    .auth-buttons-desktop .nav-link {
+        margin-right: 0;
+        width: 100%;
+        text-align: left;
     }
 
     .auth-buttons-desktop .btn {
-        margin-left: 0;
-        margin-top: 10px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .nav-item {
+        width: 100%;
+        text-align: center;
+        padding: 10px 0;
     }
 }
+
+/* Bouton de déconnexion (Logout) en rouge */
+.btn-d {
+    background-color: #f8f9fa;
+    border-color: #3D5798 !important;
+}
+
+
+
+/* Bouton de connexion (Login) en bleu */
+.btn-p {
+    background-color: #f8f9fa;
+    border-color: #3D5798;
+}
+

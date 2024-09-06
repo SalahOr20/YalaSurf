@@ -30,14 +30,14 @@
 
 .equipment-category {
     font-size: 1rem;
-    color: #555;
+    color: #3D5798;
     margin-bottom: 10px;
     font-weight: bold;
 }
 
 .equipment-title {
     font-size: 2rem;
-    color: #333;
+    color: #3D5798;
     margin-bottom: 20px;
     font-weight: bold;
 }
@@ -62,7 +62,7 @@
 
 .equipment-details p svg {
     margin-right: 10px;
-    color: #007bff;
+    color: #289db9;
 }
 
 .equipment-quantity {
@@ -88,7 +88,7 @@
 
 .add-to-cart-btn {
     padding: 15px 20px;
-    background-color: #28a745;
+    background-color: #3D5798;
     color: white;
     font-size: 1.2rem;
     font-weight: bold;
@@ -100,7 +100,7 @@
 }
 
 .add-to-cart-btn:hover {
-    background-color: #218838;
+    background-color: #289db9;
 }
 .equipment-slider {
     position: relative;

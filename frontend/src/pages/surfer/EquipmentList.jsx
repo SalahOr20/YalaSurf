@@ -11,7 +11,7 @@ const EquipmentList = () => {
         const fetchEquipments = async () => {
             const token = localStorage.getItem('accessToken');
             try {
-                const response = await axios.get(`http://127.0.0.1:8000/api/surf-clubs/${id}/equipments/`, {
+                const response = await axios.get(`http://localhost:8000/api/surf-clubs/${id}/equipments/`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -27,14 +27,14 @@ const EquipmentList = () => {
 
     return (
         <div className="equipment-list-page-specific">
-            <h1 className="equipment-list-title-specific">Équipements à vendre</h1>
+            <h1 className="equipment-list-title-specific">Equipements for sale</h1>
             <div className="equipment-grid-specific">
                 {equipments.map((equipment) => (
                     <div key={equipment.id} className="equipment-item-specific">
                         {equipment.is_sell && <div className="equipment-badge-specific">SALE</div>}
                         <div className="equipment-photo-container-specific">
                             <img 
-                                src={`http://127.0.0.1:8000${equipment.photos[0]?.image}`} 
+                                src={`http://localhost:8000${equipment.photos[0]?.image}`} 
                                 alt={equipment.name} 
                                 className="equipment-photo-specific" 
                             />
@@ -42,7 +42,7 @@ const EquipmentList = () => {
                         <div className="equipment-info-specific">
                             <h3 className="equipment-name-specific">{equipment.name}</h3>
                             <p className="equipment-price-specific">
-                                {equipment.sale_price ? `${equipment.sale_price} €` : `Prix: ${equipment.rent_price} €`}
+                                {equipment.sale_price ? `${equipment.sale_price} €` : `${equipment.rent_price} €`}
                             </p>
                             <div className="equipment-rating-specific">
                                 ⭐️⭐️⭐️⭐️⭐️

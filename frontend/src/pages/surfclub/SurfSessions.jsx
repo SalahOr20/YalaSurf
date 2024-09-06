@@ -12,7 +12,7 @@ const SurfSessions = () => {
     try {
       const token = localStorage.getItem('accessToken');
       const headers = { Authorization: `Bearer ${token}` };
-      const response = await axios.get('http://127.0.0.1:8000/api/surf-club/surf-sessions/', { headers });
+      const response = await axios.get('http://localhost:8000/api/surf-club/surf-sessions/', { headers });
       setSurfSessions(response.data.surf_sessions);
     } catch (err) {
       setError('Error fetching surf sessions.');
@@ -27,7 +27,7 @@ const SurfSessions = () => {
       try {
         const token = localStorage.getItem('accessToken');
         const headers = { Authorization: `Bearer ${token}` };
-        await axios.delete(`http://127.0.0.1:8000/api/surf-club/surf-session/${id}/`, { headers });
+        await axios.delete(`http://localhost:8000/api/surf-club/surf-session/${id}/`, { headers });
         // Refresh the list after deletion
         fetchSurfSessions();
       } catch (err) {
@@ -59,18 +59,18 @@ const SurfSessions = () => {
             <li key={session.id} className="surf-session-item">
               <div className="session-details">
                 <div className="session-info">
-                  <h3>Lesson Schedule</h3>
-                  <p><i className="fas fa-calendar-alt"></i> <strong>Day:</strong> {session.lesson_schedule.day}</p>
+              
+                  <p><i className="fas fa-calendar-alt"></i> <strong></strong> {session.lesson_schedule.day}</p>
                   <p><i className="fas fa-clock"></i> <strong>Start Time:</strong> {session.lesson_schedule.start_time}</p>
                   <p><i className="fas fa-clock"></i> <strong>End Time:</strong> {session.lesson_schedule.end_time}</p>
                 </div>
                 <div className="monitor-info">
                   <img 
-                    src={`http://127.0.0.1:8000${session.monitor.photo}`} 
+                    src={`http://localhost:8000${session.monitor.photo}`} 
                     alt={`${session.monitor.first_name} ${session.monitor.last_name}`} 
                     className="monitor-photo" 
                   />
-                  <p><i className="fas fa-user"></i> <strong>Name:</strong> {session.monitor.first_name} {session.monitor.last_name}</p>
+                  <p><i className="fas fa-user"></i> {session.monitor.first_name} {session.monitor.last_name}</p>
                 </div>
               </div>
               <div className="session-actions">

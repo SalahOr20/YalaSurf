@@ -21,7 +21,7 @@ const SurfSessionForm = () => {
       try {
         const token = localStorage.getItem('accessToken');
         const headers = { Authorization: `Bearer ${token}` };
-        const response = await axios.get('http://127.0.0.1:8000/api/surf-club/lesson-schedules/', { headers });
+        const response = await axios.get('http://localhost:8000/api/surf-club/lesson-schedules/', { headers });
         setLessonSchedules(response.data.LessonSchedules);
       } catch (err) {
         setError('Error fetching lesson schedules.');
@@ -33,7 +33,7 @@ const SurfSessionForm = () => {
       try {
         const token = localStorage.getItem('accessToken');
         const headers = { Authorization: `Bearer ${token}` };
-        const response = await axios.get('http://127.0.0.1:8000/api/surf-club/monitors/', { headers });
+        const response = await axios.get('http://localhost:8000/api/surf-club/monitors-dispo/', { headers });
         setMonitors(response.data.monitors);
       } catch (err) {
         setError('Error fetching monitors.');
@@ -45,10 +45,10 @@ const SurfSessionForm = () => {
       try {
         const token = localStorage.getItem('accessToken');
         const headers = { Authorization: `Bearer ${token}` };
-        const response = await axios.get(`http://127.0.0.1:8000/api/surf-club/surf-sessions/${id}/`, { headers });
+        const response = await axios.get(`http://localhost:8000/api/surf-club/surf-sessions/${id}/`, { headers });
         setFormData({
           lesson_schedule: response.data.SurfSession.lesson_schedule.id,
-          monitor: response.data.SurfSession.monitor.id // Pré-remplir avec le moniteur existant
+          monitor: response.data.SurfSession.monitor?.id || '' // Pré-remplir avec le moniteur existant, ou vide si absent
         });
         setLoading(false); // Arrête le chargement après avoir récupéré les données
       } catch (err) {
@@ -85,8 +85,8 @@ const SurfSessionForm = () => {
       const token = localStorage.getItem('accessToken');
       const headers = { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' };
       const url = isEdit
-        ? `http://127.0.0.1:8000/api/surf-club/surf-session/${id}/`
-        : 'http://127.0.0.1:8000/api/surf-club/add-surf-session/';
+        ? `http://localhost:8000/api/surf-club/surf-session/${id}/`
+        : 'http://localhost:8000/api/surf-club/add-surf-session/';
 
       const method = isEdit ? 'PUT' : 'POST';
       await axios({
@@ -135,8 +135,8 @@ const SurfSessionForm = () => {
             name="monitor"
             value={formData.monitor}
             onChange={handleChange}
-            required
             className="form-control"
+            required={!isEdit} // Le champ est obligatoire en mode création et non obligatoire en édition
           >
             <option value="">Select a monitor</option>
             {monitors.map(monitor => (

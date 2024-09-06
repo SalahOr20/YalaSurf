@@ -12,8 +12,8 @@
     margin-bottom: 30px;
 }
 
-h1 {
-    font-size: 2.5rem;
+.register-container h1 {
+    font-size: 30px;
     color: #007bff;
     margin: 0;
 }
@@ -80,24 +80,29 @@ h1 {
     min-width: 300px;
 }
 
-h2 {
+.register-container h2 {
     font-size: 1.5rem;
-    color: #333;
+    color: #3D5798;
     margin-bottom: 20px;
 }
 
-p {
+.register-container p {
     font-size: 1rem;
-    color: #555;
+    color: #3D5798 !important;
     margin: 10px 0;
     line-height: 1.5;
 }
 
-p strong {
-    color: #333;
+.register-container p strong {
+    color: #3D5798;
 }
-
+.register-container label{
+    color: #3D5798;
+}
 .user-info i {
-    color: #007bff;
+    color: #3D5798;
     margin-right: 10px;
+}
+#register-btn{
+    background-color: #3D5798;
 }

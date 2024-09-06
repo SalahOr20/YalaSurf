@@ -20,7 +20,7 @@ const Equipments = () => {
           "Authorization": `Bearer ${token}`,
           "Content-Type": "application/json"
         };
-        const response = await axios.get('http://127.0.0.1:8000/api/surf-club/equipments/', { headers });
+        const response = await axios.get('http://localhost:8000/api/surf-club/equipments/', { headers });
         setEquipments(response.data.equipments);
       } catch (error) {
         console.error('Error fetching equipment:', error);
@@ -39,7 +39,7 @@ const Equipments = () => {
           "Authorization": `Bearer ${token}`,
           "Content-Type": "application/json"
         };
-        await axios.delete(`http://127.0.0.1:8000/api/surf-club/equipment/${id}/`, { headers });
+        await axios.delete(`http://localhost:8000/api/surf-club/equipment/${id}/`, { headers });
         setEquipments(equipments.filter(equipment => equipment.id !== id));
       } catch (error) {
         console.error('Error deleting equipment:', error);
@@ -53,18 +53,16 @@ const Equipments = () => {
 
   return (
     <div className="equipments-container">
-            <div className="header">
-      <h1>Equipments</h1>
-
-      <Link to="/dashboard/equipment/create" className="add-link">Add New Equipment</Link>
+      <div className="header">
+        <h1>Equipments</h1>
+        <Link to="/dashboard/equipment/create" className="add-link">Add New Equipment</Link>
       </div>
       <ul className="equipments-list">
-
         {equipments.map(equipment => (
           <li key={equipment.id} className="equipment-item">
             <div className="equipment-image">
               <img
-                src={equipment.photos.length > 0 ? `http://127.0.0.1:8000${equipment.photos[0].image}` : defaultEquipmentImage}
+                src={equipment.photos.length > 0 ? `http://localhost:8000${equipment.photos[0].image}` : defaultEquipmentImage}
                 alt={equipment.name}
                 className="equipment-photo"
               />
@@ -73,8 +71,18 @@ const Equipments = () => {
               <h3>{equipment.name}</h3>
               <p><i className="fas fa-ruler"></i> {equipment.size}</p>
               <p><i className="fas fa-tag"></i> {equipment.state}</p>
-              {equipment.is_rent && <p><i className="fas fa-dollar-sign"></i> Rent Price: {equipment.rent_price}</p>}
-              {equipment.is_sell && <p><i className="fas fa-dollar-sign"></i> Sale Price: {equipment.sale_price}</p>}
+
+              {/* Affichage du prix en fonction du type (Rent ou Sale) */}
+              {equipment.material_type === 'rent' && (
+                <p><i className="fas fa-dollar-sign"></i>{equipment.rent_price}</p>
+              )}
+              {equipment.material_type === 'sale' && (
+                <p><i className="fas fa-dollar-sign"></i> {equipment.sale_price}</p>
+              )}
+
+              {/* Affichage de la quantité */}
+              <p><i className="fas fa-boxes"></i> {equipment.quantity}</p>
+
               <div className="equipment-actions">
                 <button onClick={() => handleEdit(equipment.id)} className="action-link">
                   <i className="fas fa-edit"></i>

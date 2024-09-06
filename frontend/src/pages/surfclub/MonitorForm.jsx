@@ -31,7 +31,7 @@ const MonitorForm = () => {
             "Authorization": `Bearer ${token}`,
             "Content-Type": "application/json"
           };
-          const response = await axios.get(`http://127.0.0.1:8000/api/surf-club/monitor/${id}/`, { headers });
+          const response = await axios.get(`http://localhost:8000/api/surf-club/monitor/${id}/`, { headers });
           setMonitor(response.data);
           setIsEditing(true);
         } catch (error) {
@@ -83,9 +83,9 @@ const MonitorForm = () => {
         "Content-Type": "multipart/form-data"
       };
       if (isEditing) {
-        await axios.put(`http://127.0.0.1:8000/api/surf-club/monitor/${id}/`, formData, { headers });
+        await axios.put(`http://localhost:8000/api/surf-club/monitor/${id}/`, formData, { headers });
       } else {
-        await axios.post('http://127.0.0.1:8000/api/surf-club/add-monitor/', formData, { headers });
+        await axios.post('http://localhost:8000/api/surf-club/add-monitor/', formData, { headers });
       }
       navigate('/dashboard/monitors');
     } catch (error) {

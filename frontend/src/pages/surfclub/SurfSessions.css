@@ -14,13 +14,14 @@
   }
   
   .header h1 {
-    color: #333;
+    color: #3D5798;
+    font-weight: 500;
     margin: 0;
   }
   
   .add-link {
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: #289db9 !important;
     color: #fff;
     border-radius: 5px;
     text-decoration: none;
@@ -35,7 +36,7 @@
   }
   
   .add-link:hover {
-    background-color: #0056b3;
+    background-color: #3D5798 !important;
   }
   
   .surf-sessions-list {
@@ -64,6 +65,12 @@
   .session-info, .monitor-info {
     margin-right: 40px;
     margin-bottom: 10px;
+  }
+  .session-info i{
+    color: #289db9;
+  }
+  .monitor-info i{
+    color: #289db9;
   }
   
   .monitor-photo {

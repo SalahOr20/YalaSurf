@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Header from './pages/Header';
 import Footer from './pages/Footer';  // Importer le Footer
 import Login from './pages/Auth/Login';
@@ -55,6 +55,17 @@ const App = () => {
 
   return (
     <Router>
+      <ContentWithFooter userRole={userRole} setUserRole={setUserRole} />
+    </Router>
+  );
+};
+
+const ContentWithFooter = ({ userRole, setUserRole }) => {
+  const location = useLocation(); // useLocation doit être utilisé ici après l'initialisation de Router
+  const isDashboard = location.pathname.includes("/dashboard"); // Vérifie si c'est le dashboard
+
+  return (
+    <>
       <Header userRole={userRole} setUserRole={setUserRole} />
       <Routes>
         <Route path="/" element={<Accueil />} />
@@ -111,8 +122,10 @@ const App = () => {
 
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
-      <Footer /> 
-    </Router>
+
+      {/* Afficher le footer uniquement si l'utilisateur n'est pas dans le dashboard */}
+      {!isDashboard && <Footer />}
+    </>
   );
 };
 

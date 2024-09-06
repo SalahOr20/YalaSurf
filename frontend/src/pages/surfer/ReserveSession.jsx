@@ -18,7 +18,7 @@ const ReserveSession = () => {
         const fetchReserveSessionDetails = async () => {
             try {
                 const token = localStorage.getItem('accessToken');
-                const response = await axios.get(`http://127.0.0.1:8000/api/surf-clubs/${id}/lessons/`, {
+                const response = await axios.get(`http://localhost:8000/api/surf-clubs/${id}/lessons/`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -84,7 +84,7 @@ const ReserveSession = () => {
         const token = localStorage.getItem('accessToken');
         try {
             await axios.post(
-                'http://127.0.0.1:8000/api/surfers/book_surf_lesson/',
+                'http://localhost:8000/api/surfers/book_surf_lesson/',
                 {
                     surf_session_id: selectedSession.id,
                     equipment_ids: selectedEquipment.map(eq => eq.id),
@@ -106,11 +106,11 @@ const ReserveSession = () => {
 
     return (
         <div className="reserve-session-page">
-            <h1 className="reserve-session-title"><FaCalendarAlt /> Réserver une session</h1>
+            <h1 className="reserve-session-title"><FaCalendarAlt /> Book a session</h1>
             {errorMessage && <p className="reserve-session-error"><FaExclamationCircle /> {errorMessage}</p>}
             
             <div className="reserve-session-list">
-                <h2 className="reserve-session-subtitle"><FaClock /> Sélectionner une session</h2>
+                <h2 className="reserve-session-subtitle"><FaClock /> Select a session</h2>
                 <ul>
                     {sessions.map((session) => (
                         <li key={session.id}>
@@ -124,21 +124,21 @@ const ReserveSession = () => {
 
             {selectedSession && (
                 <div className="reserve-session-details">
-                    <h2 className="reserve-session-subtitle"><FaUser /> Détails de la session</h2>
+                    <h2 className="reserve-session-subtitle"><FaUser /> Détails of Session</h2>
                     <div className="session-details-grid">
                         <div className='Infos'>
                         <div className="session-details-item">
-                            <p><FaCalendarAlt /> Date: {new Date(selectedSession.lesson_schedule.day).toLocaleDateString()}</p>
+                            <p><FaCalendarAlt />  {new Date(selectedSession.lesson_schedule.day).toLocaleDateString()}</p>
                         </div>
                         <div className="session-details-item">
-                            <p><FaClock /> Horaire: {selectedSession.lesson_schedule.start_time} - {selectedSession.lesson_schedule.end_time}</p>
+                            <p><FaClock /> Time: {selectedSession.lesson_schedule.start_time} - {selectedSession.lesson_schedule.end_time}</p>
                         </div>
                         </div>
                         <div className='Monitor'>
                         <div className="session-details-item monitor-info">
-                            <h3 className="reserve-monitor-info-title">Moniteur</h3>
+                            <h3 className="reserve-monitor-info-title">Monitor</h3>
                             <img
-                                src={`http://127.0.0.1:8000${selectedSession.monitor.photo}`}
+                                src={`http://localhost:8000${selectedSession.monitor.photo}`}
                                 alt={`${selectedSession.monitor.first_name} ${selectedSession.monitor.last_name}`}
                                 className="monitor-photo"
                             />
@@ -151,13 +151,13 @@ const ReserveSession = () => {
 
             {selectedSession && (
                 <div className="reserve-equipments-section">
-                    <h2 className="reserve-session-subtitle"><FaShoppingCart /> Sélectionner le matériel</h2>
+                    <h2 className="reserve-session-subtitle"><FaShoppingCart /> Select an equipment</h2>
                     <ul className="reserve-equipments-list">
                         {equipments.map((equipment) => (
                             <li key={equipment.id} className={`equipment-card ${selectedEquipment.includes(equipment) ? 'selected' : ''}`}>
                                 <div 
                                     className="equipment-photo" 
-                                    style={{ backgroundImage: `url(http://127.0.0.1:8000${equipment.photos[0]?.image})` }}
+                                    style={{ backgroundImage: `url(http://localhost:8000${equipment.photos[0]?.image})` }}
                                     onClick={() => handleEquipmentSelect(equipment)}
                                 >
                                     <div className="equipment-overlay">
@@ -168,7 +168,7 @@ const ReserveSession = () => {
                                 </div>
                                 {selectedEquipment.includes(equipment) && (
                                     <div className="quantity-selector">
-                                        <label>Quantité:</label>
+                                        <label>Quantity:</label>
                                         <input
                                             type="number"
                                             value={equipmentQuantities[equipment.id]}
@@ -186,15 +186,15 @@ const ReserveSession = () => {
 
             {selectedSession && (
                 <div className="reserve-summary">
-                    <h2 className="reserve-session-subtitle"><FaCheckCircle /> Résumé de la réservation</h2>
+                    <h2 className="reserve-session-subtitle"><FaCheckCircle /> Reservation Summary :</h2>
                     <p><FaCalendarAlt /> Session: {new Date(selectedSession.lesson_schedule.day).toLocaleDateString()} - {selectedSession.lesson_schedule.start_time} à {selectedSession.lesson_schedule.end_time}</p>
-                    <p>Matériel choisi:</p>
+                    <p>Selected equipments:</p>
                     <ul>
                         {selectedEquipment.map((equipment) => (
-                            <li key={equipment.id}>{equipment.name} - Quantité: {equipmentQuantities[equipment.id]}</li>
+                            <li key={equipment.id}>{equipment.name} - Quantity: {equipmentQuantities[equipment.id]}</li>
                         ))}
                     </ul>
-                    <button className="reserve-submit-btn" onClick={handleSubmit}>Confirmer la réservation</button>
+                    <button className="reserve-submit-btn" onClick={handleSubmit}>Confirm your reservation</button>
                 </div>
             )}
         </div>

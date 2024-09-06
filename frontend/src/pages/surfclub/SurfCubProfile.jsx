@@ -11,14 +11,14 @@ const SurfClubProfile = () => {
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const response = await axios.get('http://127.0.0.1:8000/api/surf-club/profile/', {
+                const response = await axios.get('http://localhost:8000/api/surf-club/profile/', {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 const profileData = response.data;
                 setProfile(profileData);
 
                 if (profileData['surf-club'].surf_spot) {
-                    const surfSpotResponse = await axios.get(`http://127.0.0.1:8000/api/surf-spots/${profileData['surf-club'].surf_spot}/`, {
+                    const surfSpotResponse = await axios.get(`http://localhost:8000/api/surf-spots/${profileData['surf-club'].surf_spot}/`, {
                         headers: { 'Authorization': `Bearer ${token}` }
                     });
                     setSurfSpot(surfSpotResponse.data['surf-spot']);
@@ -45,7 +45,7 @@ const SurfClubProfile = () => {
     <div className="club-info card">
         <div className="logo-container">
             <img
-                src={`http://127.0.0.1:8000${profile['surf-club'].logo}`}
+                src={`http://localhost:8000${profile['surf-club'].logo}`}
                 alt="Club Logo"
                 className="club-logo"
             />

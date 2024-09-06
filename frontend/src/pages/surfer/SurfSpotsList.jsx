@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './SurfSpotsList.css'; // Import your CSS file for styling
-import surfVideo from '../../assets/video/spots.mp4'; // Import the video file
+import surfVideo from '../../assets/video/forecast.mp4'; // Import the video file
 
 const SpotsList = () => {
     const [spots, setSpots] = useState([]);
@@ -11,7 +11,7 @@ const SpotsList = () => {
         const fetchSpots = async () => {
             try {
                 const token = localStorage.getItem('accessToken');
-                const response = await axios.get('http://127.0.0.1:8000/api/surf-spots/', {
+                const response = await axios.get('http://localhost:8000/api/surf-spots/', {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -34,8 +34,8 @@ const SpotsList = () => {
                     Your browser does not support the video tag.
                 </video>
                 <div className="video-overlay">
-                    <h1 className="video-title">Digital Products For Business</h1>
-                    <p className="video-subtitle">Nunc lacus lacus sit amet accumsan est pulvinar non praesent tristique enim lorem phasellus auctor lacus.</p>
+                    <h1 className="video-title"> All things surf, all in one place.</h1>
+                    <p className="video-subtitle">View live surf  forecasts for your favorite home spot.</p>
                 </div>
             </div>
 
@@ -52,7 +52,7 @@ const SpotsList = () => {
                         >
                             {spot.photos.length > 0 && spot.photos[0] ? (
                                 <div className="spot-image-wrapper">
-                                    <img src={`http://127.0.0.1:8000${spot.photos[0].image}`} alt={spot.name} className="spot-image"/>
+                                    <img src={`http://localhost:8000${spot.photos[0].image}`} alt={spot.name} className="spot-image"/>
                                 </div>
                             ) : (
                                 <div className="spot-image-placeholder">No Image Available</div>

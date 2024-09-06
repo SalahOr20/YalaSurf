@@ -15,7 +15,7 @@ const Forecast = () => {
         if (spot) {
             const fetchForecast = async () => {
                 try {
-                    const response = await axios.get(`http://127.0.0.1:8000/api/surf-spots/prevision/${spot.id}/`, {
+                    const response = await axios.get(`http://localhost:8000/api/surf-spots/prevision/${spot.id}/`, {
                         headers: {
                             'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
                         }
@@ -82,7 +82,7 @@ const Forecast = () => {
                         <tbody>
                             {forecast.hours.map((data, index) => (
                                 <tr key={index}>
-                                    <td>{new Date(data.time).toLocaleString()}</td>
+                                    <td><i className="fas fa-clock"></i> {new Date(data.time).toLocaleString()}</td>
                                     <td>{data.waveHeight?.meteo?.toFixed(2) || 'N/A'}</td>
                                     <td>{data.swellPeriod?.meteo?.toFixed(2) || 'N/A'}</td>
                                     <td>{data.windSpeed?.noaa?.toFixed(2) || 'N/A'}</td>

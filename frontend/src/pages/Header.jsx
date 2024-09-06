@@ -47,7 +47,7 @@ const Header = ({ userRole, setUserRole }) => {
             <span className="navbar-toggler-icon"></span>
           </button>
 
-          <div className={`collapse navbar-collapse justify-content-center ${menuOpen ? 'show' : ''}`} id="navbarNav">
+          <div className={`collapse navbar-collapse ${menuOpen ? 'show' : ''}`} id="navbarNav">
             <ul className="navbar-nav">
               {userRole === 'surfer' && (
                 <>
@@ -55,7 +55,7 @@ const Header = ({ userRole, setUserRole }) => {
                     <Link className="nav-link" to="/surf-clubs">Surf Clubs</Link>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link" to="/previsions">Prévisions</Link>
+                    <Link className="nav-link" to="/previsions">Forecast</Link>
                   </li>
                   <li className="nav-item">
                     <Link className="nav-link" to="/forums">Forums</Link>
@@ -72,29 +72,32 @@ const Header = ({ userRole, setUserRole }) => {
               <li className="nav-item">
                 <Link className="nav-link" to="/contact">Contact</Link>
               </li>
-            </ul>
-          </div>
 
-          <div className="auth-buttons-desktop d-flex align-items-center">
-            {userRole && (
-              <>
-                <Link className="nav-link d-flex align-items-center" to={userRole === 'surfer' ? "/surfer/profile" : "/surfclub/profile"}>
-                  <FaUser className="me-2" />
-                  {firstName}
-                </Link>
-                {userRole === 'surfer' && (
-                  <Link className="nav-link d-flex align-items-center" to="/cart">
+              {/* Add auth links here */}
+              {userRole && (
+                <li className="nav-item">
+                  <Link className="nav-link" to={userRole === 'surfer' ? "/surfer/profile" : "/surfclub/profile"}>
+                    <FaUser className="me-2" />
+                    {firstName}
+                  </Link>
+                </li>
+              )}
+              {userRole === 'surfer' && (
+                <li className="nav-item">
+                  <Link className="nav-link" to="/cart">
                     <FaShoppingCart className="me-2" />
                     {cartCount > 0 && <span className="badge badge-danger">{cartCount}</span>}
                   </Link>
+                </li>
+              )}
+              <li className="nav-item">
+                {!userRole ? (
+                  <Link className="btn btn-p nav-link" to="/login">Login</Link>
+                ) : (
+                  <button className="btn btn-d nav-link" onClick={handleLogout}>Logout</button>
                 )}
-              </>
-            )}
-            {!userRole ? (
-              <Link className="btn btn-primary ms-3" to="/login">Login</Link>
-            ) : (
-              <button className="btn btn-danger ms-3" onClick={handleLogout}>Logout</button>
-            )}
+              </li>
+            </ul>
           </div>
         </div>
       </nav>

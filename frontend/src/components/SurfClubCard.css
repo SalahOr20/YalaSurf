@@ -7,36 +7,82 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     text-align: center;
+    width: 250px;
+    height: 200px;
+    max-width: 300px; /* Limite la largeur de la carte */
+    position: relative; /* Permet à la superposition d'être placée correctement */
 }
 
 .surf-club-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.45);
+   
 }
 
-.surf-club-card img {
-    width: 100%;
-    max-width: 300px !important; /* Set a maximum width */
-    height: 200px !important; /* Set a fixed height */
-    object-fit: cover; /* Ensures the image covers the entire area without distortion */
-    border-bottom: 2px solid #f0f0f0;
-    border-radius: 10px 10px 0 0; /* Rounded corners only at the top */
-}
-
-.surf-club-card h3 {
-    font-size: 1.25rem;
-    color: #333;
-    margin: 10px 0;
-    padding: 0 15px;
-}
-
-.surf-club-card a {
+/* Lien sans décoration */
+.surf-club-link {
     text-decoration: none;
     color: inherit;
 }
 
-.surf-club-card a:hover h3 {
-    color: #007bff;
+/* Wrapper de l'image */
+.surf-club-image-wrapper {
+    width: 100%;
+    height: 150px; /* Taille spécifique pour l'image/logo */
+    border-bottom: 2px solid #f0f0f0;
+    padding: 10px; /* Ajoute un peu de marge autour du logo */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Image */
+.surf-club-image {
+    max-width: 100px; /* Limite la taille du logo */
+    height: auto;
+    object-fit: contain;
+}
+
+/* Informations du club (nom sans superposition par défaut) */
+.surf-club-info {
+    width: 100%;
+    padding: 10px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0 0 10px 10px; /* Arrondit les coins inférieurs de la carte */
+}
+
+.surf-club-name {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #289db9;
+}
+
+/* Superposition lors du hover */
+.surf-club-card:hover .surf-club-overlay {
+    opacity: 1; /* La superposition devient visible au survol */
+}
+
+/* Superposition noire qui couvre toute la carte au hover */
+.surf-club-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgb(0, 0, 0) !important; /* Couleur noire semi-transparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    opacity: 0; /* Par défaut, invisible */
+    transition: opacity 0.3s ease; /* Transition pour l'apparition de la superposition */
+    border-radius: 10px; /* Garde la carte bien arrondie même avec la superposition */
+}
+
+.surf-club-overlay .surf-club-name {
+    color: #fff; /* Le nom devient blanc lors du hover */
 }

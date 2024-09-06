@@ -78,7 +78,7 @@ const Login = () => {
           </div>
           <div className="form-group" id="remember-me-group">
            
-            <a href="#" id="forgot-password">Forgot your password?</a>
+            <a href="#" id="welcome">Welcome back !</a>
           </div>
           <button type="submit" id="login-btn">Sign in</button>
         </form>

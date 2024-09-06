@@ -26,7 +26,7 @@ const Cart = () => {
 
         try {
             const response = await axios.post(
-                'http://127.0.0.1:8000/api/surfers/add-order/',
+                'http://localhost:8000/api/surfers/add-order/',
                 {
                     surf_club: surfClubId,
                     items: cart.map(item => ({
@@ -55,19 +55,19 @@ const Cart = () => {
 
     return (
         <div className="cart-page">
-            <h1 className="cart-title">Mon panier</h1>
+            <h1 className="cart-title">My Cart</h1>
             {cart.length === 0 ? (
-                <p>Votre panier est vide.</p>
+                <p>Your cart is empty ! </p>
             ) : (
                 <>
                     <ul className="cart-items">
                         {cart.map((item, index) => (
                             <li key={index} className="cart-item">
-                                <img src={`http://127.0.0.1:8000${item.equipment.photos[0]?.image}`} alt={item.equipment.name} className="cart-item-image" />
+                                <img src={`http://localhost:8000${item.equipment.photos[0]?.image}`} alt={item.equipment.name} className="cart-item-image" />
                                 <div className="cart-item-details">
                                     <p className="cart-item-name">{item.equipment.name}</p>
                                     <p className="cart-item-price">{item.equipment.sale_price} €</p>
-                                    <p className="cart-item-quantity">Quantité: {item.quantity}</p>
+                                    <p className="cart-item-quantity">Quantity: {item.quantity}</p>
                                 </div>
                                 <button className="cart-item-remove" onClick={() => handleRemoveItem(index)}>
                                     <FaTrashAlt />
@@ -78,7 +78,8 @@ const Cart = () => {
                     <div className="cart-total">
                         <p>Total: <span>{calculateTotal()} €</span></p>
                     </div>
-                    <button className="cart-order-btn" onClick={handleOrder}>Passer la commande</button>
+                    <button className="cart-order-btn" onClick={handleOrder}>
+                    Place your order</button>
                 </>
             )}
         </div>

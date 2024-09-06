@@ -3,7 +3,12 @@
     max-width: 1200px;
     margin: 0 auto;
 }
-
+.surf-lesson-detail-container h1{
+    color: #3D5798;
+}
+.surf-lesson-detail-container i{
+    color: #289db9;
+}
 .section {
     background-color: #fff;
     padding: 20px;

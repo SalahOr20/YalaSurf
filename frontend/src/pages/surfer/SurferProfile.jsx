@@ -14,7 +14,7 @@ const SurferProfile = () => {
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const response = await axios.get(`http://127.0.0.1:8000/api/surfer/profile/`, {
+                const response = await axios.get(`http://localhost:8000/api/surfer/profile/`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 setProfile(response.data);
@@ -30,7 +30,7 @@ const SurferProfile = () => {
         if (selectedOrder) {
             const fetchOrderDetails = async () => {
                 try {
-                    const response = await axios.get(`http://127.0.0.1:8000/api/surfers/order/${selectedOrder}/`, {
+                    const response = await axios.get(`http://localhost:8000/api/surfers/order/${selectedOrder}/`, {
                         headers: { 'Authorization': `Bearer ${token}` }
                     });
                     setOrderDetails(response.data);
@@ -72,7 +72,7 @@ const SurferProfile = () => {
                         <div>
                             <h3>Profile Photo</h3>
                             <img
-                src={`http://127.0.0.1:8000${profile['surfer'].photo}`}
+                src={`http://localhost:8000${profile['surfer'].photo}`}
                 alt="Club Logo"
                 className="club-logo"
             />

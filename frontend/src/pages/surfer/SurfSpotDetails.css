@@ -1,12 +1,16 @@
 .surfspot-details-page {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items:center;
+
     min-height: 100vh;
     background-color: #f9f9f9;
     padding: 20px;
 }
-
+.surfspot-info h2{
+    color:#3D5798 ;
+    
+}
 .surfspot-details-page-loading {
     font-size: 1.5rem;
     color: #666;
@@ -28,9 +32,18 @@
 }
 
 .surfspot-info {
+    flex-direction: column;
+    justify-self: unset;
+    align-items: flex-start;
     flex: 1 1 300px;
     padding-right: 20px;
 }
+
+.surfspot-info p {
+   font-size: 16px;
+   color: #333;
+}
+
 
 .surfspot-info-title {
     font-size: 3rem;
@@ -74,12 +87,20 @@
     background-position: center;
     border-radius: 10px;
 }
-
+.surfspot-info-address i{
+    color:#289db9;
+}
+.surfspot-info-address{
+    font-weight: 600;
+    font-size: 18px;
+    letter-spacing: 3px;
+}
 .surfspot-clubs-title {
     font-size: 2rem;
     font-weight: bold;
-    color: #333;
-    margin-top: 40px;
+    color: #3D5798;
+    margin-top: 50px;
+    letter-spacing: 5px;
     margin-bottom: 20px;
     text-align: center;
 }

@@ -11,10 +11,12 @@
     margin: 40px auto;
   }
   
-  h1 {
+  .form-container h1 {
     margin-bottom: 20px;
-    font-size: 24px;
-    color: #333;
+    font-size: 30px;
+    color: #3D5798 !important;
+    margin-bottom: 20px;
+    font-weight: 500;
   }
   
   .form-content {

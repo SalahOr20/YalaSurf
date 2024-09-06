@@ -8,8 +8,9 @@
 }
 
 .cart-title {
-    font-size: 1.5rem;
-    color: #333;
+    font-size: 2rem;
+    letter-spacing: 4px;
+    color: #3D5798;
     font-weight: bold;
     margin-bottom: 20px;
 }
@@ -86,14 +87,14 @@
 }
 
 .cart-total span {
-    color: #007bff;
+    color: #289db9;
 }
 
 .cart-order-btn {
     display: block;
     width: 100%;
     padding: 15px 0;
-    background-color: #28a745;
+    background-color: #3D5798;
     color: #fff;
     font-size: 1.2rem;
     font-weight: bold;
@@ -106,5 +107,5 @@
 }
 
 .cart-order-btn:hover {
-    background-color: #218838;
+    background-color: #289db9;
 }

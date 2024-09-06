@@ -11,9 +11,9 @@ const SurfLessons = () => {
       try {
         const token = localStorage.getItem('accessToken');
         const headers = { Authorization: `Bearer ${token}` };
-        const response = await axios.get('http://127.0.0.1:8000/api/surf-club/surf-lessons/', { headers });
+        const response = await axios.get('http://localhost:8000/api/surf-club/surf-lessons/', { headers });
         setSurfLessons(response.data.SurfLessons);
-        console.log(response.data)
+        console.log(response.data);
       } catch (error) {
         console.error('Error fetching surf lessons:', error);
       }
@@ -31,13 +31,16 @@ const SurfLessons = () => {
             <Link to={`/dashboard/surf-lesson/${lesson.id}`} className="surf-lesson-link">
               <div className="surf-lesson-content">
                 <img 
-                  src={`http://127.0.0.1:8000${lesson.surfer.photo}`} 
+                  src={`http://localhost:8000${lesson.surfer.photo}`} 
                   alt={`${lesson.surfer.firstname} ${lesson.surfer.lastname}`} 
                   className="surfer-photo"
                 />
                 <div className="surf-lesson-info">
                   <p className="surfer-name">{lesson.surfer.firstname} {lesson.surfer.lastname}</p>
                   <p className="lesson-detail">Level: {lesson.surfer.level}</p>
+                  <p className="lesson-price">
+                    <i className="fas fa-dollar-sign"></i> {lesson.total_price}
+                  </p> {/* Ajout du prix total avec l'icône */}
                 </div>
               </div>
             </Link>
