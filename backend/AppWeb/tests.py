@@ -34,5 +34,29 @@ class UserRegisterTestCase(APITestCase):
         self.assertEqual(surfer.lastname, 'Doe')
         self.assertEqual(surfer.level, 'beginner')
 
+    def test_register_surfclub(self):
+        url = reverse('register')
+        data = {
+            'email': 'testsurfclub@example.com',
+            'password': 'club_password',
+            'role': 'surfclub',
+            'name': 'Surf Club',
+            'surf_spot': 'Main Beach',
+        }
+
+        response = self.client.post(url, data, format='multipart')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertIn('message', response.data)
+
+        # Vérifiez que l'utilisateur a été créé avec le rôle de club de surf
+        user = CustomUser.objects.get(email='testsurfclub@example.com')
+        self.assertTrue(user.is_surfclub)
+        self.assertFalse(user.is_surfer)
+        self.assertTrue(check_password('club_password', user.password))
+
+        # Vérifiez que le profil surfclub est créé
+        surfclub = SurfClub.objects.get(user=user)
+        self.assertEqual(surfclub.name, 'Surf Club')
+        self.assertEqual(surfclub.surf_spot, 'Main Beach')
 
 
