@@ -12,7 +12,7 @@ class UserRegisterTestCase(APITestCase):
             'email': 'testsurfer@example.com',
             'password': 'strong_password',
             'role': 'surfer',
-            'firstname': 'jow',
+            'firstname': 'jo',
             'lastname': 'Doe',
             'birthday': '1990-01-01',
             'level': 'beginner',
@@ -30,7 +30,7 @@ class UserRegisterTestCase(APITestCase):
 
         # Vérifiez que le profil surfeur est créé
         surfer = Surfer.objects.get(user=user)
-        self.assertEqual(surfer.firstname, 'jow')
+        self.assertEqual(surfer.firstname, 'jo')
         self.assertEqual(surfer.lastname, 'Doe')
         self.assertEqual(surfer.level, 'beginner')
 
