@@ -25,7 +25,7 @@ from .serializer import CustomUserSerializer, SurferSerializer, SurfClubSerializ
     EquipmentSerializer, SurfSpotSerializer, SurfLessonSerializer, LessonScheduleSerializer, OrderSerializer, \
     SurfSessionSerializer, MessageSerializer, ForumSerializer, EquipmentTypeSerializer, \
     GetOrderSerializer, GetOrderItemSerializer, GetSurfSessionSerializer, GetSurfSessionProfileSerializer, \
-    GetEquipmentSerializer, ContactSerializer
+    GetEquipmentSerializer, ContactSerializer, GetMessageSerializer
 from .services import fetch_forecast
 
 
@@ -150,7 +150,7 @@ def login_view(request):
                 'lastname': surfer.lastname,
                 'birthday': surfer.birthday,
                 'level': surfer.level,
-                #'photo':surfer.photo
+                'photo':surfer.photo.url if surfer.photo else None
             }
 
         return Response(response_data, status=status.HTTP_200_OK)
@@ -193,6 +193,19 @@ def surfclub_monitors(request):
     try:
         surf_club = SurfClub.objects.get(user=request.user)
         monitors=Monitor.objects.filter(surf_club=surf_club)
+        monitors_serializer=MonitorSerializer(monitors,many=True)
+        return Response({
+             'monitors': monitors_serializer.data
+         }, status=status.HTTP_200_OK)
+    except Monitor.DoesNotExist:
+        return Response({"error": "Monitors not found."}, status=status.HTTP_404_NOT_FOUND)
+@api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def surfclub_monitors_dispo(request):
+    try:
+        surf_club = SurfClub.objects.get(user=request.user)
+        monitors=Monitor.objects.filter(surf_club=surf_club,active=0)
         monitors_serializer=MonitorSerializer(monitors,many=True)
         return Response({
              'monitors': monitors_serializer.data
@@ -1063,7 +1076,7 @@ def get_forum_details(request, surf_spot_id):
         forum = Forum.objects.get(surf_spot_id=surf_spot_id)
         messages = Message.objects.filter(forum=forum)
         forum_serializer = ForumSerializer(forum)
-        message_serializer = MessageSerializer(messages, many=True)
+        message_serializer = GetMessageSerializer(messages, many=True)
         return Response({
             'forum': forum_serializer.data,
             'messages': message_serializer.data
@@ -1106,7 +1119,7 @@ def get_new_messages(request, surf_spot_id):
         else:
             messages = Message.objects.filter(forum=forum)
 
-        message_serializer = MessageSerializer(messages, many=True)
+        message_serializer = GetMessageSerializer(messages, many=True)
         return Response({'messages': message_serializer.data}, status=status.HTTP_200_OK)
     except Forum.DoesNotExist:
         return Response({"error": "Forum not found."}, status=status.HTTP_404_NOT_FOUND)

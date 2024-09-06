@@ -104,9 +104,25 @@ class ForumSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class MessageSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Message
         fields = '__all__'
+
+class GetMessageSerializer(serializers.ModelSerializer):
+    sender = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Message
+        fields = '__all__'
+
+    def get_sender(self, obj):
+        return {
+            "id": obj.sender.id,
+            "firstname": obj.sender.firstname,
+            "lastname": obj.sender.lastname,
+            "photo": obj.sender.photo.url if obj.sender.photo else None,  # Inclure l'URL de la photo
+        }
 
 class PhotoSerializer(serializers.ModelSerializer):
     class Meta:

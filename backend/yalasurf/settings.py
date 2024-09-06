@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-xc#z8vlc8v7gpwv@5a^)kxvnldz(sdwv$8bsm9h82)##l!+786
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'yalasurf-a0ahbbcnd9ghdhb9.eastus-01.azurewebsites.net']
 
 
 # Application definition
@@ -79,6 +79,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'yalasurf.wsgi.application'
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'your_domain.com', 'your_azure_domain.azurewebsites.net']
 
 
 # Database
@@ -134,7 +135,9 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'http://localhost',
     'http://192.168.56.1',
+    'https://yalasurf-a0ahbbcnd9ghdhb9.eastus-01.azurewebsites.net'
 ]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 AUTH_USER_MODEL = 'AppWeb.CustomUser'
@@ -146,4 +149,3 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(hours=5),
 }
-

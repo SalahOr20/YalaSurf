@@ -10,7 +10,7 @@ from .views import register, login_view, get_surfclub_profile, surfclub_monitors
     get_forum_details, create_message, surfclub_SurfSessions, EquipmentUpdateDeleteView, \
     SurfSessionUpdateDeleteView, LessonScheduleUpdateDeleteView, MonitorUpdateDeleteView, surfclub_equipement_types, \
     create_surf_session, surfclub_SurfSession, surfclub_orders, surfclub_orderItems, get_surfclub_equipments_buy, \
-    surf_spot_details, get_surfer_profile, get_order_details, get_new_messages, ContactView
+    surf_spot_details, get_surfer_profile, get_order_details, get_new_messages, ContactView, surfclub_monitors_dispo
 
 urlpatterns = [
     #####Urls for users#####
@@ -21,6 +21,8 @@ urlpatterns = [
     ##### GET URLs for surf club#####
     path('surf-club/profile/',get_surfclub_profile,name='get_surfclub_profile'),
     path('surf-club/monitors/',surfclub_monitors,name='surfclub_monitors'),
+    path('surf-club/monitors-dispo/', surfclub_monitors_dispo, name='surfclub_monitors_dispo'),
+
     path('surf-club/monitors/<int:pk>/', surfclub_monitor, name='surfclub_monitor'),
     path('surf-club/equipment-types/', surfclub_equipement_types, name='surfclub_equipement_types'),
     path('surf-club/equipments/', surfclub_equipements, name='surfclub_equipments'),
