@@ -1136,7 +1136,6 @@ class EquipmentUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
         partial = kwargs.pop('partial', False)
         instance = self.get_object()
 
-        # On récupère les données existantes et on les met à jour avec celles de la requête
         data = request.data.copy()
 
         # Supprimer les anciennes photos si de nouvelles photos sont téléchargées
