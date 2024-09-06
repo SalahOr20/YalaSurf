@@ -11,9 +11,9 @@ jobs:
 
     runs-on: ubuntu-latest
     strategy:
-      max-parallel: 4
+      max-parallel: 3
       matrix:
-        python-version: [3.7, 3.8, 3.9]
+        python-version: [3.8, 3.9, 3.10]
 
     steps:
     - name: Check out the repository
@@ -27,14 +27,14 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r backend/requirements.txt  # Chemin mis à jour vers le fichier requirements.txt
+        pip install -r backend/requirements.txt  # Utilisez le chemin correct de votre fichier requirements.txt
 
     - name: Run migrations
       run: |
         python manage.py migrate
-      working-directory: ./backend  # Changez si nécessaire
+      working-directory: ./backend  # Assurez-vous que le répertoire est correct
 
     - name: Run tests
       run: |
         python manage.py test
-      working-directory: ./backend  # Assurez-vous que le répertoire est correct
+      working-directory: ./backend
