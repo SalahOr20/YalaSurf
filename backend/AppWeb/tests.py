@@ -351,7 +351,6 @@ class MonitorUpdateDeleteTestCase(APITestCase):
             is_surfclub=True
         )
 
-        # Créez un SurfClub associé à cet utilisateur
         self.surf_club = SurfClub.objects.create(
             user=self.surf_club_user,
             name='Cool Surf Club',
