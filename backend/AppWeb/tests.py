@@ -344,7 +344,6 @@ class MonitorUpdateDeleteTestCase(APITestCase):
             longitude=-9.7075
         )
 
-        # Créez un utilisateur qui est un SurfClub
         self.surf_club_user = CustomUser.objects.create_user(
             email='surfclub@example.com',
             password='strong_password',
