@@ -377,7 +377,7 @@ class MonitorUpdateDeleteTestCase(APITestCase):
         response = self.client.delete(url)
 
         # Vérifiez que la requête a réussi
-        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
         # Vérifiez que le moniteur a bien été supprimé
         self.assertFalse(Monitor.objects.filter(pk=self.monitor.id).exists())
