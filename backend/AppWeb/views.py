@@ -1293,3 +1293,22 @@ class ContactView(APIView):
             serializer.save()
             return Response({"message": "Message received successfully"}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+def delete_surfer(request):
+    if request.method=='DELETE':
+        user=CustomUser.objects.get(pk=request.user.id)
+        surfer=Surfer.objects.get(user=user)
+        if surfer.delete():
+            user.delete()
+            surfer.save()
+            user.save()
+
+
+def delete_surfclub(request):
+    if request.method=='DELETE':
+        user=CustomUser.objects.get(pk=request.user.id)
+        surfclub=SurfClub.objects.get(user=user)
+        if surfclub.delete():
+            user.delete()
+            surfclub.save()
+            user.save()
