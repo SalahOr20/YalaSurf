@@ -24,9 +24,11 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r backend/requirements.txt  # Chemin vers le fichier requirements.txt
+          pip install -r backend/requirements.txt
 
       - name: Run tests
+        env:
+          GITHUB_ACTIONS: true  # Ajout de la variable pour signaler l'utilisation de SQLite
         run: |
-          cd backend  
+          cd backend
           python manage.py test
