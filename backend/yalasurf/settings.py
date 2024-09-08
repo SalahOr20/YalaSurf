@@ -79,22 +79,32 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'yalasurf.wsgi.application'
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'your_domain.com', 'your_azure_domain.azurewebsites.net']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'yalasurf-a0ahbbcnd9ghdhb9.eastus-01.azurewebsites.net']
 
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'yala_surf',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': 'localhost',  # Utilisez 'db' qui est le nom du service MySQL dans Docker Compose
-        'PORT': '3306',
+
+if os.getenv('GITHUB_ACTIONS'):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': ':memory:',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'yala_surf',
+            'USER': 'root',
+            'PASSWORD': '',
+            'HOST': 'localhost',
+            'PORT': '3306',
+        }
+    }
+
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
