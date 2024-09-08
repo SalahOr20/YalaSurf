@@ -328,7 +328,6 @@ class EquipmentUpdateTestCase(APITestCase):
             image=SimpleUploadedFile("old_photo.jpg", b"file_content", content_type="image/jpeg")
         )
 
-        # Générez un jeton JWT pour l'utilisateur surf club
         self.token = str(RefreshToken.for_user(self.surf_club_user).access_token)
 
 class MonitorUpdateDeleteTestCase(APITestCase):
