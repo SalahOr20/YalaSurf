@@ -1,24 +1,20 @@
 import json
 import logging
-import random
 from django.utils import timezone
 
 from django.db import transaction
 
 from django.contrib.auth import authenticate
 from django.contrib.auth.hashers import make_password
-from django.views.generic import CreateView
 from rest_framework import status, generics
 from rest_framework.generics import get_object_or_404
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
-from rest_framework.reverse import reverse_lazy
 from rest_framework.views import APIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken
-
 from .models import SurfClub, CustomUser, Monitor, Equipment, SurfSpot, LessonSchedule, SurfLesson, Order, Surfer, \
     SurfSession, EquipmentSelection, OrderItem, Forum, Message, Photo, EquipmentType, Contact
 from .serializer import CustomUserSerializer, SurferSerializer, SurfClubSerializer, MonitorSerializer, \
@@ -32,12 +28,8 @@ from .services import fetch_forecast
 @api_view(['POST'])
 def register(request):
     if request.method == 'POST':
-        # Log the request data
         print("Request data:", request.data)
-
-        # Créer une copie mutable de request.data
         data = request.data.copy()
-
         password = data.get('password')
         if not password:
             print("Password not provided")
@@ -116,8 +108,6 @@ def login_view(request):
 
     if user:
         refresh = RefreshToken.for_user(user)
-
-        # Préparer la réponse de base avec les tokens
         response_data = {
             'refresh': str(refresh),
             'access': str(refresh.access_token),
@@ -131,8 +121,6 @@ def login_view(request):
 
             }
         }
-
-        # Ajouter les informations supplémentaires en fonction du rôle de l'utilisateur
         if user.is_surfclub:
             surfclub = SurfClub.objects.get(user_id=user.id)
             response_data['surfclub'] = {
@@ -185,6 +173,7 @@ def get_surfclub_profile(request):
         return Response({"error": "User not found."}, status=status.HTTP_404_NOT_FOUND)
     except SurfClub.DoesNotExist:
         return Response({"error": "SurfClub not found."}, status=status.HTTP_404_NOT_FOUND)
+
 @api_view(['GET'])
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
@@ -198,6 +187,9 @@ def surfclub_monitors(request):
          }, status=status.HTTP_200_OK)
     except Monitor.DoesNotExist:
         return Response({"error": "Monitors not found."}, status=status.HTTP_404_NOT_FOUND)
+
+
+
 @api_view(['GET'])
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
@@ -304,25 +296,20 @@ def surfclub_LessonSchedule(request,pk):
 @permission_classes([IsAuthenticated])
 def surfclub_SurfSessions(request):
     try:
-        # Récupérer le club de surf associé à l'utilisateur connecté
         surf_club = SurfClub.objects.get(user=request.user)
 
-        # Récupérer toutes les sessions de surf associées au club de surf
         surf_sessions = SurfSession.objects.filter(surf_club=surf_club).select_related('lesson_schedule', 'monitor')
 
-        # Créer des listes pour les données sérialisées des moniteurs et des plannings des leçons
         surf_sessions_data = []
 
         for session in surf_sessions:
             monitor = session.monitor
             lesson_schedule = session.lesson_schedule
 
-            # Sérialisez les données de la session de surf, du moniteur et du planning de la leçon
             session_data = SurfSessionSerializer(session).data
             monitor_data = MonitorSerializer(monitor).data
             lesson_schedule_data = LessonScheduleSerializer(lesson_schedule).data
 
-            # Inclure les détails du moniteur et du planning de la leçon dans les données de la session
             session_data['monitor'] = monitor_data
             session_data['lesson_schedule'] = lesson_schedule_data
 
@@ -553,51 +540,30 @@ def update_surfclub_profile(request):
 @permission_classes([IsAuthenticated])
 def update_surfer_profile(request):
     try:
-        # Log the incoming request
-        logger.debug(f"Request data: {request.data}")
-
-        # Récupérer l'utilisateur actuel
         custom_user = CustomUser.objects.get(pk=request.user.id)
         if not custom_user.is_surfer:
-            logger.warning(f"User {custom_user.id} is not a surfer.")
             return Response({"error": "User is not a surfer."}, status=status.HTTP_400_BAD_REQUEST)
-
-        # Désérialiser les données JSON en dictionnaire Python
         user_data = json.loads(request.data.get('user', '{}'))
         surfer_data = json.loads(request.data.get('surfer', '{}'))
-
         if user_data:
-            logger.debug(f"User data received: {user_data}")
             if 'password' in user_data:
                 user_data['password'] = make_password(user_data['password'])
-                logger.debug("Password has been hashed.")
-
-        # Mise à jour des informations de l'utilisateur
         user_serializer = CustomUserSerializer(custom_user, data=user_data, partial=True)
         if user_serializer.is_valid():
             user_serializer.save()
-            logger.info(f"User {custom_user.id} data updated successfully.")
         else:
             logger.error(f"User data is invalid: {user_serializer.errors}")
             return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-        # Mise à jour des informations du profil Surfer
         surfer = Surfer.objects.get(user=custom_user)
-
-        # Gestion de la photo : Ne pas inclure 'photo' dans surfer_data si pas de fichier
         if 'photo' in request.FILES:
             surfer_data['photo'] = request.FILES['photo']
-            logger.debug("New photo uploaded.")
         else:
-            logger.debug("No new photo uploaded, keeping the existing one.")
-            surfer_data.pop('photo', None)  # Supprime le champ 'photo' s'il est présent mais vide
+            surfer_data.pop('photo', None)  # Supprime le champ 'photo'
 
         surfer_serializer = SurferSerializer(surfer, data=surfer_data, partial=True)
         if surfer_serializer.is_valid():
             surfer_serializer.save()
-            logger.info(f"Surfer profile for user {custom_user.id} updated successfully.")
         else:
-            logger.error(f"Surfer data is invalid: {surfer_serializer.errors}")
             return Response(surfer_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         return Response({
@@ -606,14 +572,12 @@ def update_surfer_profile(request):
         }, status=status.HTTP_200_OK)
 
     except CustomUser.DoesNotExist:
-        logger.error(f"User {request.user.id} not found.")
         return Response({"error": "User not found."}, status=status.HTTP_404_NOT_FOUND)
     except Surfer.DoesNotExist:
-        logger.error(f"Surfer profile for user {custom_user.id} not found.")
         return Response({"error": "Surfer profile not found."}, status=status.HTTP_404_NOT_FOUND)
     except Exception as e:
-        logger.critical(f"An unexpected error occurred: {str(e)}")
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
 ####### Post urls for surf club#######
 @api_view(['POST'])
 @authentication_classes([JWTAuthentication])
@@ -933,46 +897,29 @@ def book_surf_lesson(request):
         surf_session = SurfSession.objects.get(pk=data['surf_session_id'])
         equipment_ids = data.get('equipment_ids', [])
         equipment_quantities = data.get('equipment_quantities', {})
-
-        # Create SurfLesson instance
         surf_lesson = SurfLesson.objects.create(
             surfer=surfer,
             surf_session=surf_session
         )
-
         total_price = 0
-
-        # Add EquipmentSelection instances and update quantity
         for equipment_id in equipment_ids:
             quantity = int(equipment_quantities.get(str(equipment_id), 1))
             equipment = Equipment.objects.get(pk=equipment_id)
-
-            # Check if enough quantity is available
             if equipment.quantity < quantity:
                 return Response({
                     "error": f"Not enough quantity available for {equipment.name}. Requested: {quantity}, Available: {equipment.quantity}"
                 }, status=status.HTTP_400_BAD_REQUEST)
-
-            # Create EquipmentSelection instance
             EquipmentSelection.objects.create(
                 surf_lesson=surf_lesson,
                 equipment=equipment,
                 quantity=quantity
             )
-
-            # Update the quantity of the equipment
             equipment.quantity -= quantity
             equipment.save()
-
-            # Add to total price
             total_price += equipment.rent_price * quantity
-
-        # Update the total price in SurfLesson
         surf_lesson.total_price = total_price
         surf_lesson.save()
-
         return Response({'message': 'Surf lesson booked successfully.', 'total_price': total_price}, status=status.HTTP_201_CREATED)
-
     except SurfSession.DoesNotExist:
         return Response({"error": "Surf session not found."}, status=status.HTTP_404_NOT_FOUND)
     except Equipment.DoesNotExist:
@@ -1294,21 +1241,35 @@ class ContactView(APIView):
             return Response({"message": "Message received successfully"}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['DELETE'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def delete_surfer(request):
-    if request.method=='DELETE':
-        user=CustomUser.objects.get(pk=request.user.id)
-        surfer=Surfer.objects.get(user=user)
-        if surfer.delete():
+    if request.method == 'DELETE':
+        try:
+            user = CustomUser.objects.get(pk=request.user.id)
+            surfer = Surfer.objects.get(user=user)
+            surfer.delete()
             user.delete()
-            surfer.save()
-            user.save()
+            return Response({'message': 'Surfer and user deleted successfully'}, status=200)
+        except Surfer.DoesNotExist:
+            return Response({'error': 'Surfer not found'}, status=404)
+        except CustomUser.DoesNotExist:
+            return Response({'error': 'User not found'}, status=404)
 
 
+@api_view(['DELETE'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def delete_surfclub(request):
-    if request.method=='DELETE':
-        user=CustomUser.objects.get(pk=request.user.id)
-        surfclub=SurfClub.objects.get(user=user)
-        if surfclub.delete():
+    if request.method == 'DELETE':
+        try:
+            user = CustomUser.objects.get(pk=request.user.id)
+            surfclub = SurfClub.objects.get(user=user)
+            surfclub.delete()
             user.delete()
-            surfclub.save()
-            user.save()
+            return Response({'message': 'Surf club and user deleted successfully'}, status=200)
+        except SurfClub.DoesNotExist:
+            return Response({'error': 'Surf club not found'}, status=404)
+        except CustomUser.DoesNotExist:
+            return Response({'error': 'User not found'}, status=404)
