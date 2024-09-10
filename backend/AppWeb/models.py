@@ -97,7 +97,7 @@ class Equipment(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
     size = models.CharField(max_length=50)
-    state = models.CharField(max_length=50)  # e.g., New, Used, Damaged
+    state = models.CharField(max_length=50)
     material_type = models.CharField(max_length=4, choices=MATERIAL_TYPE_CHOICES, default='rent')
     equipment_type = models.ForeignKey('EquipmentType', on_delete=models.CASCADE, related_name='equipment')
     surf_club = models.ForeignKey('SurfClub', on_delete=models.CASCADE, related_name='equipment')
@@ -116,6 +116,9 @@ class SurfSpot(models.Model):
     description = models.TextField()
     latitude = models.FloatField(null=True)
     longitude = models.FloatField(null=True)
+
+    def __str__(self):
+        return f"{self.name}"
 
 class Monitor(models.Model):
     first_name = models.CharField(max_length=30)
