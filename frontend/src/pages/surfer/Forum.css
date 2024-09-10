@@ -28,7 +28,7 @@
     justify-content: flex-end;
     margin-left: auto;
     text-align: right;
-    flex-direction: row-reverse; /* Inverser l'ordre de l'avatar et du message */
+    flex-direction: row-reverse; 
 }
 
 .message-received {
@@ -50,7 +50,7 @@
 }
 
 .message-sent .message-avatar {
-    margin-left: 10px; /* Avatar à gauche pour les messages envoyés */
+    margin-left: 10px;
     margin-right: 0;
 }
 
@@ -73,7 +73,7 @@
 }
 
 .message-sent .message-content {
-    background-color: #d1e7ff; /* Couleur de fond différente pour les messages envoyés */
+    background-color: #d1e7ff; 
 }
 
 .message-timestamp {

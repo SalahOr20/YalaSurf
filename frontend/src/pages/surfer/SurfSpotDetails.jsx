@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import SurfClubList from '../../components/SurfClubList'; // Assurez-vous que ce chemin est correct
-import './SurfSpotDetails.css'; // Fichier CSS spécifique
+import SurfClubList from '../../components/SurfClubList'; 
+import './SurfSpotDetails.css'; 
 
 const SurfSpotDetails = () => {
     const { id } = useParams();
@@ -46,7 +46,6 @@ const SurfSpotDetails = () => {
                     <h2 className="surfspot-info-title">{surfSpot.name}</h2>
                     <p className="surfspot-info-description">{surfSpot.description}</p>
                     
-                    {/* Ajout de l'icône d'adresse à côté du texte */}
                     <p className="surfspot-info-address">
                         <i className="fas fa-map-marker-alt"></i> {surfSpot.address}
                     </p>

@@ -123,7 +123,6 @@ const ContentWithFooter = ({ userRole, setUserRole }) => {
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
 
-      {/* Afficher le footer uniquement si l'utilisateur n'est pas dans le dashboard */}
       {!isDashboard && <Footer />}
     </>
   );

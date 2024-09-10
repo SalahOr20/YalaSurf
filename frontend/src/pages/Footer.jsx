@@ -1,13 +1,12 @@
 import React from 'react';
-import './Footer.css'; // Assurez-vous de créer ce fichier pour les styles
-import logo from '../assets/logo_yalasurf.png'; // Assurez-vous que le chemin du logo est correct
-import { useUser } from '../context/UserContext'; // Importez le contexte utilisateur
+import './Footer.css'; 
+import logo from '../assets/logo_yalasurf.png'; 
+import { useUser } from '../context/UserContext'; 
 import { Link } from 'react-router-dom';
 
 const Footer = () => {
-  const { userRole } = useUser(); // Obtenez le rôle de l'utilisateur
+  const { userRole } = useUser(); 
 
-  // Liens de navigation pour le surfer
   const surferLinks = [
     { name: 'Surf Clubs', path: '/surf-clubs' },
     { name: 'Prévisions', path: '/previsions' },
@@ -16,14 +15,12 @@ const Footer = () => {
     { name: 'Mon Profil', path: '/surfer/profile' },
   ];
 
-  // Liens de navigation pour le surf club
   const surfClubLinks = [
     { name: 'Dashboard', path: '/dashboard' },
     { name: 'Mon Profil', path: '/surfclub/profile' },
     { name: 'Contact', path: '/contact' },
   ];
 
-  // Sélectionnez les liens en fonction du rôle
   const navigationLinks = userRole === 'surfer' ? surferLinks : surfClubLinks;
 
   return (
@@ -64,8 +61,8 @@ const Footer = () => {
 
         <div className="footer-section contact">
           <h3>Contact Us</h3>
-          <p><i className="fas fa-map-marker-alt"></i> 8502 Preston Rd. Inglewood, Maine 98380, USA</p>
-          <p><i className="fas fa-envelope"></i> support@yalasurf.co</p>
+          <p><i className="fas fa-map-marker-alt"></i> 19 Abderrahim Bouabid, Rabat 10100, Morocoo</p>
+          <p><i className="fas fa-envelope"></i> support@yalasurf.com</p>
         </div>
       </div>
     </footer>

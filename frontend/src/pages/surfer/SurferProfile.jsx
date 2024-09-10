@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './SurferProfile.css';
 import { FaUser, FaCalendarAlt, FaEnvelope, FaMapMarkerAlt, FaPhoneAlt, FaShoppingCart } from 'react-icons/fa';
 
@@ -8,16 +8,19 @@ const SurferProfile = () => {
     const [profile, setProfile] = useState(null);
     const [selectedOrder, setSelectedOrder] = useState(null);
     const [orderDetails, setOrderDetails] = useState(null);
-
     const token = localStorage.getItem('accessToken');
+    const navigate = useNavigate();
+
+    const BACKEND_URL = 'http://localhost:8000'; 
 
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const response = await axios.get(`http://localhost:8000/api/surfer/profile/`, {
+                const response = await axios.get(`${BACKEND_URL}/api/surfer/profile/`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 setProfile(response.data);
+                console.log(response.data);
             } catch (error) {
                 console.error("Failed to fetch profile", error);
             }
@@ -30,7 +33,7 @@ const SurferProfile = () => {
         if (selectedOrder) {
             const fetchOrderDetails = async () => {
                 try {
-                    const response = await axios.get(`http://localhost:8000/api/surfers/order/${selectedOrder}/`, {
+                    const response = await axios.get(`${BACKEND_URL}/api/surfers/order/${selectedOrder}/`, {
                         headers: { 'Authorization': `Bearer ${token}` }
                     });
                     setOrderDetails(response.data);
@@ -43,23 +46,40 @@ const SurferProfile = () => {
         }
     }, [selectedOrder, token]);
 
+    const handleDelete = async () => {
+        try {
+            await axios.delete(`${BACKEND_URL}/api/surfer/delete/`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            localStorage.removeItem('accessToken');
+            navigate('/login');
+        } catch (error) {
+            console.error("Failed to delete profile", error);
+        }
+    };
+
     if (!profile) return <p>Loading...</p>;
 
     return (
         <div className="surfer-profile-page">
             <div className="surfer-profile-header">
                 <h1>Surfer Profile</h1>
-                <Link to="/surfer/edit" className="surfer-edit-button">
-                    Edit Profile
-                </Link>
+                <div className="button-group">
+                    <Link to="/surfer/edit" className="surfer-edit-button">
+                        Edit Profile
+                    </Link>
+                    <button onClick={handleDelete} className="surfer-delete-button">
+                        Delete Profile
+                    </button>
+                </div>
             </div>
 
             <div className="surfer-profile-container">
                 <div className="surfer-card">
                     <h2>User Information</h2>
                     <p><FaEnvelope /> <strong>Email:</strong> {profile.user.email}</p>
-                    <p><FaMapMarkerAlt /> <strong>Address:</strong> {profile.user.address}</p>
-                    <p><FaPhoneAlt /> <strong>Phone Number:</strong> {profile.user.phone_number}</p>
+                    <p><FaMapMarkerAlt /> <strong>Address:</strong> {profile.user.address || 'N/A'}</p>
+                    <p><FaPhoneAlt /> <strong>Phone Number:</strong> {profile.user.phone_number || 'N/A'}</p>
                 </div>
 
                 <div className="surfer-card">
@@ -72,10 +92,10 @@ const SurferProfile = () => {
                         <div>
                             <h3>Profile Photo</h3>
                             <img
-                src={`http://localhost:8000${profile['surfer'].photo}`}
-                alt="Club Logo"
-                className="club-logo"
-            />
+                                src={`${BACKEND_URL}${profile.surfer.photo}`}
+                                alt="Surfer Photo"
+                                className="surfer-photo"
+                            />
                         </div>
                     )}
                 </div>
@@ -89,7 +109,13 @@ const SurferProfile = () => {
                             <div key={session.id} className="surfer-session">
                                 <p><FaUser /> <strong>Monitor:</strong> {session.monitor_first_name} {session.monitor_last_name}</p>
                                 <p><FaCalendarAlt /> <strong>Day:</strong> {session.day}</p>
-                                <img src={session.monitor_photo} alt={`${session.monitor_first_name} ${session.monitor_last_name}`} className="surfer-session-photo" />
+                                {session.monitor_photo && (
+                                    <img
+                                        src={`${BACKEND_URL}${session.monitor_photo}`}
+                                        alt={`${session.monitor_first_name} ${session.monitor_last_name}`}
+                                        className="surfer-session-photo"
+                                    />
+                                )}
                                 <hr className="session-separator" />
                             </div>
                         ))
@@ -105,7 +131,13 @@ const SurferProfile = () => {
                             <div key={session.id} className="surfer-session">
                                 <p><FaUser /> <strong>Monitor:</strong> {session.monitor_first_name} {session.monitor_last_name}</p>
                                 <p><FaCalendarAlt /> <strong>Day:</strong> {session.day}</p>
-                                <img src={session.monitor_photo} alt={`${session.monitor_first_name} ${session.monitor_last_name}`} className="surfer-session-photo" />
+                                {session.monitor_photo && (
+                                    <img
+                                        src={`${BACKEND_URL}${session.monitor_photo}`}
+                                        alt={`${session.monitor_first_name} ${session.monitor_last_name}`}
+                                        className="surfer-session-photo"
+                                    />
+                                )}
                                 <hr className="session-separator" />
                             </div>
                         ))

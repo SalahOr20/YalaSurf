@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import './SurfLessonDetail.css'; // Make sure to create this CSS file
+import './SurfLessonDetail.css'; 
 
 const SurfLessonDetail = () => {
   const [surfLesson, setSurfLesson] = useState(null);

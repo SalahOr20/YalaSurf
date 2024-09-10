@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import './SurfSpotsList.css'; // Import your CSS file for styling
-import surfVideo from '../../assets/video/forecast.mp4'; // Import the video file
+import './SurfSpotsList.css'; 
+import surfVideo from '../../assets/video/forecast.mp4'; 
 
 const SpotsList = () => {
     const [spots, setSpots] = useState([]);
@@ -27,7 +27,6 @@ const SpotsList = () => {
 
     return (
         <div>
-            {/* Video Header Section */}
             <div className="video-header-container">
                 <video autoPlay loop muted className="video-background">
                     <source src={surfVideo} type="video/mp4" />
@@ -39,7 +38,6 @@ const SpotsList = () => {
                 </div>
             </div>
 
-            {/* Surf Spots Section */}
             <div className="spots-list-container">
                 <h1 className="spots-title">Surf Spots</h1>
                 <div className="spots-grid">

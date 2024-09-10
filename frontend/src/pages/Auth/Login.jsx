@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../../context/UserContext';
 import './Login.css';
-import logo from '../../assets/logo_yalasurf.png'; // Assurez-vous que le chemin est correct
+import logo from '../../assets/logo_yalasurf.png'; 
 
 const Login = () => {
   const [email, setEmail] = useState('');

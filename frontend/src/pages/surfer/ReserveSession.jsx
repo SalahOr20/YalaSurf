@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
-import { FaCalendarAlt, FaClock, FaUser, FaCheckCircle, FaShoppingCart, FaExclamationCircle } from 'react-icons/fa'; 
 import './ReserveSession.css'; 
+import PhotoEquipment from '../../assets/equipmentts.jpg'; 
 
 const ReserveSession = () => {
     const { id } = useParams();
-    const navigate = useNavigate(); 
     const [sessions, setSessions] = useState([]);
     const [equipments, setEquipments] = useState([]);
     const [selectedSession, setSelectedSession] = useState(null);
     const [selectedEquipment, setSelectedEquipment] = useState([]);
     const [equipmentQuantities, setEquipmentQuantities] = useState({});
     const [errorMessage, setErrorMessage] = useState('');
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchReserveSessionDetails = async () => {
@@ -42,17 +42,15 @@ const ReserveSession = () => {
             const isSelected = prev.includes(equipment);
 
             if (isSelected) {
-                // Si déjà sélectionné, retirer de la sélection
                 const updatedEquipment = prev.filter(item => item !== equipment);
                 const { [equipment.id]: removed, ...rest } = equipmentQuantities;
                 setEquipmentQuantities(rest);
                 return updatedEquipment;
             } else {
                 if (equipment.quantity > 0) {
-                    // Si la quantité est disponible, ajouter à la sélection
                     setEquipmentQuantities(prevQuantities => ({
                         ...prevQuantities,
-                        [equipment.id]: 1, // Initialise avec 1 par défaut
+                        [equipment.id]: 1, 
                     }));
                     return [...prev, equipment];
                 } else {
@@ -73,11 +71,11 @@ const ReserveSession = () => {
 
     const handleSubmit = async () => {
         if (!selectedSession) {
-            setErrorMessage("Vous devez sélectionner une session de surf.");
+            setErrorMessage("You have to select a surf session!");
             return;
         }
         if (selectedEquipment.length === 0) {
-            setErrorMessage("Vous devez sélectionner au moins un matériel.");
+            setErrorMessage("You have to select at least one equipment!");
             return;
         }
 
@@ -96,8 +94,7 @@ const ReserveSession = () => {
                     }
                 }
             );
-            alert('Réservation confirmée!');
-            navigate('/'); 
+           navigate('/surfer/profile')
         } catch (error) {
             console.error("Failed to book surf lesson", error);
             setErrorMessage("Erreur lors de la réservation. Veuillez réessayer.");
@@ -106,11 +103,11 @@ const ReserveSession = () => {
 
     return (
         <div className="reserve-session-page">
-            <h1 className="reserve-session-title"><FaCalendarAlt /> Book a session</h1>
-            {errorMessage && <p className="reserve-session-error"><FaExclamationCircle /> {errorMessage}</p>}
+            <h1 className="reserve-session-title">Book a session</h1>
+            {errorMessage && <p className="reserve-session-error">{errorMessage}</p>}
             
             <div className="reserve-session-list">
-                <h2 className="reserve-session-subtitle"><FaClock /> Select a session</h2>
+                <h2 className="reserve-session-subtitle">Select a session</h2>
                 <ul>
                     {sessions.map((session) => (
                         <li key={session.id}>
@@ -124,26 +121,20 @@ const ReserveSession = () => {
 
             {selectedSession && (
                 <div className="reserve-session-details">
-                    <h2 className="reserve-session-subtitle"><FaUser /> Détails of Session</h2>
+                    <h2 className="reserve-session-subtitle">Détails of the session</h2>
                     <div className="session-details-grid">
-                        <div className='Infos'>
-                        <div className="session-details-item">
-                            <p><FaCalendarAlt />  {new Date(selectedSession.lesson_schedule.day).toLocaleDateString()}</p>
+                        <div className="Infos">
+                            <p>Date: {new Date(selectedSession.lesson_schedule.day).toLocaleDateString()}</p>
+                            <p>Houre: {selectedSession.lesson_schedule.start_time} - {selectedSession.lesson_schedule.end_time}</p>
                         </div>
-                        <div className="session-details-item">
-                            <p><FaClock /> Time: {selectedSession.lesson_schedule.start_time} - {selectedSession.lesson_schedule.end_time}</p>
-                        </div>
-                        </div>
-                        <div className='Monitor'>
-                        <div className="session-details-item monitor-info">
-                            <h3 className="reserve-monitor-info-title">Monitor</h3>
+                        <div className="Monitor">
+                            <h3>Monitor</h3>
                             <img
                                 src={`http://localhost:8000${selectedSession.monitor.photo}`}
                                 alt={`${selectedSession.monitor.first_name} ${selectedSession.monitor.last_name}`}
                                 className="monitor-photo"
                             />
-                            <strong><p>{selectedSession.monitor.first_name} {selectedSession.monitor.last_name}</p></strong>
-                        </div>
+                            <strong>{selectedSession.monitor.first_name} {selectedSession.monitor.last_name}</strong>
                         </div>
                     </div>
                 </div>
@@ -151,24 +142,26 @@ const ReserveSession = () => {
 
             {selectedSession && (
                 <div className="reserve-equipments-section">
-                    <h2 className="reserve-session-subtitle"><FaShoppingCart /> Select an equipment</h2>
+                    <h2 className="reserve-session-subtitle">Select an equipment</h2>
                     <ul className="reserve-equipments-list">
                         {equipments.map((equipment) => (
                             <li key={equipment.id} className={`equipment-card ${selectedEquipment.includes(equipment) ? 'selected' : ''}`}>
-                                <div 
-                                    className="equipment-photo" 
-                                    style={{ backgroundImage: `url(http://localhost:8000${equipment.photos[0]?.image})` }}
-                                    onClick={() => handleEquipmentSelect(equipment)}
-                                >
-                                    <div className="equipment-overlay">
-                                        <strong>{equipment.name}</strong><br />
-                                        <strong>{equipment.rent_price}€</strong><br />
-                                        <strong>Quantité disponible: {equipment.quantity}</strong>
-                                    </div>
+                                <div className="equipment-photo" onClick={() => handleEquipmentSelect(equipment)}>
+                                    <img 
+                                        src={`http://localhost:8000${equipment.photos[0]?.image}`} 
+                                        alt={equipment.name} 
+                                        className="equipment-image"
+                                        onError={(e) => { e.target.src = PhotoEquipment; }} /* Si l'image n'est pas trouvée, utiliser l'image par défaut */
+                                    />
+                                </div>
+                                <div className="equipment-overlay">
+                                    <strong>{equipment.name}</strong><br />
+                                    <strong>{equipment.rent_price}€</strong><br />
+                                    <strong>Quantity: {equipment.quantity}</strong>
                                 </div>
                                 {selectedEquipment.includes(equipment) && (
                                     <div className="quantity-selector">
-                                        <label>Quantity:</label>
+                                        <label>Quantity :</label>
                                         <input
                                             type="number"
                                             value={equipmentQuantities[equipment.id]}
@@ -186,9 +179,9 @@ const ReserveSession = () => {
 
             {selectedSession && (
                 <div className="reserve-summary">
-                    <h2 className="reserve-session-subtitle"><FaCheckCircle /> Reservation Summary :</h2>
-                    <p><FaCalendarAlt /> Session: {new Date(selectedSession.lesson_schedule.day).toLocaleDateString()} - {selectedSession.lesson_schedule.start_time} à {selectedSession.lesson_schedule.end_time}</p>
-                    <p>Selected equipments:</p>
+                    <h2 className="reserve-session-subtitle">Summary of your reservation</h2>
+                    <p>Session: {new Date(selectedSession.lesson_schedule.day).toLocaleDateString()} - {selectedSession.lesson_schedule.start_time} à {selectedSession.lesson_schedule.end_time}</p>
+                    <p>Équipments selected:</p>
                     <ul>
                         {selectedEquipment.map((equipment) => (
                             <li key={equipment.id}>{equipment.name} - Quantity: {equipmentQuantities[equipment.id]}</li>

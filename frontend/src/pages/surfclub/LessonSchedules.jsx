@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import './LessonSchedules.css'; // Import the CSS file for styling
+import './LessonSchedules.css'; 
 
 const LessonSchedules = () => {
   const [lessonSchedules, setLessonSchedules] = useState([]);
 
-  // Function to retrieve authentication token
   const getAuthToken = () => {
     return localStorage.getItem('accessToken');
   };

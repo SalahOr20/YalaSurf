@@ -11,25 +11,25 @@
     align-items: center;
     justify-content: center;
     background-color: #f9f9f9;
-    padding: 0; /* Retire la marge */
-    border-radius: 8px 0 0 8px; /* Pour arrondir les coins si nécessaire */
+    padding: 0; 
+    border-radius: 8px 0 0 8px;
 }
 
 .monitor-form-left img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 40px 0 0 40px; /* Arrondit les coins à gauche */
+    border-radius: 40px 0 0 40px; 
 }
 
 .monitor-form-right {
     flex: 1;
-    padding: 40px; /* Ajustez selon vos besoins */
+    padding: 40px; 
     background-color: #ffffff;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    border-radius: 0 8px 8px 0; /* Pour arrondir les coins à droite */
+    border-radius: 0 8px 8px 0; 
 }
 
 .monitor-form {

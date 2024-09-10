@@ -46,7 +46,7 @@
 
 .condition-icon {
     font-size: 2rem;
-    color: #007bff; /* Blue color for the icons */
+    color: #007bff; 
     position: absolute;
     top: 10px;
     left: 10px;
@@ -55,7 +55,7 @@
 .condition-label {
     font-size: 0.9rem;
     color: #888;
-    margin-top: 30px; /* Adjust to avoid overlap with icon */
+    margin-top: 30px; 
 }
 
 .condition-value {
@@ -65,7 +65,7 @@
 }
 
 .condition-rating {
-    color: #ff8c00; /* Orange color for the rating */
+    color: #ff8c00; 
 }
 
 .forecast-details {

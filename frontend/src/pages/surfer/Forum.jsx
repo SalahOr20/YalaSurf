@@ -10,14 +10,12 @@ const Forum = () => {
     const [newMessage, setNewMessage] = useState('');
     const [lastMessageId, setLastMessageId] = useState(null);
 
-    // Récupérer les données utilisateur du stockage local
     const token = localStorage.getItem('accessToken');
     const storedSurfer = JSON.parse(localStorage.getItem('surfer'));
     const userPhoto = storedSurfer ? storedSurfer.photo : null;
     const currentUserId = storedSurfer ? storedSurfer.id : null;
     const userName = storedSurfer ? storedSurfer.firstname : null;
 
-    // Log des valeurs pour vérifier si elles sont correctes
     console.log('currentUserId:', currentUserId);
     console.log('userPhoto:', userPhoto);
 

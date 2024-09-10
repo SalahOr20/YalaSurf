@@ -17,7 +17,25 @@
     text-decoration: none;
     font-size: 1rem;
 }
-
+.surfer-delete-button{
+    background-color: #ff2600;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    margin-left: 5px;
+    text-decoration: none;
+    font-size: 1rem;
+    border: #ff2600;
+}
+.details-button{
+    background-color: #3D5798;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 1rem;
+    border: #3D5798;
+}
 .surfer-profile-container {
     display: flex;
     justify-content: space-between;

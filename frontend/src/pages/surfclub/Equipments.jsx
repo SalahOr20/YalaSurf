@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-import './Equipments.css'; // Ensure you have the CSS for styling
-import defaultEquipmentImage from '../../assets/equipment.jpg'; // Default image for equipment
+import './Equipments.css'; 
+import defaultEquipmentImage from '../../assets/equipment.jpg'; 
 
 const Equipments = () => {
   const [equipments, setEquipments] = useState([]);
@@ -72,7 +72,6 @@ const Equipments = () => {
               <p><i className="fas fa-ruler"></i> {equipment.size}</p>
               <p><i className="fas fa-tag"></i> {equipment.state}</p>
 
-              {/* Affichage du prix en fonction du type (Rent ou Sale) */}
               {equipment.material_type === 'rent' && (
                 <p><i className="fas fa-dollar-sign"></i>{equipment.rent_price}</p>
               )}
@@ -80,7 +79,6 @@ const Equipments = () => {
                 <p><i className="fas fa-dollar-sign"></i> {equipment.sale_price}</p>
               )}
 
-              {/* Affichage de la quantité */}
               <p><i className="fas fa-boxes"></i> {equipment.quantity}</p>
 
               <div className="equipment-actions">

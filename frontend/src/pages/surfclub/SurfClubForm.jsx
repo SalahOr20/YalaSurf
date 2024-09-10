@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import './SurfClubForm.css'; // Assurez-vous d'importer le fichier CSS
-import logoImage from '../../assets/logo_yalasurf.png'; // Assurez-vous que le chemin est correct
+import './SurfClubForm.css'; 
+import logoImage from '../../assets/logo_yalasurf.png'; 
 
 const SurfClubForm = () => {
   const [email, setEmail] = useState('');
@@ -86,7 +86,6 @@ const SurfClubForm = () => {
       navigate('/login');
     } catch (error) {
       console.error('Error registering:', error);
-      // Handle errors (e.g., show error messages)
     }
   };
 

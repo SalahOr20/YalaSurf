@@ -1,21 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaUser, FaShoppingCart } from 'react-icons/fa'; // Import icons
+import { FaUser, FaShoppingCart } from 'react-icons/fa'; 
 import './Header.css';
 import logo from '../assets/logo_yalasurf.png';
 
 const Header = ({ userRole, setUserRole }) => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [cartCount, setCartCount] = useState(0); // State to hold cart count
-  const [firstName, setFirstName] = useState(''); // State to hold the first name
+  const [cartCount, setCartCount] = useState(0); 
+  const [firstName, setFirstName] = useState(''); 
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Retrieve cart count from local storage
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
     setCartCount(cart.reduce((total, item) => total + item.quantity, 0));
 
-    // Retrieve user first name based on role
     if (userRole === 'surfer') {
       const surfer = JSON.parse(localStorage.getItem('surfer')) || {};
       setFirstName(surfer.firstname || 'Surfer');
@@ -73,7 +71,6 @@ const Header = ({ userRole, setUserRole }) => {
                 <Link className="nav-link" to="/contact">Contact</Link>
               </li>
 
-              {/* Add auth links here */}
               {userRole && (
                 <li className="nav-item">
                   <Link className="nav-link" to={userRole === 'surfer' ? "/surfer/profile" : "/surfclub/profile"}>

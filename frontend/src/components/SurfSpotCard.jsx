@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import defaultImage from '../assets/bouznika.jpg'; // Ensure this image is in the correct path
+import defaultImage from '../assets/bouznika.jpg'; 
 
 const SurfSpotCard = ({ surfSpot }) => {
     const photoUrl = surfSpot.photos && surfSpot.photos.length > 0

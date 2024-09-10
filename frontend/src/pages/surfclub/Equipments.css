@@ -6,7 +6,6 @@
     color: #3D5798 !important;
     font-weight: 600;
 }
-/* Bouton "Add New Equipment" */
 .add-link {
     position: absolute;
     top: 20px;
@@ -27,7 +26,7 @@
 .equipments-list {
     list-style: none;
     padding: 0;
-    margin-top: 60px; /* Espace pour le bouton */
+    margin-top: 60px; 
 }
 
 .equipment-item {
@@ -39,7 +38,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
     transition: transform 0.2s ease-in-out;
-    height: 150px; /* Hauteur fixe pour toutes les cartes */
+    height: 150px; 
 }
 
 .equipment-item:hover {
@@ -61,15 +60,15 @@
     flex: 1;
     padding: 20px;
     display: flex;
-    flex-direction: row; /* Aligner les éléments horizontalement */
-    justify-content: space-between; /* Espacer les informations et les actions */
+    flex-direction: row; 
+    justify-content: space-between; 
     align-items: center;
 }
 
 .equipment-info {
     display: flex;
-    gap: 30px; /* Espace entre les détails */
-    align-items: center; /* Centrer verticalement */
+    gap: 30px; 
+    align-items: center;
 }
 
 .equipment-detail {
@@ -88,7 +87,7 @@
 .equipment-actions {
     display: flex;
     gap: 20px;
-    align-items: center; /* Aligner les icônes verticalement */
+    align-items: center; 
 }
 
 .equipment-actions .action-link {
@@ -106,7 +105,6 @@
     color: #1a73e8;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
     .add-link {
         position: relative;

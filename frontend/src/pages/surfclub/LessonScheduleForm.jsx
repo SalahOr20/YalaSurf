@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
-import './LessonScheduleForm.css'; // Import the CSS file for styling
+import './LessonScheduleForm.css'; 
 
 const LessonScheduleForm = () => {
   const { id } = useParams();
@@ -10,12 +10,11 @@ const LessonScheduleForm = () => {
     surf_club: '',
     start_time: '',
     end_time: '',
-    day: '',  // Changing 'day_of_week' to 'day' of type Date
+    day: '',  
   });
   const [isEditing, setIsEditing] = useState(false);
   const [error, setError] = useState('');
 
-  // Function to get the authentication token
   const getAuthToken = () => {
     return localStorage.getItem('accessToken');
   };

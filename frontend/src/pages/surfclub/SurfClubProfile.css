@@ -11,16 +11,27 @@
     align-items: center;
     margin-bottom: 30px;
 }
-
+.surfclub-delete-button{
+ 
+        background-color: #ff2600;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 5px;
+        margin-left: 5px;
+        text-decoration: none;
+        font-size: 1rem;
+        border: #ff2600;
+    
+}
 h1 {
     font-size: 2.5rem;
-    color: #007bff;
+    color: #3D5798;
     margin: 0;
 }
 
 .edit-button {
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: #3D5798;
     color: white;
     border: none;
     border-radius: 5px;
@@ -51,22 +62,8 @@ h1 {
     min-width: 400px;
 }
 
-.logo-container {
-    margin-bottom: 20px;
-}
 
-.club-logo {
-    width: 300px;
-    height: auto;
-    border-radius: 10px;
-    object-fit: cover;
-    border: 2px solid #007bff;
-}
 
-.club-details {
-    text-align: left;
-    width: 100%;
-}
 
 .card {
     background-color: white;
@@ -128,7 +125,6 @@ p strong {
     height: auto;
     border-radius: 10px;
     object-fit: cover;
-    border: 2px solid #007bff;
 }
 
 .club-details {

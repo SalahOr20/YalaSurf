@@ -1,8 +1,7 @@
 import React from 'react';
-import './Accueil.css';  // Assurez-vous que ce fichier est bien créé pour les styles
-import videoSrc from '../assets/video/surf.mp4'; // Import de la vidéo
+import './Accueil.css';  
+import videoSrc from '../assets/video/surf.mp4'; 
 
-// Import des images pour la section blog
 import blogImage1 from '../assets/banana.png';
 import blogImage2 from '../assets/bouznika.jpg';
 import blogImage3 from '../assets/taghazout.jpg';
@@ -14,18 +13,17 @@ const Accueil = () => {
         <div className="hero-content">
           <h1> Yala'Surf</h1>
           <p>Your go-to platform for everything surf-related in Morocco. Designed for both beginners and seasoned surfers, as well as surf clubs.</p>
-          <a href="#" className="cta-button">More Details</a>
+          <a href="#details" className="cta-button">More Details</a>
         </div>
         <div className="scroll-indicator">
-          <i className="fas fa-angle-down"></i>
+          <i  className="fas fa-angle-down"></i>
         </div>
       </div>
 
-      {/* "Meet Flowspark" Section */}
       <div className="meet-flowspark-section">
         <div className="meet-flowspark-content">
           <h2>Let's ride it</h2>
-          <p> Riding waves feels like dancing with nature. As you rise on your board, there’s a rush of adrenaline mixed with pure joy. </p>
+          <p id='details'> Riding waves feels like dancing with nature. As you rise on your board, there’s a rush of adrenaline mixed with pure joy. </p>
         </div>
         <div className="meet-flowspark-details">
           <div className="video-placeholder">
@@ -47,7 +45,6 @@ const Accueil = () => {
         </div>
       </div>
 
-      {/* "Latest from Blog" Section */}
       <div className="latest-from-blog-section">
         <h2>Popular Spots</h2>
         <p>Here are some of the most popular surfing spots in Morocco !</p>

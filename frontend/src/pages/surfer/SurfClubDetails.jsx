@@ -5,7 +5,7 @@ import './SurfClubDetails.css';
 const SurfClubDetails = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const { club } = location.state || {}; // Récupérer les données du club depuis state
+    const { club } = location.state || {}; 
 
     if (!club) {
         return <p className="surfclub-details-loading">Loading...</p>;

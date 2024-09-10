@@ -39,13 +39,12 @@ const SpotsList = () => {
                 </div>
             </div>
 
-            {/* Surf Spots Section */}
             <div className="spots-list-container">
                 <h1 className="spots-title">Surf Spots</h1>
                 <div className="spots-grid">
                     {spots.map((spot) => (
                         <Link 
-                            to={`/forum/${spot.id}`}  // This line ensures redirection to the forum
+                            to={`/forum/${spot.id}`}  
                             className="spot-card"
                             key={spot.id}
                         >

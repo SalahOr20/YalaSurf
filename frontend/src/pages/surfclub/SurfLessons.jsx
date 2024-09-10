@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import './SurfLessons.css'; // Importez le fichier CSS pour styliser les composants
+import './SurfLessons.css'; 
 
 const SurfLessons = () => {
   const [surfLessons, setSurfLessons] = useState([]);
@@ -40,7 +40,7 @@ const SurfLessons = () => {
                   <p className="lesson-detail">Level: {lesson.surfer.level}</p>
                   <p className="lesson-price">
                     <i className="fas fa-dollar-sign"></i> {lesson.total_price}
-                  </p> {/* Ajout du prix total avec l'icône */}
+                  </p> 
                 </div>
               </div>
             </Link>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import './SurfSessions.css'; // Import the CSS file for styling
+import './SurfSessions.css'; 
 
 const SurfSessions = () => {
   const [surfSessions, setSurfSessions] = useState([]);

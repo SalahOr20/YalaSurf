@@ -48,7 +48,6 @@ const Contact = () => {
 
   return (
     <div className="contact-page">
-      {/* Section d'en-tête */}
       <div className="contact-page-header-section">
         <div className="contact-page-overlay-text">
           <h1>Yala' discuss</h1>
@@ -59,22 +58,21 @@ const Contact = () => {
           <div className="contact-page-info-box">
             <i className="fas fa-map-marker-alt"></i>
             <h5>Physical Address</h5>
-            <p>304 North Cardinal St.<br />Dorchester Center, MA 02124</p>
+            <p>19 Abderrahim Bouabid,<br /> Rabat 10100, Morocoo</p>
           </div>
           <div className="contact-page-info-box">
             <i className="fas fa-envelope"></i>
             <h5>Email Address</h5>
-            <p>info@company.com<br />contact@company.com</p>
+            <p>support@yalasurf.com</p>
           </div>
           <div className="contact-page-info-box">
             <i className="fas fa-phone"></i>
             <h5>Phone Numbers</h5>
-            <p>1-555-123-4567<br />1-800-123-4567</p>
+            <p>+212 6 10 75 02 59<br />+212 7 85 23 12 90</p>
           </div>
         </div>
       </div>
 
-      {/* Section du formulaire de contact */}
       <div className="contact-page-form-section">
         <h2>Send Us Your Message</h2>
         <p>

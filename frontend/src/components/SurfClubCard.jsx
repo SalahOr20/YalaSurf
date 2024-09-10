@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './SurfClubCard.css'; // Assurez-vous que ce fichier CSS est bien lié
+import './SurfClubCard.css'; 
 
 const SurfClubCard = ({ club }) => {
     return (

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
-import './SurfSessionForm.css'; // Assurez-vous de créer et d'utiliser ce fichier CSS pour le style
+import './SurfSessionForm.css'; 
 
 const SurfSessionForm = () => {
   const [lessonSchedules, setLessonSchedules] = useState([]);
@@ -12,9 +12,9 @@ const SurfSessionForm = () => {
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { id } = useParams(); // Récupère l'ID pour l'édition
+  const { id } = useParams(); 
   const navigate = useNavigate();
-  const isEdit = !!id; // Détermine si on est en mode édition en fonction de la présence de `id`
+  const isEdit = !!id; 
 
   useEffect(() => {
     const fetchLessonSchedules = async () => {
@@ -48,23 +48,22 @@ const SurfSessionForm = () => {
         const response = await axios.get(`http://localhost:8000/api/surf-club/surf-sessions/${id}/`, { headers });
         setFormData({
           lesson_schedule: response.data.SurfSession.lesson_schedule.id,
-          monitor: response.data.SurfSession.monitor?.id || '' // Pré-remplir avec le moniteur existant, ou vide si absent
+          monitor: response.data.SurfSession.monitor?.id || '' 
         });
-        setLoading(false); // Arrête le chargement après avoir récupéré les données
+        setLoading(false); 
       } catch (err) {
         setError('Error fetching surf session details.');
         console.error('Error fetching surf session details:', err);
       }
     };
 
-    // Récupère les données pour le mode création ou édition
     const fetchData = async () => {
       await fetchLessonSchedules();
       await fetchMonitors();
       if (isEdit) {
         await fetchDataForEdit();
       } else {
-        setLoading(false); // Arrête le chargement en mode création
+        setLoading(false); 
       }
     };
 
@@ -96,7 +95,7 @@ const SurfSessionForm = () => {
         data: formData
       });
 
-      navigate('/surf-session'); // Redirige vers la liste des sessions après la soumission réussie
+      navigate('surf-session'); 
     } catch (err) {
       setError('Error submitting the form.');
       console.error('Error submitting the form:', err);
@@ -136,7 +135,7 @@ const SurfSessionForm = () => {
             value={formData.monitor}
             onChange={handleChange}
             className="form-control"
-            required={!isEdit} // Le champ est obligatoire en mode création et non obligatoire en édition
+            required={!isEdit} 
           >
             <option value="">Select a monitor</option>
             {monitors.map(monitor => (

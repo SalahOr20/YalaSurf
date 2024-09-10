@@ -22,11 +22,11 @@ const Forecast = () => {
                     });
                     const forecastData = response.data.forecast;
                     setForecast(forecastData);
-                    
+
                     const now = new Date();
-                    const nearestHour = new Date(now.setHours(now.getHours() + 1, 0, 0, 0));
-                    const currentData = forecastData.hours.find(hour => new Date(hour.time).getTime() === nearestHour.getTime());
-                    setCurrentCondition(currentData);
+                    const currentData = forecastData.hours.find(hour => new Date(hour.time).getTime() >= now.getTime());
+
+                    setCurrentCondition(currentData || forecastData.hours[0]);
                 } catch (error) {
                     console.error("Failed to fetch forecast", error);
                 }

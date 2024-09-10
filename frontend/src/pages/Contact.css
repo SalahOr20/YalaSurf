@@ -60,7 +60,7 @@
 }
 
 .contact-page-info-box {
-  background-color: rgba(0, 0, 0, 0.523); /* Semi-transparent background */
+  background-color: rgba(0, 0, 0, 0.555);
   padding: 20px;
   border-radius: 15px;
   color: #ffffff;
@@ -71,7 +71,7 @@
 }
 
 .contact-page-info-box:hover {
-  background-color: rgba(0, 0, 0, 0.67); /* Darken on hover for effect */
+  background-color: rgba(0, 0, 0, 0.67);
 }
 
 .contact-page-info-box h5 {
@@ -84,16 +84,15 @@
   font-size: 2rem;
   margin-bottom: 10px;
   display: block;
-  color: #289db9; /* Blue color for icons */
+  color: #289db9;
 }
 
 .contact-page-info-box p {
   margin: 0;
   font-size: 1rem;
-  color: #d1d1d1; /* Lighter text for readability */
+  color: #d1d1d1; 
 }
 
-/* Contact form section */
 .contact-page-form-section {
   padding: 50px 20px;
   text-align: center;

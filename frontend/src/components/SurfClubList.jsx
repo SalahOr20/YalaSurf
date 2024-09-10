@@ -1,6 +1,6 @@
 import React from 'react';
 import SurfClubCard from './SurfClubCard';
-import './SurfClubList.css'; // Ensure this file is correctly created and imported
+import './SurfClubList.css'; 
 
 const SurfClubList = ({ clubs }) => {
     if (!clubs || clubs.length === 0) {

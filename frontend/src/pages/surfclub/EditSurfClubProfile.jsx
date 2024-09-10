@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import './EditSurfClubProfile.css'; // Assurez-vous d'importer le fichier CSS
+import './EditSurfClubProfile.css'; 
 
 const EditSurfClubProfile = () => {
     const [formData, setFormData] = useState({
@@ -18,7 +18,7 @@ const EditSurfClubProfile = () => {
     });
     const [changePassword, setChangePassword] = useState(false);
     const [passwordConfirm, setPasswordConfirm] = useState('');
-    const [logoFile, setLogoFile] = useState(null); // Stocker le fichier logo
+    const [logoFile, setLogoFile] = useState(null); 
     const [formErrors, setFormErrors] = useState({});
     const [surfSpots, setSurfSpots] = useState([]);
     const navigate = useNavigate();
@@ -80,10 +80,10 @@ const EditSurfClubProfile = () => {
                 ...prevData,
                 user: {
                     ...prevData.user,
-                    password: '' // Efface le mot de passe si la case est décochée
+                    password: '' 
                 }
             }));
-            setPasswordConfirm(''); // Efface la confirmation de mot de passe également
+            setPasswordConfirm(''); 
         }
     };
 
@@ -121,7 +121,6 @@ const EditSurfClubProfile = () => {
                 surf_spot: formData.surf_club.surf_spot
             }));
 
-            // N'ajouter le champ 'logo' que si un nouveau fichier est sélectionné
             if (logoFile) {
                 dataToSend.append('logo', logoFile);
             }

@@ -127,7 +127,7 @@
     max-width: 100%;
     max-height: 100%;
     border-radius:30px ;
-    object-fit: contain; /* Adaptez l'image pour qu'elle soit entièrement visible dans le conteneur */
+    object-fit: contain; 
 }
 
 .prev-button, .next-button {

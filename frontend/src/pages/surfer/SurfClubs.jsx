@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import SurfSpotCard from '../../components/SurfSpotCard';
-import './SurfClubs.css'; // Make sure this file exists
+import './SurfClubs.css'; 
 
 const SurfClubs = () => {
     const [surfSpots, setSurfSpots] = useState([]);

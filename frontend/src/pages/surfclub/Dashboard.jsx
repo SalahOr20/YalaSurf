@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
-import './Dashboard.css'; // Assurez-vous d'avoir le CSS lié
+import './Dashboard.css';
 
 const Dashboard = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Ajoute un état pour la sidebar
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -11,7 +11,6 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-container">
-      {/* Bouton hamburger pour mobile */}
       <button className="hamburger-btn" onClick={toggleSidebar}>
         <i className="fas fa-bars"></i>
       </button>
@@ -21,7 +20,7 @@ const Dashboard = () => {
           <ul>
             <li>
               <Link to="/">
-                <i className="fas fa-home"></i> Accueil
+                <i className="fas fa-home"></i> Home
               </Link>
             </li>
             <li>
@@ -63,7 +62,7 @@ const Dashboard = () => {
         </nav>
       </aside>
       <main className="content">
-        <Outlet /> {/* Render the nested routes here */}
+        <Outlet /> 
       </main>
     </div>
   );

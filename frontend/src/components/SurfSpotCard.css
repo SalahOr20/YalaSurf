@@ -35,7 +35,7 @@
 }
 
 .surf-spot-card a:hover h2 {
-    color: #007bff; /* Change the color on hover */
-    text-decoration: underline; /* Add underline on hover */
-    text-decoration-color: rgb(158, 0, 0) !important; /* Make the underline red */
+    color: #007bff;
+    text-decoration: underline; 
+    text-decoration-color: rgb(158, 0, 0) !important; 
 }

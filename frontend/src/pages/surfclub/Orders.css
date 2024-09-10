@@ -37,8 +37,8 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 30px; /* Ajoute de l'espace entre les informations */
-  flex-wrap: wrap; /* Permet de gérer le débordement */
+  gap: 30px; 
+  flex-wrap: wrap; 
 }
 
 .order-info p {
@@ -55,13 +55,11 @@
   color: #007bff;
 }
 
-/* Actions de la commande à droite */
 .order-actions {
   display: flex;
   align-items: center;
 }
 
-/* Lien d'action "View Details" */
 .action-link {
   text-decoration: none;
   color: #007bff;
@@ -83,9 +81,7 @@
   color: #fff;
 }
 
-/* Responsive design */
 
-/* Sur les écrans de moins de 768px, l'affichage devient plus vertical */
 @media (max-width: 768px) {
   .order-item {
     flex-direction: column;
@@ -96,7 +92,7 @@
   .order-info {
     flex-direction: column;
     align-items: flex-start;
-    gap: 15px; /* Espacement réduit entre les informations */
+    gap: 15px; 
   }
 
   .action-link {
@@ -105,7 +101,6 @@
   }
 }
 
-/* Sur les petits écrans de moins de 480px */
 @media (max-width: 480px) {
   .orders-container h1 {
     font-size: 1.5rem;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import './SurfClubStatistics.css'; // Make sure to create and use this CSS file
+import './SurfClubStatistics.css'; 
 
 const SurfClubStatistics = () => {
     const [statistics, setStatistics] = useState(null);
@@ -21,7 +21,7 @@ const SurfClubStatistics = () => {
             } catch (err) {
                 setError(err.response ? err.response.data : 'An error occurred');
                 if (err.response && err.response.status === 401) {
-                    navigate('/login'); // Redirect to login page if not authenticated
+                    navigate('/login'); 
                 }
             }
         };

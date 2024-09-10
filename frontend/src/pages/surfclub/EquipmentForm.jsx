@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
-import DragAndDrop from './DragAndDrop'; // Import the Drag and Drop component
-import './EquipmentForm.css'; // Import the CSS file for styling
+import DragAndDrop from './DragAndDrop'; 
+import './EquipmentForm.css'; 
 
 const EquipmentForm = () => {
   const { id } = useParams();
@@ -16,10 +16,10 @@ const EquipmentForm = () => {
     equipment_type: '',
     sale_price: '',
     rent_price: '',
-    quantity: 0, // Add the quantity field here
+    quantity: 0, 
     is_rent: false,
     is_sell: false,
-    photos: []  // Initialize with an empty array
+    photos: []  
   });
   const [previousMaterialType, setPreviousMaterialType] = useState('rent'); // Store the previous material_type
   const [isEditing, setIsEditing] = useState(false);
@@ -58,10 +58,10 @@ const EquipmentForm = () => {
           const response = await axios.get(`http://localhost:8000/api/surf-club/equipment/${id}/`, { headers });
           const equipmentData = {
             ...response.data,
-            photos: response.data.photos || []  // Ensure photos is an array
+            photos: response.data.photos || []  
           };
           setEquipment(equipmentData);
-          setPreviousMaterialType(equipmentData.material_type); // Initialize previous material_type value
+          setPreviousMaterialType(equipmentData.material_type); 
           setIsEditing(true);
         } catch (error) {
           console.error('Error fetching equipment:', error);
@@ -82,17 +82,16 @@ const EquipmentForm = () => {
 
   const handleMaterialTypeChange = (e) => {
     const value = e.target.value;
-    // Check if the user is actually changing the material_type
     if (value !== previousMaterialType) {
       setEquipment(prev => ({
         ...prev,
         material_type: value,
-        is_rent: false, // Reset to false
-        is_sell: false, // Reset to false
+        is_rent: false, 
+        is_sell: false, 
         rent_price: '',
         sale_price: ''
       }));
-      setPreviousMaterialType(value); // Update the previous value
+      setPreviousMaterialType(value); 
     }
   };
 

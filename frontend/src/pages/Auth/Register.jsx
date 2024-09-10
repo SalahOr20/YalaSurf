@@ -15,7 +15,7 @@ const Register = () => {
           <div className="col-md-6">
             <div
               className="card register-card"
-              onClick={() => setRole('surfer')} // Redirection vers SurferForm
+              onClick={() => setRole('surfer')}
             >
               <img
                 src={surfer}
@@ -30,7 +30,7 @@ const Register = () => {
           <div className="col-md-6">
             <div
               className="card register-card"
-              onClick={() => setRole('surfclub')} // Redirection vers SurfClubForm
+              onClick={() => setRole('surfclub')} 
             >
               <img
                 src={surfclub}

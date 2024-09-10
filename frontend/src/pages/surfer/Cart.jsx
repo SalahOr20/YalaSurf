@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { FaTrashAlt } from 'react-icons/fa'; // Importing trash icon
+import { FaTrashAlt } from 'react-icons/fa'; 
 import './Cart.css';
 
 const Cart = () => {
@@ -40,9 +40,10 @@ const Cart = () => {
                     }
                 }
             );
-            alert('Commande passée avec succès!');
+          
             localStorage.removeItem('cart');
-            navigate('/');
+            navigate('/surfer/profile')
+         
         } catch (error) {
             console.error("Failed to place order", error);
             alert("Erreur lors du passage de la commande. Veuillez réessayer.");

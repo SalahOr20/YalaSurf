@@ -2,19 +2,19 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './SurferForm.css';
-import logo from '../../assets/logo_yalasurf.png'; // Assurez-vous que le chemin est correct
+import logo from '../../assets/logo_yalasurf.png';
 
 const SurferForm = () => {
   const [firstname, setFirstname] = useState('');
   const [lastname, setLastname] = useState('');
   const [birthday, setBirthday] = useState('');
   const [level, setLevel] = useState('beginner');
-  const [adress, setAdress] = useState('');
+  const [address, setAddress] = useState('');
   const [phone_number, setPhoneNumber] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [photo, setPhoto] = useState(null);
+  const [photo, setPhoto] = useState(null); 
   const navigate = useNavigate();
 
   const handlePhotoChange = (e) => {
@@ -34,14 +34,15 @@ const SurferForm = () => {
     formData.append('lastname', lastname);
     formData.append('birthday', birthday);
     formData.append('level', level);
-    formData.append('address', adress);
+    formData.append('address', address);
     formData.append('phone_number', phone_number);
     formData.append('email', email);
     formData.append('password', password);
-    if (photo) {
-      formData.append('photo', photo);
-    }
     formData.append('role', "surfer");
+    
+    if (photo) {
+      formData.append('photo', photo); // Ajout de la photo
+    }
 
     try {
       const response = await axios.post('http://localhost:8000/api/user/register/', formData, {
@@ -115,12 +116,12 @@ const SurferForm = () => {
           </div>
           <div className="form-row">
             <div className="form-group">
-              <label htmlFor="adress">Address</label>
+              <label htmlFor="address">Address</label>
               <input
                 type="text"
-                id="adress"
-                value={adress}
-                onChange={(e) => setAdress(e.target.value)}
+                id="address"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
                 placeholder="Enter your address"
                 required
               />
@@ -172,6 +173,10 @@ const SurferForm = () => {
                 placeholder="Enter confirm password"
                 required
               />
+            </div>
+            <div className="form-group">
+              <label htmlFor="photo">Profile Photo</label>
+              <input type="file" id="photo" onChange={handlePhotoChange} />
             </div>
           </div>
           <button type="submit" id="register-btn">Sign up</button>

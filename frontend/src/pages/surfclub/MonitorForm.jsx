@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
-import './MonitorForm.css';  // Assurez-vous d'importer le fichier CSS
-import monitorFormImage from '../../assets/MonitorForm.jpg';  // Importez l'image
+import './MonitorForm.css';  
+import monitorFormImage from '../../assets/MonitorForm.jpg';  
 
 const MonitorForm = () => {
   const { id } = useParams();
@@ -17,7 +17,6 @@ const MonitorForm = () => {
   const [selectedPhoto, setSelectedPhoto] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
 
-  // Fonction pour récupérer le token d'authentification
   const getAuthToken = () => {
     return localStorage.getItem('accessToken');
   };

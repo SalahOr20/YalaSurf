@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './DragAndDrop.css'; // Assurez-vous de créer ce fichier CSS pour le style
+import './DragAndDrop.css';
 
 const DragAndDrop = ({ onFilesAdded }) => {
     const [dragging, setDragging] = useState(false);

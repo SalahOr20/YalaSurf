@@ -3,7 +3,7 @@
     background-color: #f9f9f9;
     border-radius: 10px;
     max-width: 1000px;
-    margin: 20px auto; /* Add margin to center the container vertically */
+    margin: 20px auto; 
   }
   
   .header {
@@ -27,7 +27,7 @@
     text-decoration: none;
     font-size: 16px;
   
-    display: inline-block; /* Ensures proper box-model behavior */
+    display: inline-block; 
     text-align: center; 
   }
   
@@ -121,8 +121,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px; /* Adds some space below the header */
-    flex-wrap: wrap; /* Ensures that the content wraps if the screen is too small */
+    margin-bottom: 20px; 
+    flex-wrap: wrap;
   }
   
   .session-add-link {
@@ -134,7 +134,7 @@
     font-size: 16px;
     display: inline-block;
     text-align: center;
-    margin-top: 10px; /* Adds space above the button */
+    margin-top: 10px; 
     transition: background-color 0.3s ease;
   }
   
