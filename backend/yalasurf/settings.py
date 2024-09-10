@@ -79,7 +79,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'yalasurf.wsgi.application'
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'yalasurf-a0ahbbcnd9ghdhb9.eastus-01.azurewebsites.net']
 
 
 # Database
@@ -100,7 +99,7 @@ else:
             'NAME': 'yala_surf',
             'USER': 'root',
             'PASSWORD': '',
-            'HOST': 'localhost',
+            'HOST': 'db',
             'PORT': '3306',
         }
     }
