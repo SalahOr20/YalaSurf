@@ -40,7 +40,6 @@ urlpatterns = [
     ##### Update Profiles for surfers and surf clubs#####
     path('surf-club/profile/update/',update_surfclub_profile,name='update_surfclub_profile'),
     path('surfers/order/<int:order_id>/', get_order_details, name='get_order_details'),
-
     path('surfer/profile/update/', update_surfer_profile, name='update_surfer_profile'),
     ##### POST Urls for surf-club#####
     path('surf-club/add-monitor/',add_monitor_to_surfclub,name='add_monitor_to_surfclub'),
