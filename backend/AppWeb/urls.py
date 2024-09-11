@@ -23,7 +23,6 @@ urlpatterns = [
     path('surf-club/profile/',get_surfclub_profile,name='get_surfclub_profile'),
     path('surf-club/monitors/',surfclub_monitors,name='surfclub_monitors'),
     path('surf-club/monitors-dispo/', surfclub_monitors_dispo, name='surfclub_monitors_dispo'),
-
     path('surf-club/monitors/<int:pk>/', surfclub_monitor, name='surfclub_monitor'),
     path('surf-club/equipment-types/', surfclub_equipement_types, name='surfclub_equipement_types'),
     path('surf-club/equipments/', surfclub_equipements, name='surfclub_equipments'),
@@ -35,11 +34,9 @@ urlpatterns = [
     path('surf-club/surf-lessons/', surfclub_SurfLessons, name='surfclub_SurfLessons'),
     path('surf-club/orders/', surfclub_orders, name='surfclub_orders'),
     path('surf-club/orders/<int:pk>/', surfclub_orderItems, name='surfclub_orderItems'),
-
     path('surf-club/surf-lessons/<int:pk>/', surfclub_SurfLesson, name='surfclub_SurfLesson'),
     path('surf-club/statistics/', surfclub_statistics, name='surfclub_statistics'),
-    path('surfer/profile/', get_surfer_profile, name='update_surfer_profile'),
-
+    path('surf-spots/', get_surfspots, name='surfspots'),
     ##### Update Profiles for surfers and surf clubs#####
     path('surf-club/profile/update/',update_surfclub_profile,name='update_surfclub_profile'),
     path('surfers/order/<int:order_id>/', get_order_details, name='get_order_details'),
@@ -51,21 +48,17 @@ urlpatterns = [
     path('surf-club/add-lesson-schedule/', add_lesson_schedule, name='add_lesson_schedule'),
     path('surf-club/add-surf-session/', create_surf_session, name='create_surf_session'),
 
-    ##### Get SurfSpot#####
-    path('surf-spots/', get_surfspots, name='surfspots'),
-    path('surf-spots/<int:pk>/',get_surfspot,name='get_surfspot'),
-    path('surf-spots/prevision/<int:pk>/', surf_spot_details, name='surf_spot_details'),
     ##### Get for Surfers #####
     path('surf-clubs/<int:pk>/lessons/', get_surfclub_lesson, name='get_surfclub_lesson'),
     path('surf-clubs/<int:pk>/equipments/', get_surfclub_equipments_buy, name='get_surfclub_equipments_buy'),
-
-    #####POST for surfers #####
-    path('surfers/book_surf_lesson/', book_surf_lesson, name='book_surf_lesson'),
-
-    path('surfers/add-order/', create_order, name='create_order'),
-    ###### Forums##########
+    path('surfer/profile/', get_surfer_profile, name='update_surfer_profile'),
+    path('surf-spots/<int:pk>/', get_surfspot, name='get_surfspot'),
+    path('surf-spots/prevision/<int:pk>/', surf_spot_details, name='surf_spot_details'),
     path('forums/<int:surf_spot_id>/messages/', get_new_messages, name='get_new_messages'),
     path('forums/<int:surf_spot_id>/', get_forum_details, name='get_forum_details'),
+    #####POST for surfers #####
+    path('surfers/book_surf_lesson/', book_surf_lesson, name='book_surf_lesson'),
+    path('surfers/add-order/', create_order, name='create_order'),
     path('forums/<int:forum_id>/messages/create/', create_message, name='create_message'),
     ########Update and Delete#########
     path('surf-club/equipment/<int:pk>/', EquipmentUpdateDeleteView.as_view(), name='equipment-update-delete'),
@@ -74,6 +67,6 @@ urlpatterns = [
     path('surf-club/monitor/<int:pk>/', MonitorUpdateDeleteView.as_view(), name='monitor-update-delete'),
     path('surf-club/delete/', delete_surfclub, name='delete_surfclub'),
     path('surfer/delete/', delete_surfer, name='delete_surfer'),
-    ########Update Only########
+    ########Contact form########
     path('contact/', ContactView.as_view(), name='contact_form'),
 ]
